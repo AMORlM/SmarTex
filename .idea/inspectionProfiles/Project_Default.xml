@@ -1,0 +1,71 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="DuplicatedCode" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+      <Languages>
+        <language minSize="101" name="Python" />
+      </Languages>
+    </inspection_tool>
+    <inspection_tool class="PyPackageRequirementsInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredPackages">
+        <value>
+          <list size="23">
+            <item index="0" class="java.lang.String" itemvalue="numba" />
+            <item index="1" class="java.lang.String" itemvalue="scipy" />
+            <item index="2" class="java.lang.String" itemvalue="onnxsim" />
+            <item index="3" class="java.lang.String" itemvalue="gradio" />
+            <item index="4" class="java.lang.String" itemvalue="fairseq" />
+            <item index="5" class="java.lang.String" itemvalue="SoundFile" />
+            <item index="6" class="java.lang.String" itemvalue="torch" />
+            <item index="7" class="java.lang.String" itemvalue="numpy" />
+            <item index="8" class="java.lang.String" itemvalue="datasets" />
+            <item index="9" class="java.lang.String" itemvalue="tqdm" />
+            <item index="10" class="java.lang.String" itemvalue="praat-parselmouth" />
+            <item index="11" class="java.lang.String" itemvalue="tensorboard" />
+            <item index="12" class="java.lang.String" itemvalue="PyQt5" />
+            <item index="13" class="java.lang.String" itemvalue="scikit-maad" />
+            <item index="14" class="java.lang.String" itemvalue="librosa" />
+            <item index="15" class="java.lang.String" itemvalue="Flask_Cors" />
+            <item index="16" class="java.lang.String" itemvalue="onnxoptimizer" />
+            <item index="17" class="java.lang.String" itemvalue="pyworld" />
+            <item index="18" class="java.lang.String" itemvalue="torchaudio" />
+            <item index="19" class="java.lang.String" itemvalue="onnx" />
+            <item index="20" class="java.lang.String" itemvalue="huggingface_hub" />
+            <item index="21" class="java.lang.String" itemvalue="Flask" />
+            <item index="22" class="java.lang.String" itemvalue="matplotlib" />
+          </list>
+        </value>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyPep8Inspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+      <option name="ignoredErrors">
+        <list>
+          <option value="E203" />
+          <option value="W605" />
+        </list>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyPep8NamingInspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+      <option name="ignoredErrors">
+        <list>
+          <option value="N801" />
+          <option value="N806" />
+          <option value="N802" />
+          <option value="N803" />
+        </list>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyProtectedMemberInspection" enabled="false" level="WEAK WARNING" enabled_by_default="false" />
+    <inspection_tool class="PyUnresolvedReferencesInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredIdentifiers">
+        <list>
+          <option value="part2.Implementations.EGreedy.*" />
+          <option value="list.__length__" />
+          <option value="code.EnhancedEnsembleFeaturesRanking.getNRandomsRowsSubsets" />
+          <option value="EEFR.Main.GAIN_RATIO" />
+        </list>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="SafeLock" enabled="false" level="WARNING" enabled_by_default="false" />
+  </profile>
+</component>

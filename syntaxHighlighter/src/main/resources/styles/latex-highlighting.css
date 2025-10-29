@@ -1,0 +1,33 @@
+/* latex-highlighting.css — Overleaf Dark Theme Inspired with White Text */
+
+/* LaTeX command — e.g., \section, \textbf */
+.latex-command {
+    -fx-fill: #569CD6; /* light blue */
+}
+
+/* Environments — e.g., \begin{} or \end{} */
+.latex-env {
+    -fx-fill: #C586C0; /* pink-purple */
+    -fx-font-weight: bold;
+}
+
+/* Math — e.g., $...$, \[...\] */
+.latex-math {
+    -fx-fill: #B5CEA8; /* light green */
+}
+
+/* Comments — e.g., % This is a comment */
+.latex-comment {
+    -fx-fill: #6A9955; /* muted green */
+    -fx-font-style: italic;
+}
+
+/* Table indicators — e.g., & and \\ */
+.latex-table {
+    -fx-fill: #e955a5; /* pink */
+}
+
+/* Optional: selection color override (if needed) */
+.code-area .selection {
+    -fx-background-color: #264F78; /* selection blue */
+}

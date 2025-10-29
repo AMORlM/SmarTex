@@ -1,0 +1,262 @@
+/* SmarTex Editor Theme: Dracula-Inspired Dark UI
+   Authoritative Base: merged from main + tab + split + project-tree + toolbar
+   Purpose: Unified, scalable CSS for all UI components.
+   Tip: Clone this for new themes and just change the :root variables.
+*/
+
+
+/* ==========================================================================
+   ROOT: Theme Variables
+   ========================================================================== */
+.root {
+    /* === Colors === */
+    -color-bg:            #282a36;  /* Editor background */
+    -color-bg-alt:        #21222c;  /* Toolbar / tree / panes */
+    -color-bg-light:      #2E2E2E;  /* Tab headers, etc */
+    -color-fg:            #f8f8f2;  /* Default text */
+    -color-fg-muted:      #7a7a7a;  /* Line numbers, secondary text */
+    -color-accent:        #bd93f9;  /* Accent / selected tab */
+    -color-accent-hover:  #6272a4;  /* Button hover, scrollbar */
+    -color-highlight:     #44475a;  /* Selection, hover, divider */
+    -color-divider-hover: #5a5a6e;
+    -color-border:        #cccccc;
+
+    /* === Fonts === */
+    -fx-font-family: "Lucida", "Source Code Pro", monospace;
+    -fx-font-size: 12px;
+
+    /* === Base styles === */
+    -fx-background-color: -color-bg;
+    -fx-text-fill: -color-fg;
+}
+
+/* General text override */
+.text {
+    -fx-fill: -color-fg;
+}
+
+
+/* ==========================================================================
+   BUTTONS
+   ========================================================================== */
+.button {
+    -fx-background-color: -color-highlight;
+    -fx-text-fill: -color-fg;
+    -fx-background-radius: 5;
+    -fx-padding: 6 12;
+    -fx-border-color: transparent;
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-background-color: -color-accent-hover;
+}
+
+.button:pressed {
+    -fx-background-color: -color-accent;
+}
+
+
+/* ==========================================================================
+   TOOLBAR
+   ========================================================================== */
+.tool-bar {
+    -fx-background-color: -color-bg-alt;
+    -fx-padding: 8px;
+    -fx-spacing: 10px;
+    -fx-border-color: -color-highlight;
+    -fx-border-width: 0 0 1px 0;
+}
+
+
+/* ==========================================================================
+   SPLIT PANE
+   ========================================================================== */
+.split-pane {
+    -fx-background-color: -color-bg;
+    -fx-padding: 0;
+}
+
+/* Divider bar */
+.split-pane:horizontal > .split-pane-divider {
+    -fx-background-color: -color-highlight;
+    -fx-pref-width: 3px;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-background-insets: 0;
+}
+
+.split-pane:horizontal > .split-pane-divider:hover {
+    -fx-background-color: -color-divider-hover;
+    -fx-cursor: h-resize;
+}
+
+.split-pane:vertical > .split-pane-divider {
+    -fx-pref-height: 3px;
+    -fx-padding: 0 12 0 12;
+    -fx-background-color: -color-highlight;
+}
+
+
+/* ==========================================================================
+   PROJECT TREE (TreeView)
+   ========================================================================== */
+.tree-view {
+    -fx-background-color: -color-bg-alt;
+    -fx-control-inner-background: -color-bg-alt;
+    -fx-text-fill: -color-fg;
+    -fx-font-size: 12px;
+}
+
+.tree-cell {
+    -fx-text-fill: -color-fg;
+    -fx-background-color: transparent;
+    -fx-padding: 4 10;
+}
+
+.file-cell: hover,
+.dir-cell: hover {
+    -fx-background-color: -color-highlight;
+}
+
+.tree-cell:filled:selected {
+    -fx-text-fill: -color-fg;
+}
+
+/* Icons (if using custom cellFactory) */
+.tree-cell .icon {
+    -fx-padding: 0 6 0 0;
+    -fx-opacity: 0.8;
+}
+
+/* Scrollbars */
+.tree-view .scroll-bar: vertical {
+    -fx-padding: 0;
+    -fx-background-color: transparent;
+}
+
+.tree-view .scroll-bar .thumb {
+    -fx-background-color: #cfd8dc;
+    -fx-background-radius: 4px;
+}
+
+
+/* ==========================================================================
+   TAB PANE
+   ========================================================================== */
+
+/* Tab header background */
+.tab-pane .tab-header-area {
+    -fx-background-color: -color-bg-light;
+}
+
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-background-color: -color-bg-light;
+    -fx-border-color: #00000033;
+    -fx-border-width: 0 0 1px 0;
+    -fx-padding: 0 0 3px 0;
+}
+
+/* Base tab style */
+.tab {
+    -fx-background-color: transparent;
+    -fx-text-fill: -color-fg-muted;
+    -fx-padding: 8 14 8 14;
+    -fx-border-color: transparent;
+    -fx-border-width: 0 1px 0 0;
+    -fx-font-size: 12px;
+    -fx-font-weight: normal;
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
+    -fx-effect: null;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+/* Hover (unselected tab) */
+.tab:hover {
+    -fx-background-color: #393b48; /* very subtle hover */
+    -fx-text-fill: -color-fg;
+}
+
+/* Selected tab */
+.tab:selected {
+    -fx-text-fill: -color-bg;
+    -fx-font-weight: bold;
+    -fx-border-width: 0 0 3px 0; /* only bottom border */
+    -fx-border-radius: 0 0 1px 1px;
+    -fx-border-color: -color-accent;
+    -fx-effect: null;
+}
+
+/* Close button hover effect */
+.tab .tab-close-button:hover {
+    -fx-background-color: -background-hover;
+    -fx-opacity: 1;
+    -fx-background-radius: 4;
+}
+
+.tab:hover .tab-close-button {
+    -fx-opacity: 1;
+}
+
+
+/* ==========================================================================
+   CODE AREA (StyledTextArea or RichTextFX)
+   ========================================================================== */
+.code-area {
+    -fx-font-family: "Lucida", "Source Code Pro", monospace;
+    -fx-font-size: 11pt;
+    -fx-background-color: -color-bg;
+}
+
+/* Selection highlight */
+.styled-text-area .selection {
+    -fx-fill: -color-highlight;
+}
+
+/* Caret */
+.styled-text-area .caret {
+    -fx-stroke-width: 1.0;
+    -fx-stroke: white;
+}
+
+.paragraph-box:has-caret {
+    -fx-background-color: -color-highlight;
+}
+
+
+/* ==========================================================================
+   LINE NUMBERS (RichTextFX Gutter)
+   ========================================================================== */
+.lineno {
+    -fx-background-color: transparent;
+    -fx-padding: 0 10 0 5;
+    -fx-font-size: 11pt;
+    -fx-font-family: "Lucida", "Source Code Pro", monospace;
+}
+
+.lineno .text {
+    -fx-fill: -color-fg-muted;
+}
+
+
+/* ==========================================================================
+   PANES (e.g., PDF preview)
+   ========================================================================== */
+.pane {
+    -fx-background-color: -color-bg-alt;
+}
+
+
+/* ==========================================================================
+   SCROLLBARS
+   ========================================================================== */
+.scroll-bar {
+    -fx-background-color: -color-bg;
+}
+
+.scroll-bar .thumb {
+    -fx-background-color: -color-accent-hover;
+    -fx-background-radius: 3;
+}
