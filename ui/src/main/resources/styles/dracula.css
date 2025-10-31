@@ -140,6 +140,25 @@
     -fx-background-radius: 4px;
 }
 
+/* ==========================================================================
+   CONTENT MENU
+   ========================================================================== */
+
+.project-tree-item {
+    -fx-spacing: 6;
+}
+
+.options-button {
+    -fx-text-fill: #bbb;
+    -fx-font-size: 14;
+    -fx-padding: 0 4 0 4;
+}
+
+.options-button:hover {
+    -fx-text-fill: white;
+    -fx-background-color: rgba(255, 255, 255, 0.1);
+    -fx-background-radius: 4;
+}
 
 /* ==========================================================================
    TAB PANE
@@ -191,7 +210,6 @@
 
 /* Close button hover effect */
 .tab .tab-close-button:hover {
-    -fx-background-color: -background-hover;
     -fx-opacity: 1;
     -fx-background-radius: 4;
 }
@@ -259,4 +277,24 @@
 .scroll-bar .thumb {
     -fx-background-color: -color-accent-hover;
     -fx-background-radius: 3;
+}
+
+/* ==========================================================================
+   CUSTOM DIALOG BOX
+   ========================================================================== */
+.popup .input {
+    -fx-background-color: #3c3f41;
+    -fx-text-fill: #dddddd;
+    -fx-border-color: #555555;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-font-size: 13px;
+}
+
+.popup .message {
+    -fx-background-color: #2b2b2b;
+    -fx-border-color: #555555;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.6), 10, 0, 0, 2);
 }

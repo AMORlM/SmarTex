@@ -14,8 +14,9 @@ dependencies {
     implementation("org.fxmisc.richtext:richtextfx:0.11.0")
     implementation("org.apache.pdfbox:pdfbox:2.0.30")
     implementation(project(":syntaxHighlighter"))
-    implementation(project(":PDFViewer"))
     implementation(project(":latexCompiler"))
+    implementation(project(":PDFViewer"))
+    implementation(project(":settings"))
     // Project "app" depends on project "utils". (Project paths are separated with ":", so ":utils" refers to the top-level "utils" project.)
 }
 

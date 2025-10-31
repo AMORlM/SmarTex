@@ -1,5 +1,6 @@
 package com.smartex.ui
 
+import com.smartex.settings.SettingsWindow
 import com.smartex.ui.components.CompilationPane
 import com.smartex.ui.components.FileTabPane
 import com.smartex.ui.components.ProjectTree
@@ -19,7 +20,6 @@ import javafx.stage.Screen
 import javafx.stage.Stage
 import java.io.File
 
-const val WINDOWED_SCALE = 0.75
 
 class MainApp : Application() {
     override fun start(stage: Stage) {
@@ -84,28 +84,9 @@ class MainApp : Application() {
                 }.showDialog(stage)
 
                 selectedDirectory?.let {
+                    getOrGenerateSettings(it)
                     projectTree.populateFromDirectory(it)
-                    splitPane.items[2] = CompilationPane(it, "Recipes")
-                }
-            }
-        }
-
-        val newButton = Button("New File").apply {
-            setOnAction {
-                val fileChooser = FileChooser().apply {
-                    title = "Create New File"
-                    extensionFilters.add(FileChooser.ExtensionFilter("LaTeX Files", "*.tex"))
-                    initialFileName = "untitled.tex"
-                    initialDirectory = File(System.getProperty("user.home")) // or your desired default
-                }
-
-                val newFile: File? = fileChooser.showSaveDialog(stage)
-                newFile?.let {
-                    if (!it.exists()) {
-                        it.createNewFile() // Create the file
-                    }
-
-                    fileTabPane.openFile(it)
+                    splitPane.items[2] = CompilationPane(it)
                 }
             }
         }
@@ -116,6 +97,20 @@ class MainApp : Application() {
             }
         }
 
-        return ToolBar(openDirButton, newButton, saveButton)
+        val settingsButton = Button("Settings").apply {
+            setOnAction {
+                SettingsWindow.show()
+            }
+        }
+
+        return ToolBar(openDirButton, saveButton, settingsButton)
+    }
+
+    fun getOrGenerateSettings(rootDir: File) {
+        val settingsDir = File(rootDir, SETTINGS_DIR)
+        if (!settingsDir.exists()) {
+            println("Settings not found. Creating...")
+            settingsDir.mkdir()
+        }
     }
 }

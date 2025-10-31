@@ -10,10 +10,11 @@ import java.io.File
 import java.io.OutputStream
 import java.io.PrintStream
 
-class CompilationPane(val projectRoot: File, val mainName: String) : BorderPane(){
+class CompilationPane(val projectRoot: File) : BorderPane(){
     lateinit var pdf: PdfViewer
 
-    val compiler = LatexCompiler(projectRoot, mainName)
+    val mainName: String
+    val compiler: LatexCompiler
 
     val logger = TextArea()
     val ps = PrintStream(TextAreaOutputStream(logger))
@@ -23,6 +24,10 @@ class CompilationPane(val projectRoot: File, val mainName: String) : BorderPane(
         // Placeholder for PDF preview pane
         center = logger
         logger.isEditable  = false
+
+        mainName = "Recipes"
+
+        compiler = LatexCompiler(projectRoot, mainName)
     }
 
     private fun makeToolBar(): ToolBar {
@@ -100,6 +105,4 @@ class CompilationPane(val projectRoot: File, val mainName: String) : BorderPane(
             }
         }
     }
-
-
 }

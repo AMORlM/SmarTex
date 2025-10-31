@@ -22,8 +22,8 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/PDFViewer" />
             <option value="$PROJECT_DIR$/buildSrc" />
-            <option value="$PROJECT_DIR$/compiler" />
             <option value="$PROJECT_DIR$/latexCompiler" />
+            <option value="$PROJECT_DIR$/settings" />
             <option value="$PROJECT_DIR$/syntaxHighlighter" />
             <option value="$PROJECT_DIR$/ui" />
           </set>
