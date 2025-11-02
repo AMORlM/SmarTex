@@ -22,9 +22,8 @@ plugins {
 include(":ui")
 include(":syntaxHighlighter")
 include(":PDFViewer")
-
+include(":latexCompiler")
+include(":settings")
 
 rootProject.name = "SmarTex"
 
-include("compiler")
-include("latexCompiler")

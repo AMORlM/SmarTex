@@ -280,21 +280,75 @@
 }
 
 /* ==========================================================================
-   CUSTOM DIALOG BOX
+   CONTEXTMENU (options for files in project tree)
    ========================================================================== */
-.popup .input {
-    -fx-background-color: #3c3f41;
-    -fx-text-fill: #dddddd;
+
+/* === Context Menu (Darcula-like) === */
+.context-menu {
+    -fx-background-color: -color-bg-alt;
     -fx-border-color: #555555;
     -fx-border-radius: 6;
     -fx-background-radius: 6;
-    -fx-font-size: 13px;
+    -fx-padding: 4;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.6), 10, 0, 0, 2);
 }
 
-.popup .message {
+/* === MenuItem (normal) === */
+.menu-item {
+    -fx-background-color: transparent;
+    -fx-text-fill: -color-fg-muted;
+    -fx-font-size: 13px;
+    -fx-padding: 4 12 4 12;
+}
+
+/* === Hover state, Focused/armed (keyboard nav or pressed) === */
+.menu-item:hover,
+.menu-item:focused,
+.menu-item:armed {
+    -fx-background-color: -color-highlight;
+    -fx-background-radius: 4;
+    -fx-text-fill: -color-fg;
+}
+
+/* === Separator line === */
+.context-menu .separator:horizontal .line {
+    -fx-border-color: -color-divider-hover;
+    -fx-border-width: 0 0 1 0;
+}
+
+/* === Optional: subtle rounded corners inside === */
+.context-menu .menu-item > .label {
+    -fx-padding: 0 6 0 6;
+}
+
+
+/* ==========================================================================
+   CUSTOM DIALOG BOX
+   ========================================================================== */
+/* root container */
+.popup-root {
     -fx-background-color: #2b2b2b;
     -fx-border-color: #555555;
-    -fx-border-radius: 8;
-    -fx-background-radius: 8;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.6), 10, 0, 0, 2);
+    -fx-padding: 8;
+}
+
+/* textfield inside the popup */
+.popup-input {
+    -fx-background-color: #3c3f41;
+    -fx-text-inner-color: white;   /* important: TextField uses -fx-text-inner-color */
+    -fx-border-color: #555555;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+    -fx-font-size: 13px;
+    -fx-padding: 6 8 6 8;
+}
+
+/* label inside the popup */
+.popup-label {
+    -fx-text-fill: white;          /* Label uses -fx-text-fill */
+    -fx-font-size: 12px;
+    -fx-padding: 0 0 4 0;
 }
