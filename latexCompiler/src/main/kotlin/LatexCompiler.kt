@@ -78,4 +78,26 @@ class LatexCompiler(private val projectDir: File, private val mainName: String) 
             println("❌ Failed to run command: ${command.joinToString(" ")}\n${e.message}")
         }
     }
+
+
+    private fun getAll(extension: String): List<String> {
+        return getCascade(projectDir, extension)
+    }
+
+    private fun getCascade(file: File, extension: String): List<String> {
+        if (!file.isDirectory) {
+            return if (file.extension == extension)
+                listOf(file.absolutePath)
+            else
+                emptyList()
+        }
+
+        val files = mutableListOf<String>()
+
+        for (f in file.listFiles()) {
+            files.addAll(getCascade(f, extension))
+        }
+
+        return files
+    }
 }

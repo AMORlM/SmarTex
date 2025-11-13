@@ -11,6 +11,12 @@ plugins {
 }
 
 dependencies {
+    // Kotlin coroutines core
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+
+    // Optional: for JavaFX integration (Dispatchers.Main)
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-javafx:1.7.3")
+
     implementation("org.fxmisc.richtext:richtextfx:0.11.0")
     implementation("org.apache.pdfbox:pdfbox:2.0.30")
     implementation(project(":syntaxHighlighter"))

@@ -17,7 +17,8 @@
     -color-fg-muted:      #7a7a7a;  /* Line numbers, secondary text */
     -color-accent:        #bd93f9;  /* Accent / selected tab */
     -color-accent-hover:  #6272a4;  /* Button hover, scrollbar */
-    -color-highlight:     #44475a;  /* Selection, hover, divider */
+    -color-highlight:     #44475a;  /* hover, divider */
+    -color-selected:      #214283;  /* Selection */
     -color-divider-hover: #5a5a6e;
     -color-border:        #cccccc;
 
@@ -230,7 +231,7 @@
 
 /* Selection highlight */
 .styled-text-area .selection {
-    -fx-fill: -color-highlight;
+    -fx-fill: -color-selected;
 }
 
 /* Caret */

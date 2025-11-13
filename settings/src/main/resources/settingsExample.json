@@ -1,0 +1,36 @@
+{
+  "compiler": {
+    "type": "dropdown",
+    "label": "Compiler",
+    "values": [
+      "latex",
+      "tex",
+      "lualatex",
+      "luatex",
+      "pdflatex",
+      "pdftex"
+    ],
+    "default": "latex"
+  },
+  "mainFile": {
+    "type": "fileSelector",
+    "label": "Main File",
+    "source": "projectFiles",
+    "extensions": [".tex"],
+    "default": null,
+    "requiredStrategy": "first"
+  },
+  "outputFile": {
+    "type": "string",
+    "label": "Output File",
+    "default": "main.pdf",
+    "placeholder": "Enter output filename"
+  },
+  "executionOrder": {
+    "type": "listBuilder",
+    "label": "Execution Order",
+    "allowedValues": ["compile", "index", "bib", "clean"],
+    "default": ["compile"],
+    "description": "Defines the sequence of compiler steps to run"
+  }
+}

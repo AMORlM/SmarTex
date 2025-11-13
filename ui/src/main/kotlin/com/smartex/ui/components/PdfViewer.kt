@@ -1,17 +1,17 @@
 package com.smartex.ui.components
 
-import com.smartex.ui.components.filetabs.FileTab
 import javafx.application.Platform
 import javafx.concurrent.Task
 import javafx.embed.swing.SwingFXUtils
 import javafx.scene.control.ScrollPane
 import javafx.scene.image.ImageView
+import javafx.scene.layout.BorderPane
 import javafx.scene.layout.VBox
 import org.apache.pdfbox.pdmodel.PDDocument
 import org.apache.pdfbox.rendering.PDFRenderer
 import java.io.File
 
-class PdfViewer(file: File) : FileTab(file) {
+class PdfViewer(file: File) : BorderPane() {
 
     init {
         val scrollPane = ScrollPane()
@@ -54,9 +54,5 @@ class PdfViewer(file: File) : FileTab(file) {
         }
 
         center = scrollPane
-    }
-
-    override fun save() {
-        // PDF viewer is read-only
     }
 }

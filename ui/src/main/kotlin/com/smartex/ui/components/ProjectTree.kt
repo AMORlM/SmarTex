@@ -5,6 +5,7 @@ import com.smartex.ui.components.projecttree.ProjectTreeUtils
 import javafx.scene.control.TreeCell
 import javafx.scene.control.TreeItem
 import javafx.scene.control.TreeView
+import javafx.scene.input.MouseButton
 import javafx.util.Callback
 import java.io.File
 
@@ -14,10 +15,12 @@ class ProjectTree(
 
     init {
         // Handle file selection
-        this.setOnMouseClicked {
-            val selectedItem = selectionModel.selectedItem
-            if (selectedItem != null && selectedItem.value.isFile) {
-                onFileSelected(selectedItem.value)
+        this.setOnMouseClicked { event ->
+            if (event.button == MouseButton.PRIMARY) {
+                val selectedItem = selectionModel.selectedItem
+                if (selectedItem != null && selectedItem.value.isFile) {
+                    onFileSelected(selectedItem.value)
+                }
             }
         }
 

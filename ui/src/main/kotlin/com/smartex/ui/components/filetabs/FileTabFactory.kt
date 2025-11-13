@@ -9,12 +9,11 @@ object FileTabFactory {
         if (!file.exists() || file.isDirectory) return null
 
         return when (file.extension.lowercase()) {
-            "tex", "bib", "sty", "cls" -> LatexEditorTab(file)
+            "tex", "bib", "sty", "cls", "ist" -> LatexEditorTab(file)
             "png", "jpg", "jpeg", "gif", "bmp", "webp" -> ImageTab(file)
-            "txt" -> TextFileTab(file)
-            "pdf" -> PdfViewer(file)
+            //"pdf" -> PdfViewer(file)
             // Extend here with other file types (e.g., PDF viewer tab, log file tab)
-            else -> null
+            else -> TextFileTab(file)
         }
     }
 }

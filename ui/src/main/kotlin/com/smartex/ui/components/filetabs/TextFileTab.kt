@@ -7,7 +7,6 @@ import java.io.File
 import java.nio.charset.StandardCharsets
 
 open class TextFileTab(file: File) : FileTab(file) {
-
     protected val codeArea = CodeArea(file.readText())
 
     init {
