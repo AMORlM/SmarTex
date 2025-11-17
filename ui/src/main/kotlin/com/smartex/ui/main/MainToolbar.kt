@@ -1,5 +1,6 @@
 package com.smartex.ui.main
 
+import com.smartex.settings.SettingsManager
 import com.smartex.settings.SettingsWindow
 import com.smartex.ui.components.CompilationPane
 import com.smartex.ui.components.FileTabPane
@@ -31,9 +32,11 @@ class MainToolbar(
                 selectedDirectory?.let { file ->
                     projectTree.populateFromDirectory(file)
                     splitPane.items[2] = CompilationPane(file)
+                    SettingsManager.init(file, file)
+                    SettingsManager.loadAll()
                     settingsButton.apply {
-                            setOnAction { SettingsWindow.show(file) }
-                        }
+                        setOnAction { SettingsWindow.show(file) }
+                    }
                 }
             }
         }

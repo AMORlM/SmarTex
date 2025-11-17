@@ -32,7 +32,7 @@ object SettingsManager {
             val defaults = extractDefaultsFromSchema(schema)
 
             val projectFile =
-                File(projectRoot, "${SETTINGS_DIR}/${module.projectSettingsFileName}")
+                File(projectRoot, "$SETTINGS_DIR/${module.projectSettingsFileName}")
 
             val projectSettings =
                 if (projectFile.exists())
@@ -68,7 +68,7 @@ object SettingsManager {
     }
 
     fun loadSchema(module: ModuleSettings): Map<String, Any> =
-        mapper.readValue(javaClass.getResourceAsStream(module.schemaResource)!!)
+        mapper.readValue(javaClass.classLoader.getResourceAsStream(module.schemaResource)!!)
 
     private fun readJson(file: File): Map<String, Any?> =
         mapper.readValue(file)
@@ -82,5 +82,5 @@ object SettingsManager {
 
 
     fun getProjectSettings(module: ModuleSettings): Map<String, Any?> =
-        readJson(File(SETTINGS_DIR, module.projectSettingsFileName))
+        readJson(File(projectRoot, "$SETTINGS_DIR/${module.projectSettingsFileName}"))
 }

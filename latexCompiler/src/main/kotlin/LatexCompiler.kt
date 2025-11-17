@@ -6,7 +6,7 @@ import java.nio.file.Files
 import java.nio.file.StandardCopyOption
 import java.util.concurrent.TimeUnit
 
-class LatexCompiler(private val projectDir: File, private val mainName: String) {
+class LatexCompiler(private val projectDir: File, private val settings: LatexCompilerSettings) {
 
     private val buildDir = File(projectDir, "../_build").canonicalFile
 
@@ -24,15 +24,19 @@ class LatexCompiler(private val projectDir: File, private val mainName: String) 
         println("Copying project files to ${buildDir.absolutePath}")
         projectDir.copyRecursively(buildDir)
 
-        // 3. Run LaTeX multiple times
-        runLatexPass("1st")
-        runMakeIndex()
-        runLatexPass("2nd")
-        runLatexPass("3rd")
+        // 3. Run Compilation sequence
+        var count = 1
+        for (step in settings.executionOrder) {
+            when (step) {
+                "compile" -> runLatexPass(numberToOrder(count++))
+                "index"   -> runMakeIndex()
+                "bib"     -> runBib()
+            }
+        }
 
         // 4. Copy resulting PDF back to project
-        val outputPdf = File(buildDir, "$mainName.pdf")
-        val destPdf = File(projectDir, "$mainName.pdf")
+        val outputPdf = File(buildDir, settings.outputFile)
+        val destPdf = File(projectDir, settings.outputFile)
 
         if (outputPdf.exists()) {
             Files.copy(outputPdf.toPath(), destPdf.toPath(), StandardCopyOption.REPLACE_EXISTING)
@@ -44,8 +48,9 @@ class LatexCompiler(private val projectDir: File, private val mainName: String) 
 
     private fun runLatexPass(passName: String) {
         println("====== Running LuaLaTeX: $passName pass ======")
+        val output = settings.outputFile.replace(".pdf", "")
         runCommand(
-            listOf("lualatex", "--shell-escape", "--output-directory=.", "$mainName.tex"),
+            listOf(settings.compiler, "--shell-escape", "--job-name=$output", settings.mainFile!!),
             buildDir
         )
     }
@@ -54,8 +59,17 @@ class LatexCompiler(private val projectDir: File, private val mainName: String) 
         println("====== Running makeindex on all .idx files ======")
         buildDir.listFiles { _, name -> name.endsWith(".idx") }?.forEach {
             println("Processing index file: ${it.name}")
-            runCommand(listOf("makeindex", it.name), buildDir)
+            runCommand(
+                listOf("makeindex", it.name),
+                buildDir)
         }
+    }
+
+    private fun runBib() {
+        println("====== Running makeindex on all .idx files ======")
+        runCommand(
+            listOf("bibtex", settings.mainFile!!.replace(".tex", "")),
+            buildDir)
     }
 
     private fun runCommand(command: List<String>, workingDir: File) {
@@ -79,25 +93,12 @@ class LatexCompiler(private val projectDir: File, private val mainName: String) 
         }
     }
 
-
-    private fun getAll(extension: String): List<String> {
-        return getCascade(projectDir, extension)
-    }
-
-    private fun getCascade(file: File, extension: String): List<String> {
-        if (!file.isDirectory) {
-            return if (file.extension == extension)
-                listOf(file.absolutePath)
-            else
-                emptyList()
+    private fun numberToOrder(number: Int): String {
+        return when(number%10) {
+            1 -> "${number}st"
+            2 -> "${number}nd"
+            3 -> "${number}rd"
+            else -> "${number}th"
         }
-
-        val files = mutableListOf<String>()
-
-        for (f in file.listFiles()) {
-            files.addAll(getCascade(f, extension))
-        }
-
-        return files
     }
 }

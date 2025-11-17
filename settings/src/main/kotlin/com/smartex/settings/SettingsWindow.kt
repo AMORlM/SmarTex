@@ -29,7 +29,7 @@ object SettingsWindow {
 
             val schema = SettingsManager.loadSchema(module)
             val projectSettings = SettingsManager.getProjectSettings(module)
-            val moduleUiValues = mutableMapOf<String, Any?>()
+            val moduleUiValues = projectSettings.toMutableMap()
 
             uiData[module.moduleName] = moduleUiValues
 
@@ -89,110 +89,86 @@ object SettingsWindow {
 
         var row = 0
 
+        fun createStringField(key: String, currentValue: Any?) = TextField(currentValue?.toString() ?: "").apply {
+            textProperty().addListener { _, _, newValue -> writeBuffer[key] = newValue }
+        }
+
+        fun createDropdownField(key: String, field: Map<*, *>, currentValue: Any?) = ComboBox<String>().apply {
+            val values = (field["values"] as? List<*>)?.filterIsInstance<String>() ?: emptyList()
+            items.addAll(values)
+            value = currentValue?.toString() ?: field["default"]?.toString()
+            valueProperty().addListener { _, _, newValue -> writeBuffer[key] = newValue }
+        }
+
+        fun createFileSelectorField(key: String, field: Map<*, *>, currentValue: Any?): ComboBox<String> {
+            val extensions = (field["extensions"] as? List<*>)?.map { it.toString() } ?: emptyList()
+            val files = projectRoot.walkTopDown()
+                .filter { it.isFile && extensions.any { ext -> it.name.endsWith(ext) } }
+                .map { it.relativeTo(projectRoot).path }
+                .toList()
+            return ComboBox<String>().apply {
+                items.addAll(files)
+                value = currentValue?.toString() ?: files.firstOrNull()
+                valueProperty().addListener { _, _, newValue -> writeBuffer[key] = newValue }
+            }
+        }
+
+        fun createListBuilderField(key: String, field: Map<*, *>, currentValue: Any?): VBox {
+            val allowed = (field["allowedValues"] as? List<*>)?.filterIsInstance<String>() ?: emptyList()
+            val initialList = (currentValue as? List<*>)?.map { it.toString() }?.toMutableList() ?: mutableListOf()
+
+            val listView = ListView<String>().apply {
+                items.addAll(initialList)
+                maxHeight = 100.0
+            }
+
+            val addCombo = ComboBox<String>().apply {
+                items.addAll(allowed)
+                promptText = "Add step…"
+            }
+
+            val addButton = Button("+").apply {
+                setOnAction {
+                    val selectedValue = addCombo.value ?: return@setOnAction
+
+                    val insertIndex = listView.selectionModel.selectedIndex + 1
+                    if (insertIndex < listView.items.size) {
+                        listView.items.add(insertIndex, selectedValue)
+                    } else {
+                        listView.items.add(selectedValue)
+                    }
+
+                    writeBuffer[key] = listView.items.toList()
+                }
+            }
+
+            val removeButton = Button("-").apply {
+                setOnAction {
+                    val selectedIndex = listView.selectionModel.selectedIndex
+                    if (selectedIndex >= 0) {
+                        listView.items.removeAt(selectedIndex)
+                        writeBuffer[key] = listView.items.toList()
+                    }
+                }
+            }
+            writeBuffer[key] = listView.items.toList()
+
+            return VBox(6.0, listView, HBox(6.0, addCombo, addButton, removeButton))
+        }
+
+        // Build UI for each field
         schema.forEach { (key, rawField) ->
-            val field = rawField as Map<*, *>
-            val type = field["type"] as String
+            val field = rawField as? Map<*, *> ?: return@forEach
+            val type = field["type"] as? String ?: return@forEach
             val labelText = field["label"] as? String ?: key
             val currentValue = projectSettings[key]
 
             val label = Label(labelText)
-
             val editor = when (type) {
-
-                // ----------------------
-                // STRING FIELD
-                // ----------------------
-                "string" -> {
-                    val tf = TextField(currentValue?.toString() ?: "")
-                    tf.textProperty().addListener { _, _, newValue ->
-                        writeBuffer[key] = newValue
-                    }
-                    tf
-                }
-
-                // ----------------------
-                // DROPDOWN
-                // ----------------------
-                "dropdown" -> {
-                    val values = field["values"] as List<*>
-                    val combo = ComboBox<String>().apply {
-                        items.addAll(values.filterIsInstance<String>())
-                        value = currentValue?.toString() ?: field["default"]?.toString()
-                    }
-                    combo.valueProperty().addListener { _, _, newValue ->
-                        writeBuffer[key] = newValue
-                    }
-                    combo
-                }
-
-                // ----------------------
-                // FILE SELECTOR
-                // ----------------------
-                "fileSelector" -> {
-                    val extensions = field["extensions"] as List<*>
-                    val texFiles = projectRoot.walkTopDown()
-                        .filter { f -> f.isFile && extensions.any { ext -> f.name.endsWith(ext.toString()) } }
-                        .map { it.relativeTo(projectRoot).path }
-                        .toList()
-
-                    val combo = ComboBox<String>().apply {
-                        items.addAll(texFiles)
-                        value = currentValue?.toString() ?: texFiles.firstOrNull()
-                    }
-
-                    combo.valueProperty().addListener { _, _, newValue ->
-                        writeBuffer[key] = newValue
-                    }
-
-                    combo
-                }
-
-                // ----------------------
-                // LIST BUILDER
-                // ----------------------
-                "listBuilder" -> {
-                    val allowed = field["allowedValues"] as List<*>
-                    val initial = (currentValue as? List<*>)?.map { it.toString() }?.toMutableList()
-                        ?: mutableListOf()
-
-                    val listView = ListView<String>().apply {
-                        items.addAll(initial)
-                        maxHeight = 100.0
-                    }
-
-                    val addCombo = ComboBox<String>().apply {
-                        items.addAll(allowed.filterIsInstance<String>())
-                        promptText = "Add step…"
-                    }
-
-                    val addButton = Button("+").apply {
-                        setOnAction {
-                            val selected = addCombo.value ?: return@setOnAction
-                            listView.items.add(selected)
-                            addCombo.value = null
-                            writeBuffer[key] = listView.items.toList()
-                        }
-                    }
-
-                    val removeButton = Button("-").apply {
-                        setOnAction {
-                            val selected = listView.selectionModel.selectedItem ?: return@setOnAction
-                            listView.items.remove(selected)
-                            writeBuffer[key] = listView.items.toList()
-                        }
-                    }
-
-                    val box = VBox(6.0,
-                        listView,
-                        HBox(6.0, addCombo, addButton, removeButton)
-                    )
-
-                    // store initial value
-                    writeBuffer[key] = listView.items.toList()
-
-                    box
-                }
-
+                "string" -> createStringField(key, currentValue)
+                "dropdown" -> createDropdownField(key, field, currentValue)
+                "fileSelector" -> createFileSelectorField(key, field, currentValue)
+                "listBuilder" -> createListBuilderField(key, field, currentValue)
                 else -> Label("Unsupported type: $type")
             }
 

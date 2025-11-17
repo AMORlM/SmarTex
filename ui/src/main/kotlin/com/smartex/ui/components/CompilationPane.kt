@@ -1,6 +1,7 @@
 package com.smartex.ui.components
 
 import com.smartex.latexcompiler.LatexCompiler
+import com.smartex.latexcompiler.LatexCompilerSettings
 import javafx.application.Platform
 import javafx.scene.control.Button
 import javafx.scene.control.TextArea
@@ -13,7 +14,7 @@ import java.io.PrintStream
 class CompilationPane(val projectRoot: File) : BorderPane(){
     lateinit var pdf: PdfViewer
 
-    val mainName: String
+    val settings: LatexCompilerSettings
     val compiler: LatexCompiler
 
     val logger = TextArea()
@@ -25,9 +26,8 @@ class CompilationPane(val projectRoot: File) : BorderPane(){
         center = logger
         logger.isEditable  = false
 
-        mainName = "Recipes"
-
-        compiler = LatexCompiler(projectRoot, mainName)
+        settings = LatexCompilerSettings()
+        compiler = LatexCompiler(projectRoot, settings)
     }
 
     private fun makeToolBar(): ToolBar {
@@ -41,7 +41,7 @@ class CompilationPane(val projectRoot: File) : BorderPane(){
                 Thread {
                     System.setOut(ps)
                     compiler.compile()
-                    loadPdfViewer(File(projectRoot, "${mainName}.pdf"))
+                    loadPdfViewer(File(projectRoot, settings.outputFile))
                     Platform.runLater {
                         center = pdf
                     }
