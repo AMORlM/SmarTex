@@ -7,14 +7,15 @@ import java.io.File
 import java.nio.charset.StandardCharsets
 
 open class TextFileTab(file: File) : FileTab(file) {
-    protected val codeArea = CodeArea(file.readText())
+    private var savedFileContent = file.readText()
+    protected val codeArea = CodeArea(savedFileContent)
 
     private var dirty = false
 
     init {
         codeArea.textProperty().addListener { _, _, new ->
             // Detect modification
-            val isDirty = new != file.readText()
+            val isDirty = new != savedFileContent
             if (isDirty != dirty) {
                 dirty = isDirty
                 onDirtyChanged?.invoke(dirty)
@@ -33,7 +34,13 @@ open class TextFileTab(file: File) : FileTab(file) {
 
     protected fun getText(): String = codeArea.text
 
-    override fun save() = file.writer(StandardCharsets.UTF_8).use {
-        it.write(getText())
+    override fun save() {
+        file.writer(StandardCharsets.UTF_8).use {
+            val newText = getText()
+            it.write(newText)
+            savedFileContent = newText
+        }
+        dirty = false
+        onDirtyChanged?.invoke(false)
     }
 }
