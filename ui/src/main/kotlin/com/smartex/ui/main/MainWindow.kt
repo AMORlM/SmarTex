@@ -6,6 +6,7 @@ import javafx.geometry.Orientation
 import javafx.scene.Scene
 import javafx.scene.control.SplitPane
 import javafx.scene.image.Image
+import javafx.scene.input.KeyCombination
 import javafx.scene.layout.BorderPane
 import javafx.scene.layout.Pane
 import javafx.stage.Stage
@@ -29,6 +30,9 @@ class MainWindow(private val stage: Stage) {
         }
 
         val scene = Scene(root, 1280.0, 800.0)
+        scene.accelerators[KeyCombination.keyCombination("Ctrl+S")] = Runnable {
+            fileTabPane.saveCurrentFile()
+        }
         stage.apply {
             this.scene = scene
             title = "SmarTex"

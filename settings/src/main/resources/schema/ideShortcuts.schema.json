@@ -1,0 +1,12 @@
+{
+  "saveFile": {
+    "type": "string",
+    "label": "Save File",
+    "default": "Ctrl+S"
+  },
+  "openDirectory": {
+    "type": "string",
+    "label": "Open Directory",
+    "default": "Ctrl+O"
+  }
+}

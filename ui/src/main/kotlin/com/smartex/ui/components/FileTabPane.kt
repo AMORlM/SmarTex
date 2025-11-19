@@ -23,6 +23,9 @@ class FileTabPane : TabPane() {
                 openFiles.remove(file)
             }
         }
+        editorTab?.onDirtyChanged = { dirty ->
+            tab.text = if (dirty) editorTab.getFileName() + "*" else editorTab.getFileName()
+        }
 
         openFiles[file] = tab
         tabs.add(tab)

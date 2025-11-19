@@ -9,6 +9,19 @@ import java.nio.charset.StandardCharsets
 open class TextFileTab(file: File) : FileTab(file) {
     protected val codeArea = CodeArea(file.readText())
 
+    private var dirty = false
+
+    init {
+        codeArea.textProperty().addListener { _, _, new ->
+            // Detect modification
+            val isDirty = new != file.readText()
+            if (isDirty != dirty) {
+                dirty = isDirty
+                onDirtyChanged?.invoke(dirty)
+            }
+        }
+    }
+
     init {
         // Add line numbers
         codeArea.paragraphGraphicFactory = LineNumberFactory.get(codeArea)

@@ -44,3 +44,7 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+
+### Not ready yet ###
+pdfViewer/
