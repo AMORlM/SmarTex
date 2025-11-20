@@ -8,6 +8,9 @@ plugins {
 
     // Apply the JavaFX plugin to add support for building JavaFX applications.
     id("org.openjfx.javafxplugin") version "0.1.0"
+
+    // Apply to make uber jar
+    id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
 dependencies {
@@ -16,9 +19,9 @@ dependencies {
 
     // Optional: for JavaFX integration (Dispatchers.Main)
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-javafx:1.7.3")
-
     implementation("org.fxmisc.richtext:richtextfx:0.11.0")
     implementation("org.apache.pdfbox:pdfbox:2.0.30")
+
     implementation(project(":syntaxHighlighter"))
     implementation(project(":latexCompiler"))
     implementation(project(":PDFViewer"))
@@ -35,4 +38,12 @@ application {
 javafx {
     version = "21"
     modules = listOf("javafx.controls", "javafx.swing", "javafx.web")
+}
+
+tasks {
+    shadowJar {
+        archiveBaseName.set("Smartex")
+        archiveClassifier.set("") // so the jar is not named *-all.jar
+        mergeServiceFiles()       // fixes JavaFX META-INF issues
+    }
 }

@@ -22,7 +22,6 @@ object SettingsManager {
 
     fun register(module: ModuleSettings) {
         modules += module
-        println(modules.toList().toString())
     }
 
     fun loadAll() {

@@ -2,7 +2,7 @@
   "compiler": {
     "type": "dropdown",
     "label": "Compiler",
-    "values": ["latex", "tex", "lualatex"],
+    "values": ["pdftex", "pdflatex", "luatex","lualatex", "xetex", "xelatex","latex"],
     "default": "latex"
   },
   "mainFile": {

@@ -35,7 +35,6 @@ class CompilationPane(val projectRoot: File) : BorderPane(){
         val compileButton = Button("Compile").apply {
             setOnAction {
                 // Placeholder action for compile button
-                println("Compile button clicked")
                 logger.clear()
 
                 Thread {
