@@ -52,6 +52,7 @@ object SettingsWindow {
         val saveButton = Button("Save").apply {
             setOnAction {
                 SettingsManager.saveAll(uiData)
+                SettingsManager.loadAll()
                 stage.close()
             }
         }
