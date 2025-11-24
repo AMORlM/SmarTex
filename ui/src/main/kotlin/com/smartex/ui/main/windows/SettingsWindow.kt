@@ -1,14 +1,26 @@
-package com.smartex.settings
+package com.smartex.ui.main.windows
 
+import com.smartex.settings.SettingsManager
 import javafx.geometry.Insets
 import javafx.geometry.Pos
 import javafx.scene.Scene
-import javafx.scene.control.*
-import javafx.scene.layout.*
+import javafx.scene.control.Button
+import javafx.scene.control.ComboBox
+import javafx.scene.control.Label
+import javafx.scene.control.ListView
+import javafx.scene.control.ScrollPane
+import javafx.scene.control.Tab
+import javafx.scene.control.TabPane
+import javafx.scene.control.TextField
+import javafx.scene.layout.BorderPane
+import javafx.scene.layout.GridPane
+import javafx.scene.layout.HBox
+import javafx.scene.layout.VBox
 import javafx.stage.Modality
 import javafx.stage.Stage
 import javafx.stage.StageStyle
 import java.io.File
+import kotlin.collections.get
 
 /**
  * Universal settings window that dynamically builds UI from schema.
@@ -34,7 +46,6 @@ object SettingsWindow {
             uiData[module.moduleName] = moduleUiValues
 
             val grid = buildModuleSettingsUI(
-                moduleName = module.moduleName,
                 schema = schema,
                 projectRoot = projectRoot,
                 projectSettings = projectSettings,
@@ -75,7 +86,6 @@ object SettingsWindow {
     // ----------------------------------------------------
 
     private fun buildModuleSettingsUI(
-        moduleName: String,
         schema: Map<String, Any>,
         projectRoot: File,
         projectSettings: Map<String, Any?>,
