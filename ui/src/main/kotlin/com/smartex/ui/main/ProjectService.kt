@@ -3,7 +3,6 @@ package com.smartex.ui.main
 import com.smartex.settings.SettingsManager
 import com.smartex.ui.main.windows.SettingsWindow
 import com.smartex.ui.components.CompilationPane
-import com.smartex.ui.components.FileTabPane
 import com.smartex.ui.components.ProjectTree
 import javafx.scene.control.Button
 import javafx.scene.control.SplitPane
@@ -14,7 +13,6 @@ object ProjectService {
     fun openProject(
         root: File,
         projectTree: ProjectTree,
-        fileTabPane: FileTabPane,
         splitPane: SplitPane,
         settingsButton: Button
     ) {
@@ -29,9 +27,11 @@ object ProjectService {
         }
     }
 
-    fun createProject(name: String, location: File): File {
+    fun createProject(location: String, name: String): File? {
         val projectFolder = File(location, name)
-        projectFolder.mkdir()
+        if (!projectFolder.mkdir()) {
+            return null
+        }
 
         File(projectFolder, "main.tex").createNewFile()
 
