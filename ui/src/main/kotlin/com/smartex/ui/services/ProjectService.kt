@@ -1,5 +1,6 @@
-package com.smartex.ui.main
+package com.smartex.ui.services
 
+import com.smartex.ui.main.MainWindow
 import javafx.stage.Stage
 import java.io.File
 
@@ -24,9 +25,5 @@ object ProjectService {
         File(projectFolder, "main.tex").createNewFile()
 
         return projectFolder
-    }
-
-    fun getRecentProjects(): List<File> {
-        return emptyList()
     }
 }

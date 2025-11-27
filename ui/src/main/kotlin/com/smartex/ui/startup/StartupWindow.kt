@@ -1,7 +1,8 @@
 package com.smartex.ui.startup
 
-import com.smartex.ui.main.ProjectService
-import com.smartex.ui.main.ProjectService.openProject
+import com.smartex.ui.components.recentproject.RecentProjectsListView
+import com.smartex.ui.services.ProjectService.openProject
+import com.smartex.ui.services.RecentProjectsService
 import com.smartex.ui.windows.NewProjectWindow
 import javafx.geometry.Insets
 import javafx.geometry.Pos
@@ -38,14 +39,8 @@ class StartupWindow(private val stage: Stage) {
         }
 
         // Recent Projects
-        val recentList = ListView<File>().apply {
-            items.addAll(ProjectService.getRecentProjects())
-            setOnMouseClicked { event ->
-                if (event.button == MouseButton.PRIMARY) {
-                    val selectedItem = selectionModel.selectedItem
-                    selectedItem?.let { openProjectInNewWindow(it) }
-                }
-            }
+        val recentList = RecentProjectsListView {
+            openProjectInNewWindow(it)
         }
 
         val actions = HBox(newProjectButton, openProjectButton).apply {

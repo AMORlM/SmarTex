@@ -11,7 +11,7 @@ object FileTabFactory {
         return when (file.extension.lowercase()) {
             "tex", "bib", "sty", "cls", "ist" -> LatexEditorTab(file)
             "png", "jpg", "jpeg", "gif", "bmp", "webp" -> ImageTab(file)
-            //"pdf" -> PdfViewer(file)
+            "pdf" -> PdfViewerTab(file)
             // Extend here with other file types (e.g., PDF viewer tab, log file tab)
             else -> TextFileTab(file)
         }

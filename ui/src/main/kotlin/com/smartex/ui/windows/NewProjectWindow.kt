@@ -1,6 +1,6 @@
 package com.smartex.ui.windows
 
-import com.smartex.ui.main.ProjectService
+import com.smartex.ui.services.ProjectService
 import javafx.geometry.Insets
 import javafx.scene.Scene
 import javafx.scene.control.Button
