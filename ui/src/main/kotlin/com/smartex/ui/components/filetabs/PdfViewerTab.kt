@@ -1,6 +1,5 @@
 package com.smartex.ui.components.filetabs
 
-import com.smartex.pdfviewer.PDFViewer
 import javafx.application.Platform
 import javafx.concurrent.Task
 import javafx.embed.swing.SwingFXUtils

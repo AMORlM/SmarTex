@@ -2,15 +2,12 @@ package com.smartex.ui.startup
 
 import com.smartex.ui.components.recentproject.RecentProjectsListView
 import com.smartex.ui.services.ProjectService.openProject
-import com.smartex.ui.services.RecentProjectsService
 import com.smartex.ui.windows.NewProjectWindow
 import javafx.geometry.Insets
 import javafx.geometry.Pos
 import javafx.scene.Scene
 import javafx.scene.control.Button
-import javafx.scene.control.ListView
 import javafx.scene.image.Image
-import javafx.scene.input.MouseButton
 import javafx.scene.layout.BorderPane
 import javafx.scene.layout.HBox
 import javafx.stage.DirectoryChooser

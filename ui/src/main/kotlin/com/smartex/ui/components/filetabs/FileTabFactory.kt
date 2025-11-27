@@ -1,6 +1,5 @@
 package com.smartex.ui.components.filetabs
 
-import com.smartex.ui.components.PdfViewer
 import java.io.File
 
 object FileTabFactory {
