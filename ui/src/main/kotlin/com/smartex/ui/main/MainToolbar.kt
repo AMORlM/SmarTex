@@ -24,16 +24,14 @@ class MainToolbar(
     val settingsButton = Button("Settings")
 
     init {
-        val newProjButton = Button("New Project").apply {
+        val newProjectButton = Button("New Project").apply {
             setOnAction {
                 val new = NewProjectWindow.show()
-                if (new != null) {
-                    openProject(new)
-                }
+                new?.let { openProject(it) }
             }
         }
 
-        val openProjButton = Button("Open Project").apply {
+        val openProjectButton = Button("Open Project").apply {
             setOnAction {
                 val selectedDirectory = DirectoryChooser().apply {
                     title = "Open Project"
@@ -48,13 +46,13 @@ class MainToolbar(
             setOnAction { fileTabPane.saveCurrentFile() }
         }
 
-        items.addAll(newProjButton, openProjButton, saveButton, settingsButton)
+        items.addAll(newProjectButton, openProjectButton, saveButton, settingsButton)
 
         openProject(root)
     }
 
 
-    fun openProject(root: File) {
+    private fun openProject(root: File) {
         projectTree.populateFromDirectory(root)
         splitPane.items[2] = CompilationPane(root)
 
