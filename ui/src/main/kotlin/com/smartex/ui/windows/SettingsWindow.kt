@@ -1,4 +1,4 @@
-package com.smartex.ui.main.windows
+package com.smartex.ui.windows
 
 import com.smartex.settings.SettingsManager
 import javafx.geometry.Insets

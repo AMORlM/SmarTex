@@ -1,8 +1,11 @@
 package com.smartex.ui.main
 
+import com.smartex.settings.SettingsManager
+import com.smartex.ui.components.CompilationPane
 import com.smartex.ui.components.FileTabPane
 import com.smartex.ui.components.ProjectTree
-import com.smartex.ui.main.windows.NewProjectWindow
+import com.smartex.ui.windows.NewProjectWindow
+import com.smartex.ui.windows.SettingsWindow
 import javafx.scene.control.Button
 import javafx.scene.control.SplitPane
 import javafx.scene.control.ToolBar
@@ -14,7 +17,8 @@ class MainToolbar(
     private val stage: Stage,
     private val projectTree: ProjectTree,
     private val fileTabPane: FileTabPane,
-    private val splitPane: SplitPane
+    private val splitPane: SplitPane,
+    root: File
 ) : ToolBar() {
 
     val settingsButton = Button("Settings")
@@ -24,7 +28,7 @@ class MainToolbar(
             setOnAction {
                 val new = NewProjectWindow.show()
                 if (new != null) {
-                    ProjectService.openProject(new, projectTree, splitPane, settingsButton)
+                    openProject(new)
                 }
             }
         }
@@ -45,10 +49,20 @@ class MainToolbar(
         }
 
         items.addAll(newProjButton, openProjButton, saveButton, settingsButton)
+
+        openProject(root)
     }
 
 
-    fun openProject(file: File) {
-        ProjectService.openProject(file, projectTree, splitPane, settingsButton)
+    fun openProject(root: File) {
+        projectTree.populateFromDirectory(root)
+        splitPane.items[2] = CompilationPane(root)
+
+        SettingsManager.init(root, root)
+        SettingsManager.loadAll()
+
+        settingsButton.setOnAction {
+            SettingsWindow.show(root)
+        }
     }
 }

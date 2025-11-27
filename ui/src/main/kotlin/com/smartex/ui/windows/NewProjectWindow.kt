@@ -1,4 +1,4 @@
-package com.smartex.ui.main.windows
+package com.smartex.ui.windows
 
 import com.smartex.ui.main.ProjectService
 import javafx.geometry.Insets
@@ -50,13 +50,13 @@ object NewProjectWindow {
             hgap = 12.0
             vgap = 12.0
             padding = Insets(15.0)
-        }
 
-        grid.add(Label("Name:"), 0, 0)
-        grid.add(nameField, 1, 0)
-        grid.add(Label("Location:"), 0, 1)
-        grid.add(locationField, 1, 1)
-        grid.add(locationButton, 2, 1)
+            add(Label("Name:"), 0, 0)
+            add(nameField, 1, 0)
+            add(Label("Location:"), 0, 1)
+            add(locationField, 1, 1)
+            add(locationButton, 2, 1)
+        }
 
         var result: File? = null
 
