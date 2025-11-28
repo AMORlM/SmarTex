@@ -1,14 +1,16 @@
 package com.smartex.ui.windows
 
 import com.smartex.ui.services.ProjectService
+import javafx.geometry.HPos
 import javafx.geometry.Insets
+import javafx.geometry.Pos
 import javafx.scene.Scene
 import javafx.scene.control.Button
 import javafx.scene.control.Label
 import javafx.scene.control.TextField
-import javafx.scene.control.ToolBar
-import javafx.scene.layout.BorderPane
-import javafx.scene.layout.GridPane
+import javafx.scene.image.Image
+import javafx.scene.image.ImageView
+import javafx.scene.layout.*
 import javafx.stage.DirectoryChooser
 import javafx.stage.Modality
 import javafx.stage.Stage
@@ -33,7 +35,16 @@ object NewProjectWindow {
             isEditable = false
         }
 
-        val locationButton = Button("Browse…").apply {
+        val locationButton = Button().apply {
+            graphic = ImageView(Image(javaClass.classLoader
+                .getResourceAsStream("icons/folder-closed.png"))).apply {
+                fitWidth = 16.0
+                fitHeight = 16.0
+                isPreserveRatio = true
+            }
+            styleClass += "text-field-icon-button"
+            padding = Insets(6.0, 6.0, 6.0, 6.0)
+
             setOnAction {
                 val chosen = DirectoryChooser().apply {
                     title = "Choose Project Location"
@@ -46,16 +57,33 @@ object NewProjectWindow {
             }
         }
 
+        val locationStack = StackPane().apply {
+            children.addAll(locationField, locationButton)
+            StackPane.setAlignment(locationButton, Pos.CENTER_RIGHT)
+            StackPane.setMargin(locationButton, Insets(6.0))
+            HBox.setHgrow(this, Priority.ALWAYS)
+        }
+
         val grid = GridPane().apply {
+            padding = Insets(15.0)
             hgap = 12.0
             vgap = 12.0
-            padding = Insets(15.0)
+
+            val labelCol = ColumnConstraints().apply {
+                halignment = HPos.LEFT
+                hgrow = Priority.NEVER
+            }
+
+            val inputCol = ColumnConstraints().apply {
+                hgrow = Priority.ALWAYS
+            }
+
+            columnConstraints.addAll(labelCol, inputCol)
 
             add(Label("Name:"), 0, 0)
             add(nameField, 1, 0)
             add(Label("Location:"), 0, 1)
-            add(locationField, 1, 1)
-            add(locationButton, 2, 1)
+            add(locationStack, 1, 1)
         }
 
         var result: File? = null
@@ -71,14 +99,30 @@ object NewProjectWindow {
             setOnAction { stage.close() }
         }
 
-        val buttonBar = ToolBar(createButton, cancelButton)
+        val spacer = Pane().apply {
+            HBox.setHgrow(this, Priority.ALWAYS)
+        }
+
+        val buttonBar = HBox(10.0, spacer, cancelButton, createButton).apply {
+            styleClass += "dialog-buttonbar"
+            alignment = Pos.BASELINE_LEFT
+            padding = Insets(10.0)
+        }
 
         stage.scene = Scene(BorderPane().apply {
-            center = grid
+            stylesheets.add(javaClass.classLoader.getResource("styles/dracula.css")!!.toExternalForm())
             bottom = buttonBar
+            center = grid
         }, 500.0, 300.0)
 
-        stage.showAndWait()
+        stage.apply {
+            isResizable = false
+            isMaximized = false
+            title = "Create New Project"
+            icons.add(Image(javaClass.classLoader.getResourceAsStream("icons/sadje.jpg")))
+            showAndWait()
+        }
+
         return result
     }
 }

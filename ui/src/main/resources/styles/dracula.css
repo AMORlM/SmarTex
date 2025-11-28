@@ -353,3 +353,56 @@
     -fx-font-size: 12px;
     -fx-padding: 0 0 4 0;
 }
+
+
+/* ============================================================
+   DIALOG WINDOW (New Project, Open Project, etc.)
+============================================================ */
+
+.dialog-title {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -color-fg;
+    -fx-background-color: -color-bg-alt;
+    -fx-border-color: -color-highlight;
+    -fx-border-width: 0 0 1px 0;
+}
+
+.label {
+    -fx-text-fill: -color-fg-muted;
+    -fx-font-size: 13px;
+}
+
+/* Textfields used in dialog */
+.text-field {
+    -fx-background-color: -color-bg;
+    -fx-text-inner-color: white;
+    -fx-background-radius: 4;
+    -fx-border-radius: 4;
+    -fx-border-color: -color-fg-muted;
+    -fx-padding: 6 30 6 8; /* reserve right side space for icon */
+}
+
+.text-field:focused {
+    -fx-border-color: -color-accent;
+}
+
+.dialog-buttonbar {
+    -fx-background-color: -color-bg-alt;
+    -fx-border-color: -color-highlight;
+    -fx-border-width: 1px 0 0 0;
+}
+
+/* Icon button INSIDE the textfield */
+.text-field-icon-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 0;
+    -fx-border-width: 0;
+    -fx-cursor: hand;
+    -fx-padding: 2px 2px 2px 2px;
+}
+
+.text-field-icon-button:hover {
+    -fx-background-color: rgba(255,255,255,0.08);
+    -fx-background-radius: 4;
+}
