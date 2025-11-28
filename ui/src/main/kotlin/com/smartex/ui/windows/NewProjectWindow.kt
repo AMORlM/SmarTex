@@ -43,24 +43,22 @@ object NewProjectWindow {
                 isPreserveRatio = true
             }
             styleClass += "text-field-icon-button"
-            padding = Insets(6.0, 6.0, 6.0, 6.0)
+
+            StackPane.setAlignment(this, Pos.CENTER_RIGHT)
+            StackPane.setMargin(this, Insets(6.0))
 
             setOnAction {
-                val chosen = DirectoryChooser().apply {
+                DirectoryChooser().apply {
                     title = "Choose Project Location"
                     initialDirectory = File(locationField.text)
-                }.showDialog(stage)
-
-                if (chosen != null) {
-                    locationField.text = chosen.absolutePath
+                }.showDialog(stage)?.let {
+                    locationField.text = it.absolutePath
                 }
             }
         }
 
         val locationStack = StackPane().apply {
             children.addAll(locationField, locationButton)
-            StackPane.setAlignment(locationButton, Pos.CENTER_RIGHT)
-            StackPane.setMargin(locationButton, Insets(6.0))
             HBox.setHgrow(this, Priority.ALWAYS)
         }
 
