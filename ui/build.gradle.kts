@@ -37,7 +37,7 @@ application {
 
 javafx {
     version = "21"
-    modules = listOf("javafx.controls", "javafx.swing", "javafx.web", "javafx.fxml")
+    modules = listOf("javafx.controls", "javafx.swing", "javafx.fxml")
 }
 
 tasks {

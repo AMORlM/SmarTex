@@ -6,11 +6,9 @@ import javafx.scene.input.MouseButton
 import javafx.util.Callback
 import java.io.File
 
-class RecentProjectsListView(
-    private val onProjectSelected: (File) -> Unit
-) : ListView<File>() {
+class RecentProjectsListView: ListView<File>() {
 
-    init {
+    fun setOnOpen(onProjectSelected: (File) -> Unit) {
         items.addAll(RecentProjectsService.getRecent())
 
         cellFactory = Callback {

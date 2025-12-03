@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane prefHeight="300" prefWidth="500" stylesheets="@../styles/dracula.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.smartex.ui.windows.NewProjectWindowController">
+
+    <!-- CENTER GRID -->
+    <center>
+        <GridPane hgap="12" vgap="12">
+            <padding>
+                <Insets bottom="15" left="15" right="15" top="15" />
+            </padding>
+            <columnConstraints>
+                <ColumnConstraints halignment="LEFT" hgrow="NEVER" />
+                <ColumnConstraints hgrow="ALWAYS" />
+            </columnConstraints>
+
+            <!-- Name -->
+            <Label text="Name:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+            <TextField fx:id="nameField" text="Project name" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+            <!-- Location -->
+            <Label text="Location:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+
+            <!-- StackPane with TextField and inside-icon button -->
+            <StackPane GridPane.columnIndex="1" GridPane.rowIndex="1">
+                <TextField fx:id="locationField" editable="false" />
+                <Button fx:id="browseButton" styleClass="text-field-icon-button" StackPane.alignment="CENTER_RIGHT">
+                    <graphic>
+                        <ImageView fitHeight="16" fitWidth="16" pickOnBounds="true" preserveRatio="true">
+                            <Image url="@../icons/folder-closed.png" />
+                        </ImageView>
+                    </graphic>
+                    <StackPane.margin>
+                        <Insets bottom="6.0" left="6.0" right="6.0" top="6.0" />
+                    </StackPane.margin>
+                </Button>
+
+            </StackPane>
+         <rowConstraints>
+            <RowConstraints />
+            <RowConstraints />
+         </rowConstraints>
+
+        </GridPane>
+    </center>
+
+    <!-- BOTTOM BUTTON BAR -->
+    <bottom>
+        <HBox alignment="BASELINE_LEFT" spacing="10" styleClass="dialog-buttonbar">
+            <padding>
+                <Insets bottom="10" left="10" right="10" top="10" />
+            </padding>
+            <Pane HBox.hgrow="ALWAYS" />
+            <Button onAction="#onCancel" text="Cancel" />
+            <Button onAction="#onCreate" styleClass="submit" text="Create" />
+        </HBox>
+    </bottom>
+
+</BorderPane>
