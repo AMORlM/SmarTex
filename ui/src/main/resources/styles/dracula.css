@@ -391,12 +391,14 @@
     -fx-background-radius: 4;
     -fx-border-radius: 4;
     -fx-border-color: -color-fg-muted;
+    -fx-highlight-fill: -color-highlight;
     -fx-padding: 6 30 6 8; /* reserve right side space for icon */
 }
 
-.text-field:focused {
+.text-field: focused {
     -fx-border-color: -color-accent;
 }
+
 
 .dialog-buttonbar {
     -fx-background-color: -color-bg-alt;
@@ -416,4 +418,35 @@
 .text-field-icon-button:hover {
     -fx-background-color: rgba(255,255,255,0.08);
     -fx-background-radius: 4;
+}
+
+.combo-box {
+    -fx-background-color: -color-bg;
+    -fx-text-inner-color: white;
+    -fx-background-radius: 4;
+    -fx-border-radius: 4;
+    -fx-border-color: -color-fg-muted;
+}
+
+.list-view {
+    -fx-background-color: -color-bg;
+    -fx-text-inner-color: white;
+    -fx-background-radius: 4;
+    -fx-border-radius: 4;
+    -fx-border-color: -color-fg-muted;
+}
+
+.list-cell {
+    -fx-background-color: -color-bg;
+}
+
+.list-cell: hover {
+    -fx-background-color: -color-highlight;
+}
+
+.grid {
+    -fx-background-color: -color-bg;
+    -fx-padding: 15px;
+    -fx-hgap: 12px;
+    -fx-vgap: 12px;
 }
