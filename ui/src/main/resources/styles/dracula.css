@@ -21,6 +21,7 @@
     -color-selected:      #214283;  /* Selection */
     -color-divider-hover: #5a5a6e;
     -color-border:        #cccccc;
+    -color-submit:        #3574F0;  /* Submit */
 
     /* === Fonts === */
     -fx-font-family: "Lucida", "Source Code Pro", monospace;
@@ -34,6 +35,10 @@
 /* General text override */
 .text {
     -fx-fill: -color-fg;
+}
+
+.white {
+    -fx-text-fill: white;
 }
 
 
@@ -55,6 +60,11 @@
 
 .button:pressed {
     -fx-background-color: -color-accent;
+}
+
+
+.button.submit {
+    -fx-background-color: -color-submit;
 }
 
 
@@ -252,7 +262,9 @@
     -fx-background-color: transparent;
     -fx-padding: 0 10 0 5;
     -fx-font-size: 11pt;
-    -fx-font-family: "Lucida", "Source Code Pro", monospace;
+    -fx-font-family: monospace, "Lucida", "Source Code Pro";
+    -fx-border-color: -color-fg-muted;
+    -fx-border-width: 0 1px 0 0;
 }
 
 .lineno .text {
@@ -328,30 +340,29 @@
    ========================================================================== */
 /* root container */
 .popup-root {
-    -fx-background-color: #2b2b2b;
-    -fx-border-color: #555555;
-    -fx-border-radius: 6;
-    -fx-background-radius: 6;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.6), 10, 0, 0, 2);
-    -fx-padding: 8;
+    -fx-background-color: -fg-background;
+    -fx-text-inner-color: white;
+    -fx-border-color: -color-fg-muted;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+    -fx-font-size: 13px;
+    -fx-padding: 6px;
+
 }
 
 /* textfield inside the popup */
 .popup-input {
-    -fx-background-color: #3c3f41;
-    -fx-text-inner-color: white;   /* important: TextField uses -fx-text-inner-color */
-    -fx-border-color: #555555;
+    -fx-background-color: -fg-background;
+    -fx-text-inner-color: white;
+    -fx-border-color: -color-fg-muted;
     -fx-border-radius: 4;
     -fx-background-radius: 4;
     -fx-font-size: 13px;
-    -fx-padding: 6 8 6 8;
 }
 
 /* label inside the popup */
 .popup-label {
     -fx-text-fill: white;          /* Label uses -fx-text-fill */
-    -fx-font-size: 12px;
-    -fx-padding: 0 0 4 0;
 }
 
 

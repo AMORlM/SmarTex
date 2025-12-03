@@ -87,6 +87,7 @@ object NewProjectWindow {
         var result: File? = null
 
         val createButton = Button("Create").apply {
+            styleClass += "submit"
             setOnAction {
                 result = ProjectService.createProject(locationField.text, nameField.text)
                 stage.close()

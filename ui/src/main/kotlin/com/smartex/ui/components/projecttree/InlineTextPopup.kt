@@ -1,6 +1,5 @@
 package com.smartex.ui.components.projecttree
 
-import javafx.geometry.Insets
 import javafx.geometry.Point2D
 import javafx.scene.control.Label
 import javafx.scene.control.TextField
@@ -12,38 +11,21 @@ import javafx.stage.Window
 object InlineTextPopup {
 
     fun show(owner: Window, message: String, initialValue: String, onAction: (String) -> Unit) {
+        owner.scene.stylesheets += javaClass.classLoader.getResource("styles/dracula.css")!!.toExternalForm()
         // Message label
         val label = Label(message).apply {
-            style = """
-                -fx-text-fill: white; 
-            """.trimIndent()
+            styleClass += "popup-label"
         }
 
         // Input field
         val textField = TextField(initialValue).apply {
             prefWidth = 240.0
-            padding = Insets(6.0)
-            style = """
-                    -fx-background-color: #3c3f41;
-                    -fx-text-inner-color: white;
-                    -fx-border-color: #555555;
-                    -fx-border-radius: 4;
-                    -fx-background-radius: 4;
-                    -fx-font-size: 13px;
-            """.trimIndent()
+            styleClass += "popup-input"
         }
 
         // Root container
         val root = VBox(label, textField).apply {
-            padding = Insets(4.0)
-            style = """
-                    -fx-background-color: #3c3f41;
-                    -fx-text-inner-color: white;
-                    -fx-border-color: #555555;
-                    -fx-border-radius: 4;
-                    -fx-background-radius: 4;
-                    -fx-font-size: 13px;
-            """.trimIndent()
+            styleClass += "popup-root"
         }
 
 

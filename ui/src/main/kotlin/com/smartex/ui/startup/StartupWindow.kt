@@ -1,69 +1,22 @@
 package com.smartex.ui.startup
 
-import com.smartex.ui.components.recentproject.RecentProjectsListView
-import com.smartex.ui.services.ProjectService.openProject
-import com.smartex.ui.windows.NewProjectWindow
-import javafx.geometry.Insets
-import javafx.geometry.Pos
+import javafx.fxml.FXMLLoader
 import javafx.scene.Scene
-import javafx.scene.control.Button
 import javafx.scene.image.Image
-import javafx.scene.layout.BorderPane
-import javafx.scene.layout.HBox
-import javafx.stage.DirectoryChooser
 import javafx.stage.Stage
-import java.io.File
 
 class StartupWindow(private val stage: Stage) {
-
     fun show() {
-        val newProjectButton = Button("New Project").apply {
-            setOnAction {
-                val new = NewProjectWindow.show()
-                new?.let { openProject(stage, it) }
-            }
-        }
+        val loader = FXMLLoader(javaClass.getResource("/fxml/StartupWindow.fxml"))
+        val root = loader.load<javafx.scene.Parent>()
+        val controller = loader.getController<StartupWindowController>()
+        controller.setStage(stage)
 
-        val openProjectButton = Button("Open Project").apply {
-            setOnAction {
-                val selectedDirectory = DirectoryChooser().apply {
-                    this.title = "Open Project"
-                    initialDirectory = File(System.getProperty("user.home"))
-                }.showDialog(stage)
-
-                selectedDirectory?.let { openProjectInNewWindow(it) }
-            }
-        }
-
-        // Recent Projects
-        val recentList = RecentProjectsListView {
-            openProjectInNewWindow(it)
-        }
-
-        val actions = HBox(newProjectButton, openProjectButton).apply {
-            spacing = 10.0
-            alignment = Pos.TOP_RIGHT
-            padding = Insets(0.0, 0.0,20.0,0.0)
-        }
-
-        val root = BorderPane().apply {
-            top = actions
-            center = recentList
-            padding = Insets(20.0)
-        }
-
-        val scene = Scene(root, 700.0, 450.0)
         stage.apply {
-            this.scene = scene
-            title = "Welcome to SmarTex IDE"
             icons.add(Image(javaClass.classLoader.getResourceAsStream("icons/sadje.jpg")))
+            scene = Scene(root)
+            title = "Welcome to SmarTex IDE"
             show()
         }
     }
-
-    private fun openProjectInNewWindow(selectedItem: File) {
-        openProject(selectedItem)
-        stage.close()
-    }
-
 }
