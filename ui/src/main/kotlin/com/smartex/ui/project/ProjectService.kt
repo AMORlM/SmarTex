@@ -1,4 +1,4 @@
-package com.smartex.ui.services
+package com.smartex.ui.project
 
 import com.smartex.ui.main.MainWindow
 import javafx.stage.Stage

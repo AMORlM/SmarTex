@@ -1,4 +1,4 @@
-package com.smartex.ui.components.recentproject
+package com.smartex.ui.components.recent
 
 import javafx.scene.control.Label
 import javafx.scene.control.ListCell

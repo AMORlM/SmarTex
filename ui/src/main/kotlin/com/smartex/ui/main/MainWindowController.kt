@@ -4,8 +4,8 @@ import com.smartex.settings.SettingsManager
 import com.smartex.ui.components.CompilationPane
 import com.smartex.ui.components.FileTabPane
 import com.smartex.ui.components.ProjectTree
-import com.smartex.ui.windows.NewProjectWindow
-import com.smartex.ui.windows.SettingsWindow
+import com.smartex.ui.newproject.NewProjectWindow
+import com.smartex.ui.settings.SettingsWindow
 import javafx.fxml.FXML
 import javafx.stage.DirectoryChooser
 import javafx.stage.Stage

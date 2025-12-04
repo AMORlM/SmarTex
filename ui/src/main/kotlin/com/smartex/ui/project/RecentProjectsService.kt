@@ -1,4 +1,4 @@
-package com.smartex.ui.services
+package com.smartex.ui.project
 
 import com.smartex.ui.GLOBAL_SETTINGS_DIR
 import java.io.File

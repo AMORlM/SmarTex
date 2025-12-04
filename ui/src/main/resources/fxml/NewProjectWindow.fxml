@@ -8,7 +8,7 @@
 <BorderPane prefHeight="300" prefWidth="500"
             stylesheets="@../styles/dracula.css"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.smartex.ui.windows.NewProjectWindowController">
+            fx:controller="com.smartex.ui.newproject.NewProjectWindowController">
 
     <!-- CENTER GRID -->
     <center>

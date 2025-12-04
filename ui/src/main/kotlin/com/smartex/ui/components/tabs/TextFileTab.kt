@@ -1,4 +1,4 @@
-package com.smartex.ui.components.filetabs
+package com.smartex.ui.components.tabs
 
 import org.fxmisc.flowless.VirtualizedScrollPane
 import org.fxmisc.richtext.CodeArea

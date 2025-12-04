@@ -1,7 +1,6 @@
-package com.smartex.ui.windows
+package com.smartex.ui.settings
 
 import com.smartex.settings.SettingsManager
-import com.smartex.ui.services.SettingsUIBuilder
 import java.io.File
 
 

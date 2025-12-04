@@ -3,7 +3,7 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import com.smartex.ui.components.recentproject.RecentProjectsListView?>
+<?import com.smartex.ui.components.recent.RecentProjectsListView?>
 
 <BorderPane prefHeight="450.0" prefWidth="700.0"
             stylesheets="@../styles/dracula.css"

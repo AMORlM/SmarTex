@@ -1,4 +1,4 @@
-package com.smartex.ui.windows
+package com.smartex.ui.newproject
 
 import javafx.fxml.FXMLLoader
 import javafx.scene.Scene

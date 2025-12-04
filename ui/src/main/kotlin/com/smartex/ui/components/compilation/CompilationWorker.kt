@@ -4,7 +4,7 @@ import com.smartex.latexcompiler.LatexCompiler
 import java.io.File
 import java.io.PrintStream
 
-class CompileWorker(
+class CompilationWorker(
     private val compiler: LatexCompiler,
     private val logStream: PrintStream,
     private val outputPdf: File,

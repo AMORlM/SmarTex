@@ -3,7 +3,7 @@ package com.smartex.ui.components
 import com.smartex.latexcompiler.LatexCompiler
 import com.smartex.latexcompiler.LatexCompilerSettings
 import com.smartex.ui.components.compilation.CompileToolbar
-import com.smartex.ui.components.compilation.CompileWorker
+import com.smartex.ui.components.compilation.CompilationWorker
 import com.smartex.ui.components.compilation.LogView
 import com.smartex.ui.components.compilation.PdfViewLoader
 import javafx.application.Platform
@@ -37,7 +37,7 @@ class CompilationPane : BorderPane() {
     private fun compile() {
         logView.clear()
 
-        CompileWorker(
+        CompilationWorker(
             compiler = compiler,
             logStream = logView.outputStream,
             outputPdf = File(projectRoot, compilerSettings.outputFile),

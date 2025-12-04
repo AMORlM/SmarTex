@@ -1,8 +1,8 @@
 package com.smartex.ui.startup
 
-import com.smartex.ui.components.recentproject.RecentProjectsListView
-import com.smartex.ui.services.ProjectService.openProject
-import com.smartex.ui.windows.NewProjectWindow
+import com.smartex.ui.components.recent.RecentProjectsListView
+import com.smartex.ui.project.ProjectService.openProject
+import com.smartex.ui.newproject.NewProjectWindow
 import javafx.fxml.FXML
 import javafx.stage.DirectoryChooser
 import javafx.stage.Stage

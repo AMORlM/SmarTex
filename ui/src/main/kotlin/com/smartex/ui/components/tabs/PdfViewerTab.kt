@@ -1,4 +1,4 @@
-package com.smartex.ui.components.filetabs
+package com.smartex.ui.components.tabs
 
 import javafx.application.Platform
 import javafx.concurrent.Task

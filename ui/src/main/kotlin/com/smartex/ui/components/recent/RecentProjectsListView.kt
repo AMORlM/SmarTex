@@ -1,6 +1,6 @@
-package com.smartex.ui.components.recentproject
+package com.smartex.ui.components.recent
 
-import com.smartex.ui.services.RecentProjectsService
+import com.smartex.ui.project.RecentProjectsService
 import javafx.scene.control.ListView
 import javafx.scene.input.MouseButton
 import javafx.util.Callback

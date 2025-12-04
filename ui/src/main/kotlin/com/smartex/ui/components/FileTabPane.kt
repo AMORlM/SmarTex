@@ -1,7 +1,7 @@
 package com.smartex.ui.components
 
-import com.smartex.ui.components.filetabs.FileTab
-import com.smartex.ui.components.filetabs.FileTabFactory
+import com.smartex.ui.components.tabs.FileTab
+import com.smartex.ui.components.tabs.FileTabFactory
 import javafx.scene.control.Tab
 import javafx.scene.control.TabPane
 import java.io.File
