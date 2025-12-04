@@ -21,6 +21,17 @@ object RecentProjectsService {
         file.writeText(stringBuilder.toString())
     }
 
+    fun remove(project: File) {
+        val updated = (getRecent().toMutableList().apply {
+            remove(project)
+        })
+
+        val stringBuilder = StringBuilder()
+        updated.map { stringBuilder.appendLine(it) }
+
+        file.writeText(stringBuilder.toString())
+    }
+
     fun getRecent(): List<File> {
         if (!file.exists()) {
             file.parentFile.mkdirs()

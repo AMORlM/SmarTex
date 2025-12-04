@@ -67,6 +67,18 @@
     -fx-background-color: -color-submit;
 }
 
+.button.close {
+    -fx-text-fill: red;
+    -fx-background-color: transparent;
+    -fx-background-radius: 50%; /* fully rounded */
+    -fx-padding: 1px 3px 0px 3px;
+    -fx-cursor: hand;
+}
+
+.button.close:hover {
+    -fx-background-color: rgba(255,0,0,0.15); /* light red background on hover */
+}
+
 
 /* ==========================================================================
    TOOLBAR
@@ -431,13 +443,14 @@
 .list-view {
     -fx-background-color: -color-bg;
     -fx-text-inner-color: white;
-    -fx-background-radius: 4;
-    -fx-border-radius: 4;
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
     -fx-border-color: -color-fg-muted;
 }
 
 .list-cell {
     -fx-background-color: -color-bg;
+    -fx-background-radius: 6;
 }
 
 .list-cell: hover {
@@ -456,10 +469,10 @@
     -fx-background-color: transparent !important;
 }
 
-
 .grid {
     -fx-background-color: -color-bg;
     -fx-padding: 15px;
     -fx-hgap: 12px;
     -fx-vgap: 12px;
 }
+

@@ -12,7 +12,10 @@ class RecentProjectsListView: ListView<File>() {
         items.addAll(RecentProjectsService.getRecent())
 
         cellFactory = Callback {
-            RecentProjectCell()
+            RecentProjectCell{ fileToRemove ->
+                items.remove(fileToRemove)
+                RecentProjectsService.remove(fileToRemove)
+            }
         }
 
         setOnMouseClicked { event ->
