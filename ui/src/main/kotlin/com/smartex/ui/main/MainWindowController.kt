@@ -13,11 +13,10 @@ import javafx.stage.Stage
 import java.io.File
 
 class MainWindowController {
-    @FXML lateinit var projectTreeContainer: AnchorPane
     @FXML lateinit var pdfPreviewContainer: AnchorPane
 
     @FXML lateinit var fileTabPane: FileTabPane
-    private val projectTree = ProjectTree { file -> fileTabPane.openFile(file) }
+    @FXML lateinit var projectTree: ProjectTree
 
     private lateinit var rootProject: File
     private lateinit var stage: Stage
@@ -31,8 +30,8 @@ class MainWindowController {
         pdfPreviewContainer.children.add(CompilationPane(rootProject))
 
         // Populate project tree
+        projectTree.setOnFileSelected { file -> fileTabPane.openFile(file) }
         projectTree.populateFromDirectory(rootProject)
-        projectTreeContainer.children.add(projectTree)
 
         // Load settings
         SettingsManager.init(rootProject, rootProject)

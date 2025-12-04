@@ -9,11 +9,8 @@ import javafx.scene.input.MouseButton
 import javafx.util.Callback
 import java.io.File
 
-class ProjectTree(
-    private val onFileSelected: (File) -> Unit
-) : TreeView<File>() {
-
-    init {
+class ProjectTree: TreeView<File>() {
+    fun setOnFileSelected(onFileSelected: (File) -> Unit) {
         // Handle file selection
         this.setOnMouseClicked { event ->
             if (event.button == MouseButton.PRIMARY) {
@@ -25,7 +22,7 @@ class ProjectTree(
         }
 
         // Set custom cell factory
-        this.cellFactory = Callback<TreeView<File>, TreeCell<File>> {
+        this.cellFactory = Callback {
             ProjectTreeCell(this)
         }
     }

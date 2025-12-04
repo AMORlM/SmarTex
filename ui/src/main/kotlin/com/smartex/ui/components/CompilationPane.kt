@@ -2,106 +2,57 @@ package com.smartex.ui.components
 
 import com.smartex.latexcompiler.LatexCompiler
 import com.smartex.latexcompiler.LatexCompilerSettings
+import com.smartex.ui.components.compilation.CompileToolbar
+import com.smartex.ui.components.compilation.CompileWorker
+import com.smartex.ui.components.compilation.LogView
+import com.smartex.ui.components.compilation.PdfViewLoader
 import javafx.application.Platform
-import javafx.scene.control.Button
-import javafx.scene.control.TextArea
-import javafx.scene.control.ToolBar
 import javafx.scene.layout.BorderPane
 import java.io.File
-import java.io.OutputStream
-import java.io.PrintStream
 
-class CompilationPane(val projectRoot: File) : BorderPane(){
-    lateinit var pdf: PdfViewer
+class CompilationPane(private val projectRoot: File) : BorderPane() {
 
-    val settings: LatexCompilerSettings
-    val compiler: LatexCompiler
+    private val logView = LogView()
+    private val pdfLoader = PdfViewLoader()
 
-    val logger = TextArea()
-    val ps = PrintStream(TextAreaOutputStream(logger))
+    private val compilerSettings = LatexCompilerSettings()
+    private val compiler = LatexCompiler(projectRoot, compilerSettings)
+
+    private val toolbar = CompileToolbar(
+        onCompile = { compile() },
+        onToggleView = { toggleView() },
+        onSavePdf = { savePdf() }
+    )
 
     init {
-        top = makeToolBar()
-        // Placeholder for PDF preview pane
-        center = logger
-        logger.isEditable  = false
-
-        settings = LatexCompilerSettings()
-        compiler = LatexCompiler(projectRoot, settings)
+        top = toolbar
+        center = logView
     }
 
-    private fun makeToolBar(): ToolBar {
-        // Toolbar  buttons
-        val compileButton = Button("Compile").apply {
-            setOnAction {
-                // Placeholder action for compile button
-                logger.clear()
+    private fun compile() {
+        logView.clear()
 
-                Thread {
-                    System.setOut(ps)
-                    compiler.compile()
-                    loadPdfViewer(File(projectRoot, settings.outputFile))
-                    Platform.runLater {
-                        center = pdf
-                    }
-                }.apply {
-                    isDaemon = true
-                }.start()
+        CompileWorker(
+            compiler = compiler,
+            logStream = logView.outputStream,
+            outputPdf = File(projectRoot, compilerSettings.outputFile),
+            onPdfReady = { pdfFile ->
+                pdfLoader.loadViewer(pdfFile)
+                Platform.runLater { center = pdfLoader.viewer }
             }
-        }
-
-        val toggleButton = Button("Toggle view").apply {
-            setOnAction {
-                if(!::pdf.isInitialized){
-                    println("PDF Viewer not initialized yet")
-                    return@setOnAction
-                }
-                if (center == logger) {
-                    center = pdf
-                    println("PDF Viewer shown")
-                } else {
-                    center = logger
-                    println("Logger shown")
-                }
-            }
-        }
-
-        val savePDFButton = Button("Save File").apply {
-            setOnAction {
-                println("copy PDF to other directory")
-            }
-        }
-
-        return ToolBar(compileButton, toggleButton, savePDFButton)
+        ).start()
     }
 
-    fun loadPdfViewer(file: File) {
-        pdf = PdfViewer(file)
+    private fun toggleView() {
+        if (!pdfLoader.isReady) {
+            logView.append("PDF Viewer not initialized yet\n")
+            return
+        }
+        center = if (center == logView) pdfLoader.viewer else logView
     }
 
-
-    class TextAreaOutputStream(private val textArea: TextArea) : OutputStream() {
-        private val buffer = StringBuilder()
-
-        override fun write(b: Int) {
-            buffer.append(b.toChar())
-            if (b == '\n'.code) {
-                val text = buffer.toString()
-                buffer.clear()
-                Platform.runLater {
-                    textArea.appendText(text)
-                }
-            }
-        }
-
-        override fun flush() {
-            if (buffer.isNotEmpty()) {
-                val text = buffer.toString()
-                buffer.clear()
-                Platform.runLater {
-                    textArea.appendText(text)
-                }
-            }
-        }
+    private fun savePdf() {
+        logView.append("Copy PDF to other directory\n")
+        // TODO: add file chooser & actual save
     }
 }

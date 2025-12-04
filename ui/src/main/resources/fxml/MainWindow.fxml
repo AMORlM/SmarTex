@@ -4,6 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import com.smartex.ui.components.ProjectTree?>
 <BorderPane xmlns:fx="http://javafx.com/fxml/1"
             stylesheets="@../styles/dracula.css"
             fx:controller="com.smartex.ui.main.MainWindowController">
@@ -19,7 +20,7 @@
 
     <center>
         <SplitPane dividerPositions="0.15,0.65">
-            <AnchorPane fx:id="projectTreeContainer"/>
+            <ProjectTree fx:id="projectTree"/>
             <FileTabPane fx:id="fileTabPane"/>
             <AnchorPane fx:id="pdfPreviewContainer" style="-fx-background-color: #2b2b2b;"/>
         </SplitPane>

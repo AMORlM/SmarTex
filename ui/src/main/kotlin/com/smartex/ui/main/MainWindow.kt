@@ -11,7 +11,6 @@ class MainWindow(private val stage: Stage, private val root: File) {
 
     fun show() {
         val loader = FXMLLoader(javaClass.getResource("/fxml/MainWindow.fxml"))
-        //loader.setController(MainWindowController(stage, root))
         val rootPane = loader.load<BorderPane>()
         val controller = loader.getController<MainWindowController>()
         controller.setter(stage, root)
