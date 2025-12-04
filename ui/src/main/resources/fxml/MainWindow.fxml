@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.smartex.ui.components.FileTabPane?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<BorderPane xmlns:fx="http://javafx.com/fxml/1"
+            stylesheets="@../styles/dracula.css"
+            fx:controller="com.smartex.ui.main.MainWindowController">
+
+    <top>
+        <ToolBar>
+            <Button onAction="#onNewProject" text="New Project"/>
+            <Button onAction="#onOpenProject" text="Open Project"/>
+            <Button onAction="#onSave" text="Save File"/>
+            <Button onAction="#onSettings" text="Settings"/>
+        </ToolBar>
+    </top>
+
+    <center>
+        <SplitPane dividerPositions="0.15,0.65">
+            <AnchorPane fx:id="projectTreeContainer"/>
+            <FileTabPane fx:id="fileTabPane"/>
+            <AnchorPane fx:id="pdfPreviewContainer" style="-fx-background-color: #2b2b2b;"/>
+        </SplitPane>
+    </center>
+</BorderPane>

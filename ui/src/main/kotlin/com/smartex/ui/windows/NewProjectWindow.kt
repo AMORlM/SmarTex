@@ -19,10 +19,10 @@ object NewProjectWindow {
         val stage = Stage(StageStyle.DECORATED)
 
         val loader = FXMLLoader(javaClass.classLoader.getResource("fxml/NewProjectWindow.fxml"))
-
         val root = loader.load<BorderPane>()
-        val controller = loader.getController<NewProjectWindowController>()
-        controller.setStage(stage)
+        val controller = loader.getController<NewProjectWindowController>().apply {
+            setStage(stage)
+        }
 
         stage.apply {
             isResizable = false

@@ -2,39 +2,21 @@ package com.smartex.ui.windows
 
 import com.smartex.ui.services.ProjectService
 import javafx.fxml.FXML
-import javafx.scene.control.Button
 import javafx.scene.control.TextField
 import javafx.stage.DirectoryChooser
 import javafx.stage.Stage
 import java.io.File
 
 class NewProjectWindowController {
-
-    @FXML private lateinit var nameField: TextField
     @FXML private lateinit var locationField: TextField
-    @FXML private lateinit var browseButton: Button
+    @FXML private lateinit var nameField: TextField
 
-    private lateinit var stage: Stage
     private var result: File? = null
+    private lateinit var stage: Stage
 
     fun setStage(stage: Stage) {
-        this.stage = stage
-    }
-
-    @FXML
-    fun initialize() {
         locationField.text = System.getProperty("user.home")
-
-        browseButton.setOnAction {
-            val dir = DirectoryChooser().apply {
-                title = "Choose Project Location"
-                initialDirectory = File(locationField.text)
-            }.showDialog(stage)
-
-            if (dir != null) {
-                locationField.text = dir.absolutePath
-            }
-        }
+        this.stage = stage
     }
 
     @FXML
@@ -46,6 +28,18 @@ class NewProjectWindowController {
     @FXML
     fun onCancel() {
         stage.close()
+    }
+
+    @FXML
+    fun onBrowse() {
+        val dir = DirectoryChooser().apply {
+            title = "Choose Project Location"
+            initialDirectory = File(locationField.text)
+        }.showDialog(stage)
+
+        dir?.let {
+            locationField.text = dir.absolutePath
+        }
     }
 
     fun getResult(): File? = result

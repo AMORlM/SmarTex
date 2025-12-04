@@ -5,7 +5,10 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane prefHeight="300" prefWidth="500" stylesheets="@../styles/dracula.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.smartex.ui.windows.NewProjectWindowController">
+<BorderPane prefHeight="300" prefWidth="500"
+            stylesheets="@../styles/dracula.css"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.smartex.ui.windows.NewProjectWindowController">
 
     <!-- CENTER GRID -->
     <center>
@@ -28,7 +31,7 @@
             <!-- StackPane with TextField and inside-icon button -->
             <StackPane GridPane.columnIndex="1" GridPane.rowIndex="1">
                 <TextField fx:id="locationField" editable="false" />
-                <Button fx:id="browseButton" styleClass="text-field-icon-button" StackPane.alignment="CENTER_RIGHT">
+                <Button onAction="#onBrowse" styleClass="text-field-icon-button" StackPane.alignment="CENTER_RIGHT">
                     <graphic>
                         <ImageView fitHeight="16" fitWidth="16" pickOnBounds="true" preserveRatio="true">
                             <Image url="@../icons/folder-closed.png" />

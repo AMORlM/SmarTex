@@ -12,24 +12,26 @@ class StartupWindowController {
     lateinit var recentListView: RecentProjectsListView
     private lateinit var stage: Stage
 
+    fun setStage(stage: Stage) {
+        this.stage = stage
+    }
+
+    @FXML
     fun initialize() {
         recentListView.setOnOpen { file ->
             openProjectInNewWindow(file)
         }
     }
 
-    fun setStage(stage: Stage) {
-        this.stage = stage
-    }
 
     @FXML
-    fun setNewProject() {
+    fun onNewProject() {
         val new = NewProjectWindow.show()
         new?.let { openProjectInNewWindow(it) }
     }
 
     @FXML
-    fun setOpenProject() {
+    fun onOpenProject() {
         val selectedDirectory = DirectoryChooser().apply {
             title = "Open Project"
             initialDirectory = File(System.getProperty("user.home"))
