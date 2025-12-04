@@ -7,14 +7,12 @@ import com.smartex.ui.components.ProjectTree
 import com.smartex.ui.windows.NewProjectWindow
 import com.smartex.ui.windows.SettingsWindow
 import javafx.fxml.FXML
-import javafx.scene.layout.AnchorPane
 import javafx.stage.DirectoryChooser
 import javafx.stage.Stage
 import java.io.File
 
 class MainWindowController {
-    @FXML lateinit var pdfPreviewContainer: AnchorPane
-
+    @FXML lateinit var compilationPane: CompilationPane
     @FXML lateinit var fileTabPane: FileTabPane
     @FXML lateinit var projectTree: ProjectTree
 
@@ -27,7 +25,7 @@ class MainWindowController {
         this.rootProject = rootProject
 
         // Setup PDF preview
-        pdfPreviewContainer.children.add(CompilationPane(rootProject))
+        compilationPane.setProjectRoot(rootProject)
 
         // Populate project tree
         projectTree.setOnFileSelected { file -> fileTabPane.openFile(file) }
@@ -64,8 +62,9 @@ class MainWindowController {
     }
 
     private fun openProject(root: File) {
+        rootProject = root
         projectTree.populateFromDirectory(root)
-        pdfPreviewContainer.children.setAll(CompilationPane(root))
+        compilationPane.setProjectRoot(root)
         SettingsManager.init(root, root)
         SettingsManager.loadAll()
     }

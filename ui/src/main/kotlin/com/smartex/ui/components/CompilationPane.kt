@@ -10,13 +10,10 @@ import javafx.application.Platform
 import javafx.scene.layout.BorderPane
 import java.io.File
 
-class CompilationPane(private val projectRoot: File) : BorderPane() {
-
-    private val logView = LogView()
-    private val pdfLoader = PdfViewLoader()
-
+class CompilationPane : BorderPane() {
     private val compilerSettings = LatexCompilerSettings()
-    private val compiler = LatexCompiler(projectRoot, compilerSettings)
+    private val pdfLoader = PdfViewLoader()
+    private val logView = LogView()
 
     private val toolbar = CompileToolbar(
         onCompile = { compile() },
@@ -24,9 +21,17 @@ class CompilationPane(private val projectRoot: File) : BorderPane() {
         onSavePdf = { savePdf() }
     )
 
+    private lateinit var compiler: LatexCompiler
+    private lateinit var projectRoot: File
+
     init {
         top = toolbar
         center = logView
+    }
+
+    fun setProjectRoot(projectRoot: File) {
+        compiler = LatexCompiler(projectRoot, compilerSettings)
+        this.projectRoot = projectRoot
     }
 
     private fun compile() {
