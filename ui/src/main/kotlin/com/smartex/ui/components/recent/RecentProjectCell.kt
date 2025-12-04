@@ -19,7 +19,6 @@ class RecentProjectCell : ListCell<File>() {
 
     private val home = System.getProperty("user.home")
 
-
     override fun updateItem(item: File?, empty: Boolean) {
         super.updateItem(item, empty)
 

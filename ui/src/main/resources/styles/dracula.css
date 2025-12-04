@@ -444,6 +444,19 @@
     -fx-background-color: -color-highlight;
 }
 
+.list-cell:empty {
+    -fx-background-color: transparent !important;
+}
+
+.list-cell:empty:hover {
+    -fx-background-color: transparent !important;
+}
+
+.list-cell:empty:selected {
+    -fx-background-color: transparent !important;
+}
+
+
 .grid {
     -fx-background-color: -color-bg;
     -fx-padding: 15px;
