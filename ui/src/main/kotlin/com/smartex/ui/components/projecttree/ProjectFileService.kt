@@ -2,22 +2,31 @@ package com.smartex.ui.components.projecttree
 
 import javafx.scene.control.Alert
 import javafx.scene.control.TreeItem
-import javafx.scene.control.TreeView
 import java.io.File
 
 object ProjectFileService {
 
-    fun rename(file: File, newName: String, treeItem: TreeItem<File>, treeView: TreeView<File>) {
-        if (newName.isBlank()) return
+    /**
+     * Renames the file if newName provided.
+     * Returns the final file.
+     */
+    fun rename(file: File, newName: String, treeItem: TreeItem<File>): File {
+        if (newName.isBlank()) return file
         val newFile = File(file.parentFile, newName)
         if (file.renameTo(newFile)) {
             treeItem.value = newFile
         } else {
-            showError("Failed to rename ${file.name}", treeView)
+            showError("Failed to rename ${file.name}")
         }
+
+        return newFile
     }
 
-    fun delete(file: File, treeItem: TreeItem<File>, treeView: TreeView<File>) {
+    /**
+     * Opens a prompt to onfirm the action. Deletes the file.
+     * Returns the deleted file.
+     */
+    fun delete(file: File, treeItem: TreeItem<File>): File {
         val confirm = Alert(Alert.AlertType.CONFIRMATION).apply {
             title = "Delete File"
             headerText = "Are you sure you want to delete ${file.name}?"
@@ -29,31 +38,45 @@ object ProjectFileService {
                 if (file.deleteRecursively()) {
                     treeItem.parent?.children?.remove(treeItem)
                 } else {
-                    showError("Failed to delete ${file.name}", treeView)
+                    showError("Failed to delete ${file.name}")
                 }
             }
         }
+
+        return file
     }
 
-    fun newFile(file: File, name: String, treeItem: TreeItem<File>, treeView: TreeView<File>) {
+    /**
+     * Creates the new file in the same dir as the file provided.
+     * Returns the new file.
+     */
+    fun newFile(file: File, name: String, treeItem: TreeItem<File>): File {
         val parent = if (file.isDirectory) file else file.parentFile
-        File(parent, name).apply {
+        val newFile = File(parent, name).apply {
             createNewFile()
         }
 
         ProjectTreeUtils.refreshBranch(treeItem)
+
+        return newFile
     }
 
-    fun newFolder(file: File, name: String, treeItem: TreeItem<File>, treeView: TreeView<File>) {
+    /**
+     * Creates the new file in the same dir as the file provided.
+     * Returns the new file.
+     */
+    fun newFolder(file: File, name: String, treeItem: TreeItem<File>): File {
         val parent = if (file.isDirectory) file else file.parentFile
-        File(parent, name).apply {
+        val newFolder = File(parent, name).apply {
             mkdirs()
         }
 
         ProjectTreeUtils.refreshBranch(treeItem)
+
+        return newFolder
     }
 
-    private fun showError(message: String, treeView: TreeView<File>) {
+    private fun showError(message: String) {
         Alert(Alert.AlertType.ERROR).apply {
             title = "Error"
             headerText = null

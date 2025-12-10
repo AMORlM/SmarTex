@@ -32,6 +32,12 @@ class FileTabPane : TabPane() {
         selectionModel.select(tab)
     }
 
+    fun closeFile(file: File) {
+        tabs.remove(openFiles[file])
+        openFiles.remove(file)
+    }
+
+
     fun saveCurrentFile() = getCurrentEditor()?.save()
 
     private fun getCurrentEditor(): FileTab? {

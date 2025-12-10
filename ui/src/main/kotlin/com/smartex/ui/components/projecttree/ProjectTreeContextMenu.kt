@@ -6,26 +6,35 @@ import javafx.scene.control.TreeItem
 import javafx.scene.control.TreeView
 import java.io.File
 
-object ProjectTreeContextMenu {
+class ProjectTreeContextMenu(
+    private val renameCallback:(File, File) -> Unit,
+    private val newFileCallback: (File) -> Unit,
+    private val deleteCallback: (File) -> Unit
+) {
 
     fun create(treeView: TreeView<File>, file: File, treeItem: TreeItem<File>): ContextMenu {
         val renameItem = MenuItem("Rename").apply {
             setOnAction {
                 InlineTextPopup.show(treeView.scene.window, "Rename", file.name) { newName ->
-                    ProjectFileService.rename(file, newName, treeItem, treeView)
+                    val newFile = ProjectFileService.rename(file, newName, treeItem)
+                    renameCallback(file, newFile)
                 }
             }
         }
 
         val deleteItem = MenuItem("Delete").apply {
-            setOnAction { ProjectFileService.delete(file, treeItem, treeView) }
+            setOnAction {
+                val delFile = ProjectFileService.delete(file, treeItem)
+                deleteCallback(delFile)
+            }
         }
 
         val newFileItem = MenuItem("New file").apply {
             setOnAction {
                 InlineTextPopup.show(treeView.scene.window, "New File", "untitled") { name ->
-                    ProjectFileService.newFile(file, name, treeItem, treeView)
+                    val newFile = ProjectFileService.newFile(file, name, treeItem)
                     treeItem.isExpanded = true
+                    newFileCallback(newFile)
                 }
             }
         }
@@ -33,7 +42,7 @@ object ProjectTreeContextMenu {
         val newFolderItem = MenuItem("New folder").apply {
             setOnAction {
                 InlineTextPopup.show(treeView.scene.window, "New Folder", "NewFolder") { name ->
-                    ProjectFileService.newFolder(file, name, treeItem, treeView)
+                    ProjectFileService.newFolder(file, name, treeItem)
                     treeItem.isExpanded = true
                 }
             }

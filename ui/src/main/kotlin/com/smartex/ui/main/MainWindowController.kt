@@ -21,14 +21,22 @@ class MainWindowController {
 
     @FXML
     fun setter(stage: Stage, rootProject: File) {
-        this.stage = stage
         this.rootProject = rootProject
+        this.stage = stage
 
         // Setup PDF preview
         compilationPane.setProjectRoot(rootProject)
 
         // Populate project tree
         projectTree.setOnFileSelected { file -> fileTabPane.openFile(file) }
+        projectTree.setCallbacks({
+                old, new ->
+                fileTabPane.openFile(new)
+                fileTabPane.closeFile(old)
+            },
+            { file -> fileTabPane.openFile(file) },
+            { file -> fileTabPane.closeFile(file) }
+        )
         projectTree.populateFromDirectory(rootProject)
 
         // Load settings

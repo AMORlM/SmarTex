@@ -11,7 +11,14 @@ private const val FILE_ICON = "icons/file-text.png"
 private const val OPEN_FOLDER_ICON = "icons/folder-open.png"
 private const val CLOSED_FOLDER_ICON = "icons/folder-closed.png"
 
-class ProjectTreeCell(private val treeView: TreeView<File>) : TreeCell<File>() {
+class ProjectTreeCell(
+    private val treeView: TreeView<File>,
+    renameCallback:(File, File) -> Unit,
+    newFileCallback: (File) -> Unit,
+    deleteCallback: (File) -> Unit
+) : TreeCell<File>() {
+    private val projectTreeContextMenu = ProjectTreeContextMenu(renameCallback, newFileCallback, deleteCallback)
+
 
     override fun updateItem(item: File?, empty: Boolean) {
         super.updateItem(item, empty)
@@ -42,7 +49,6 @@ class ProjectTreeCell(private val treeView: TreeView<File>) : TreeCell<File>() {
         }
 
         // Context menu
-        contextMenu = ProjectTreeContextMenu.create(treeView, item, treeItem!!)
+        contextMenu = projectTreeContextMenu.create(treeView, item, treeItem!!)
     }
-
 }
