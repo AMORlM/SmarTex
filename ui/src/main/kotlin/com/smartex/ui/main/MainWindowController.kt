@@ -28,14 +28,16 @@ class MainWindowController {
         compilationPane.setProjectRoot(rootProject)
 
         // Populate project tree
-        projectTree.setOnFileSelected { file -> fileTabPane.openFile(file) }
         projectTree.setCallbacks({
-                old, new ->
-                fileTabPane.openFile(new)
-                fileTabPane.closeFile(old)
+            old, new ->
+                if (fileTabPane.fileIsOpen(old)) {
+                    fileTabPane.closeFile(old)
+                    fileTabPane.openFile(new)
+                }
             },
             { file -> fileTabPane.openFile(file) },
-            { file -> fileTabPane.closeFile(file) }
+            { file -> fileTabPane.closeFile(file) },
+            { file -> fileTabPane.openFile(file) }
         )
         projectTree.populateFromDirectory(rootProject)
 

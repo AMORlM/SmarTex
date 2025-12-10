@@ -3,6 +3,7 @@ package com.smartex.ui.components.projecttree
 import com.smartex.ui.components.projecttree.ProjectTreeUtils.loadIcon
 import javafx.scene.control.TreeCell
 import javafx.scene.control.TreeView
+import javafx.scene.input.MouseButton
 import java.io.File
 
 // Preload image icons
@@ -15,10 +16,18 @@ class ProjectTreeCell(
     private val treeView: TreeView<File>,
     renameCallback:(File, File) -> Unit,
     newFileCallback: (File) -> Unit,
-    deleteCallback: (File) -> Unit
+    deleteCallback: (File) -> Unit,
+    onFileSelected: (File) -> Unit
 ) : TreeCell<File>() {
     private val projectTreeContextMenu = ProjectTreeContextMenu(renameCallback, newFileCallback, deleteCallback)
 
+    init {
+        setOnMouseClicked { event ->
+            if (event.button == MouseButton.PRIMARY && item != null && item.isFile) {
+                onFileSelected(item)
+            }
+        }
+    }
 
     override fun updateItem(item: File?, empty: Boolean) {
         super.updateItem(item, empty)

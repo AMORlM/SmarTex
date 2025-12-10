@@ -37,6 +37,7 @@ class FileTabPane : TabPane() {
         openFiles.remove(file)
     }
 
+    fun fileIsOpen(file: File) = openFiles.containsKey(file)
 
     fun saveCurrentFile() = getCurrentEditor()?.save()
 
