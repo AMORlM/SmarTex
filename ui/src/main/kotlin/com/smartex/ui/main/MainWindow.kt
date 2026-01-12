@@ -22,5 +22,7 @@ class MainWindow(private val stage: Stage, private val root: File) {
             title = "SmarTex"
             show()
         }
+
+
     }
 }

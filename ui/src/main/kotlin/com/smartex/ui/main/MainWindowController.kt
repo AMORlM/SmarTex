@@ -16,18 +16,19 @@ class MainWindowController {
     @FXML lateinit var fileTabPane: FileTabPane
     @FXML lateinit var projectTree: ProjectTree
 
+    private lateinit var shortcutService: ShortcutService
     private lateinit var rootProject: File
     private lateinit var stage: Stage
 
     @FXML
     fun setter(stage: Stage, rootProject: File) {
-        this.rootProject = rootProject
+        // Set stage
         this.stage = stage
 
-        // Setup PDF preview
-        compilationPane.setProjectRoot(rootProject)
+        // Set shortcut scene
+        //shortcutService = ShortcutService(stage.scene)
 
-        // Populate project tree
+        // Set project tree callbacks
         projectTree.setCallbacks({
             old, new ->
                 if (fileTabPane.fileIsOpen(old)) {
@@ -39,11 +40,8 @@ class MainWindowController {
             { file -> fileTabPane.closeFile(file) },
             { file -> fileTabPane.openFile(file) }
         )
-        projectTree.populateFromDirectory(rootProject)
 
-        // Load settings
-        SettingsManager.init(rootProject, rootProject)
-        SettingsManager.loadAll()
+        openProject(rootProject)
     }
 
     @FXML
@@ -69,14 +67,30 @@ class MainWindowController {
     @FXML
     fun onSettings() {
         SettingsWindow.show(rootProject)
+        setShortcutActions()
     }
 
     private fun openProject(root: File) {
+        // Set project root
         rootProject = root
+
+        // Set project tree
         projectTree.populateFromDirectory(root)
+
+        // Set PDF preview
         compilationPane.setProjectRoot(root)
+
+        // Load settings
         SettingsManager.init(root, root)
         SettingsManager.loadAll()
+
+        // Bind actions to shortcuts
+        //setShortcutActions()
+    }
+
+    private fun setShortcutActions() {
+        shortcutService.removeShortcuts()
+        shortcutService.setSave { onSave() }
     }
 }
 

@@ -56,3 +56,23 @@ class PdfViewer(file: File) : BorderPane() {
         center = scrollPane
     }
 }
+//
+//import com.smartex.pdfviewer.PDFViewer
+//import javafx.scene.layout.BorderPane
+//import java.io.File
+//
+//class PdfViewer(file: File) : BorderPane() {
+//
+//    private var viewer: PDFViewer = PDFViewer(file.parentFile)
+//
+//    init {
+//        viewer.loadPdf(file.absolutePath) // for testing; replace with 'file' in production
+//        center = viewer
+//    }
+//
+//    fun reload() = viewer.reload()
+//
+//    fun stopServer() {
+//        viewer.stopServer()
+//    }
+//}

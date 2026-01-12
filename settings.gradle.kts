@@ -27,3 +27,6 @@ include(":settings")
 
 rootProject.name = "SmarTex"
 
+
+include("log")
+include("log")

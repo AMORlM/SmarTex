@@ -476,3 +476,20 @@
     -fx-vgap: 12px;
 }
 
+
+/* ==========================================================================
+   Rich Log (e.g., Warning box, Error box)
+   ========================================================================== */
+
+.rich-log .list-cell {
+    -fx-background-color: transparent;
+}
+
+.log-icon {
+    -fx-font-size: 14px;
+}
+
+.log-details {
+    -fx-control-inner-background: #1e1e1e;
+    -fx-text-fill: #cccccc;
+}

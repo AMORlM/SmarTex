@@ -4,33 +4,41 @@ import java.io.File
 import java.io.IOException
 import java.nio.file.Files
 import java.nio.file.StandardCopyOption
-import java.util.concurrent.TimeUnit
 
-class LatexCompiler(private val projectDir: File, private val settings: LatexCompilerSettings) {
+class LatexCompiler(
+    private val projectDir: File,
+    private val settings: LatexCompilerSettings,
+    private val log: CompilerLog) {
 
     private val buildDir = File(projectDir, "../_build").canonicalFile
 
     fun compile() {
-        println("=== LaTeX Compilation Started ===")
+        log.onOut("=== LaTeX Compilation Started ===\n")
 
         // 1. Clean and recreate build directory
         if (buildDir.exists()) {
-            println("Cleaning old build directory: ${buildDir.absolutePath}")
+            log.onOut("Cleaning old build directory: ${buildDir.absolutePath}\n")
             buildDir.deleteRecursively()
         }
         buildDir.mkdirs()
 
         // 2. Copy project to build dir
-        println("Copying project files to ${buildDir.absolutePath}")
+        log.onOut("Copying project files to ${buildDir.absolutePath}\n")
         projectDir.copyRecursively(buildDir)
 
         // 3. Run Compilation sequence
         var count = 1
         for (step in settings.executionOrder) {
-            when (step) {
+            val exitCode = when (step) {
                 "compile" -> runLatexPass(numberToOrder(count++))
                 "index"   -> runMakeIndex()
                 "bib"     -> runBib()
+                else      -> return
+            }
+
+            if (exitCode != 0) {
+                log.flush()
+                return
             }
         }
 
@@ -40,56 +48,60 @@ class LatexCompiler(private val projectDir: File, private val settings: LatexCom
 
         if (outputPdf.exists()) {
             Files.copy(outputPdf.toPath(), destPdf.toPath(), StandardCopyOption.REPLACE_EXISTING)
-            println("✅ Build completed. Output PDF: ${destPdf.absolutePath}")
+            log.onOut("✅ Build completed. Output PDF: ${destPdf.absolutePath}\n")
         } else {
-            println("❌ PDF not found in build directory.")
+            log.onError("❌ PDF not found in build directory.\n")
         }
+        log.flush()
     }
 
-    private fun runLatexPass(passName: String) {
-        println("====== Running LuaLaTeX: $passName pass ======")
+    private fun runLatexPass(passName: String): Int {
+        log.onOut("====== Running LuaLaTeX: $passName pass ======\n")
         val output = settings.outputFile.replace(".pdf", "")
-        runCommand(
+        return runCommand(
             listOf(settings.compiler, "--shell-escape", "--job-name=$output", settings.mainFile!!),
             buildDir
         )
     }
 
-    private fun runMakeIndex() {
-        println("====== Running makeindex on all .idx files ======")
+    private fun runMakeIndex(): Int {
+        log.onOut("====== Running makeindex on all .idx files ======\n")
         buildDir.listFiles { _, name -> name.endsWith(".idx") }?.forEach {
-            println("Processing index file: ${it.name}")
-            runCommand(
+            log.onOut("Processing index file: ${it.name}\n")
+
+            val exitCode = runCommand(
                 listOf("makeindex", it.name),
                 buildDir)
+
+            if (exitCode != 0) {
+                return exitCode
+            }
         }
+        return 0
     }
 
-    private fun runBib() {
-        println("====== Running makeindex on all .idx files ======")
-        runCommand(
+    private fun runBib(): Int {
+        log.onOut("====== Running makeindex on all .idx files ======\n")
+        return runCommand(
             listOf("bibtex", settings.mainFile!!.replace(".tex", "")),
             buildDir)
     }
 
-    private fun runCommand(command: List<String>, workingDir: File) {
+    private fun runCommand(command: List<String>, workingDir: File): Int {
         try {
             val process = ProcessBuilder(command)
                 .directory(workingDir)
                 .redirectErrorStream(true)
                 .start()
 
-            process.inputStream.bufferedReader().useLines { lines ->
-                lines.forEach { println(it) }
+            process.inputStream.bufferedReader().useLines {
+                it.forEach { line -> log.onOut(line + '\n') }
             }
 
-            if (!process.waitFor(5, TimeUnit.MINUTES)) {
-                process.destroy()
-                println("⚠️ Command timed out: ${command.joinToString(" ")}")
-            }
-
+            return process.waitFor()
         } catch (e: IOException) {
-            println("❌ Failed to run command: ${command.joinToString(" ")}\n${e.message}")
+            log.onError("❌ Failed to run command: ${command.joinToString(" ")}\n${e.message}\n")
+            return -1
         }
     }
 
