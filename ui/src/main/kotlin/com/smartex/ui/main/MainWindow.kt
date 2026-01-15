@@ -13,16 +13,16 @@ class MainWindow(private val stage: Stage, private val root: File) {
         val loader = FXMLLoader(javaClass.getResource("/fxml/MainWindow.fxml"))
         val rootPane = loader.load<BorderPane>()
         val controller = loader.getController<MainWindowController>()
-        controller.setter(stage, root)
 
         stage.apply {
-            icons.add(Image(javaClass.classLoader.getResourceAsStream("icons/sadje.jpg")))
             this.scene = Scene(rootPane, 1280.0, 800.0)
             isMaximized = true
             title = "SmarTex"
             show()
         }
 
+        controller.setter(stage, root)
 
+        stage.icons.add(Image(javaClass.classLoader.getResourceAsStream("icons/sadje.jpg")))
     }
 }

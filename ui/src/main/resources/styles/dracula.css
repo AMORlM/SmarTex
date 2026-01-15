@@ -480,16 +480,57 @@
 /* ==========================================================================
    Rich Log (e.g., Warning box, Error box)
    ========================================================================== */
-
-.rich-log .list-cell {
-    -fx-background-color: transparent;
+/* ---------- Card ---------- */
+.log-card {
+    -fx-border-color: #2a2a2a;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-background-color: -color-bg;
 }
 
-.log-icon {
-    -fx-font-size: 14px;
+/* ---------- Header ---------- */
+.log-header {
+    -fx-padding: 6 10;
+    -fx-alignment: CENTER_LEFT;
+    -fx-background-radius: 4 4 0 0;
+}
+
+.log-header-error { -fx-background-color: #e74c3c; }
+.log-header-warn  { -fx-background-color: #f1c40f; }
+.log-header-info  { -fx-background-color: #3498db; }
+
+.log-header-icon {
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+}
+
+.log-header-title {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+/* ---------- Body ---------- */
+.log-body {
+    -fx-padding: 10;
+}
+
+.log-body-text {
+    -fx-text-fill: -fx-text-base-color;
+    -fx-font-family: "Monospaced";
 }
 
 .log-details {
-    -fx-control-inner-background: #1e1e1e;
-    -fx-text-fill: #cccccc;
+    -fx-text-fill: #aaa;
+    -fx-font-family: "Monospaced";
+}
+
+/* ---------- Footer ---------- */
+.log-footer {
+    -fx-padding: 6 10;
+    -fx-background-color: #1e1e1e;
+    -fx-text-fill: #888;
+    -fx-font-size: 11px;
+    -fx-border-color: #2a2a2a;
+    -fx-border-width: 1 0 0 0;
+    -fx-background-radius: 0 0 4 4;
 }

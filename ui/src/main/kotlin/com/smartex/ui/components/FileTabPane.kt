@@ -2,6 +2,8 @@ package com.smartex.ui.components
 
 import com.smartex.ui.components.tabs.FileTab
 import com.smartex.ui.components.tabs.FileTabFactory
+import com.smartex.ui.components.tabs.TextFileTab
+import javafx.application.Platform
 import javafx.scene.control.Tab
 import javafx.scene.control.TabPane
 import java.io.File
@@ -10,27 +12,39 @@ class FileTabPane : TabPane() {
 
     private val openFiles = mutableMapOf<File, Tab>()
 
-    fun openFile(file: File) {
-        if (openFiles.containsKey(file)) {
-            selectionModel.select(openFiles[file])
-            return
+    fun openFile(file: File): Tab {
+        openFiles[file]?.let {
+            selectionModel.select(it)
+            return it
         }
 
         val editorTab = FileTabFactory.createFileTab(file)
         val tab = Tab(editorTab?.getFileName(), editorTab).apply {
             isClosable = true
-            setOnClosed {
-                openFiles.remove(file)
-            }
+            setOnClosed { openFiles.remove(file) }
         }
+
         editorTab?.onDirtyChanged = { dirty ->
-            tab.text = if (dirty) editorTab.getFileName() + "*" else editorTab.getFileName()
+            tab.text = if (dirty) "${editorTab.getFileName()}*" else editorTab.getFileName()
         }
 
         openFiles[file] = tab
         tabs.add(tab)
         selectionModel.select(tab)
+        return tab
     }
+
+    fun openFile(file: File, line: Int?) {
+        val tab = openFile(file)
+
+        if (line == null) return
+
+        Platform.runLater {
+            (tab.content as? TextFileTab)?.moveCursor(line)
+        }
+    }
+
+
 
     fun closeFile(file: File) {
         tabs.remove(openFiles[file])

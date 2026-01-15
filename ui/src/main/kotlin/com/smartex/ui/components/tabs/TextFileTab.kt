@@ -34,6 +34,15 @@ open class TextFileTab(file: File) : FileTab(file) {
 
     protected fun getText(): String = codeArea.text
 
+    fun moveCursor(line: Int) {
+        val paragraphIndex = (line - 1).coerceIn(0, codeArea.paragraphs.size - 1)
+
+        codeArea.moveTo(paragraphIndex, 0)
+        codeArea.showParagraphAtTop(paragraphIndex)
+        codeArea.requestFocus()
+    }
+
+
     override fun save() {
         file.writer(StandardCharsets.UTF_8).use {
             val newText = getText()

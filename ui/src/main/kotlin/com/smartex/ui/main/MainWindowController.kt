@@ -26,7 +26,7 @@ class MainWindowController {
         this.stage = stage
 
         // Set shortcut scene
-        //shortcutService = ShortcutService(stage.scene)
+        shortcutService = ShortcutService(stage.scene)
 
         // Set project tree callbacks
         projectTree.setCallbacks({
@@ -40,6 +40,10 @@ class MainWindowController {
             { file -> fileTabPane.closeFile(file) },
             { file -> fileTabPane.openFile(file) }
         )
+
+        compilationPane.setOpenFile { file, line ->
+            fileTabPane.openFile(File(rootProject, file), line)
+        }
 
         openProject(rootProject)
     }
@@ -85,7 +89,7 @@ class MainWindowController {
         SettingsManager.loadAll()
 
         // Bind actions to shortcuts
-        //setShortcutActions()
+        setShortcutActions()
     }
 
     private fun setShortcutActions() {

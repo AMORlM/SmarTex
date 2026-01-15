@@ -15,6 +15,9 @@ class CompilationPane : BorderPane() {
     private val pdfLoader = PdfViewLoader()
     private val logView = LatexLog()
 
+    private val isShowingLog: Boolean
+            get() = center == logView
+
     private val toolbar = CompileToolbar(
         onCompile = { compile() },
         onToggleView = { toggleView() },
@@ -26,12 +29,16 @@ class CompilationPane : BorderPane() {
 
     init {
         top = toolbar
-        center = logView.rawLog
+        center = logView
     }
 
     fun setProjectRoot(projectRoot: File) {
         compiler = LatexCompiler(projectRoot, compilerSettings, logView)
         this.projectRoot = projectRoot
+    }
+
+    fun setOpenFile(onOpenFile: (String, Int?) -> Unit) {
+        logView.setCallback(onOpenFile)
     }
 
     private fun compile() {
@@ -52,7 +59,7 @@ class CompilationPane : BorderPane() {
             logView.onOut("PDF Viewer not initialized yet\n")
             return
         }
-        center = if (center == logView) pdfLoader.viewer else logView.richLog
+        center = if (isShowingLog) pdfLoader.viewer else logView
     }
 
     private fun savePdf() {
