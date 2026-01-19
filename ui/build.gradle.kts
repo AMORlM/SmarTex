@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     // Apply the shared build logic from a convention plugin.
     // The shared code is located in `buildSrc/src/main/kotlin/kotlin-jvm.gradle.kts`.
@@ -46,4 +48,9 @@ tasks {
         archiveClassifier.set("") // so the jar is not named *-all.jar
         mergeServiceFiles()       // fixes JavaFX META-INF issues
     }
+}
+
+val compileKotlin: KotlinCompile by tasks
+compileKotlin.compilerOptions {
+    freeCompilerArgs.set(listOf("-Xnon-local-break-continue"))
 }

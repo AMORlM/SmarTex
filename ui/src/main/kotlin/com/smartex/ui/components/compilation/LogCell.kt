@@ -11,9 +11,21 @@ import javafx.scene.layout.VBox
 class LogCell(
     private val onOpenLocation: (file: String, line: Int?) -> Unit
 ) : ListCell<LogEntry>() {
-    private var expanded = false
+    private val icon = Label()
+    private val title = Label()
+    private val message = Label()
+    private val footer = Label()
 
+    private val header = HBox(10.0, icon, title)
+    private val body = VBox(6.0, message)
+    private val card = VBox(header, body, footer)
 
+    init {
+        header.styleClass += "log-header"
+        body.styleClass += "log-body"
+        footer.styleClass += "log-footer"
+        card.styleClass += "log-card"
+    }
 
     override fun updateItem(entry: LogEntry?, empty: Boolean) {
         super.updateItem(entry, empty)
@@ -23,53 +35,40 @@ class LogCell(
             return
         }
 
-        println("called")
-
         /* ================= HEADER ================= */
 
-        val icon = Label(
-            when (entry.level) {
-                LogLevel.ERROR -> "⛔"
-                LogLevel.WARN  -> "⚠"
-                LogLevel.INFO  -> "ℹ"
-            }
-        ).apply {
-            styleClass += "log-header-icon"
+        icon.text = when (entry.level) {
+            LogLevel.ERROR -> "⛔"
+            LogLevel.WARN  -> "⚠"
+            LogLevel.INFO  -> "ℹ"
         }
 
-        val title = Label(entry.title).apply {
-            styleClass += "log-header-title"
-        }
+        title.text = entry.title
 
-        val header = HBox(10.0, icon, title).apply {
-            styleClass += listOf(
-                "log-header",
-                when (entry.level) {
-                    LogLevel.ERROR -> "log-header-error"
-                    LogLevel.WARN  -> "log-header-warn"
-                    LogLevel.INFO  -> "log-header-info"
-                }
-            )
+
+        header.styleClass.removeAll("log-header-error", "log-header-warn", "log-header-info")
+
+        header.styleClass += when (entry.level) {
+            LogLevel.ERROR -> "log-header-error"
+            LogLevel.WARN  -> "log-header-warn"
+            LogLevel.INFO  -> "log-header-info"
         }
 
         /* ================= BODY ================= */
 
-        val message = Label(entry.message).apply {
-            styleClass += "log-body-text"
-        }
+        message.text = entry.message
 
-        val details = entry.details?.let {
-            Label(it).apply {
-                styleClass += "log-details"
-                isVisible = expanded
-                isManaged = expanded
-            }
-        }
-
-        val body = VBox(6.0, message).apply {
-            styleClass += "log-body"
-            if (details != null) children += details
-        }
+//        val details = entry.details?.let {
+//            Label(it).apply {
+//                styleClass += "log-details"
+//                isWrapText = true
+//            }
+//        }
+//
+//        details?.let {
+//            body.children.clear()
+//            body.children.addAll(message, details)
+//        }
 
         /* ================= FOOTER ================= */
 
@@ -81,34 +80,19 @@ class LogCell(
             }
         }
 
-        val footer = Label(footerText).apply {
-            styleClass += "log-footer"
+        footer.apply {
+            text = footerText
             maxWidth = Double.MAX_VALUE
             HBox.setHgrow(this, Priority.ALWAYS)
-        }
-
-        /* ================= CARD ================= */
-
-        val card = VBox(header, body, footer).apply {
-            styleClass += "log-card"
 
             setOnMouseClicked {
-                println("${entry.source}, ${entry.lineStart}")
-                if (entry.source != null) {
+                entry.source?.let {
                     onOpenLocation(entry.source, entry.lineStart)
                 }
             }
         }
 
-        /* ================= EXPAND TOGGLE ================= */
-
-        header.setOnMouseClicked {
-            expanded = !expanded
-            details?.apply {
-                isVisible = expanded
-                isManaged = expanded
-            }
-        }
+        /* ================= CARD ================= */
 
         graphic = card
     }

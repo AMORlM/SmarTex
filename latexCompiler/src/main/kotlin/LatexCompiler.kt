@@ -13,7 +13,7 @@ class LatexCompiler(
     private val buildDir = File(projectDir, "../_build").canonicalFile
 
     fun compile() {
-        log.onOut("=== LaTeX Compilation Started ===\n")
+        log.onOut("====== LaTeX Compilation Started ======\n")
 
         // 1. Clean and recreate build directory
         if (buildDir.exists()) {
@@ -56,7 +56,7 @@ class LatexCompiler(
     }
 
     private fun runLatexPass(passName: String): Int {
-        log.onOut("====== Running LuaLaTeX: $passName pass ======\n")
+        log.onOut("====== Running ${settings.compiler}: $passName pass ======\n")
         val output = settings.outputFile.replace(".pdf", "")
         return runCommand(
             listOf(settings.compiler, "--shell-escape", "--job-name=$output", settings.mainFile!!),

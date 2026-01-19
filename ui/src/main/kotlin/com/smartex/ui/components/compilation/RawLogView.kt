@@ -7,6 +7,7 @@ import javafx.scene.control.TextArea
 class RawLogView : TextArea(), RawLogSink {
     init {
         isEditable = false
+        isWrapText = true
     }
 
     override fun write(text: String) {

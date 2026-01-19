@@ -8,7 +8,9 @@ import java.nio.charset.StandardCharsets
 
 open class TextFileTab(file: File) : FileTab(file) {
     private var savedFileContent = file.readText()
-    protected val codeArea = CodeArea(savedFileContent)
+    protected val codeArea = CodeArea(savedFileContent).apply {
+        isWrapText = true
+    }
 
     private var dirty = false
 
