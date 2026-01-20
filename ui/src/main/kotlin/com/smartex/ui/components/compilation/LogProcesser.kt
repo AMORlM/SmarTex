@@ -66,7 +66,7 @@ object LogProcesser {
             }
         }
 
-        return entries
+        return entries.sortedByDescending { it.level }
     }
 
     private fun extractLastPass(log: String): String {

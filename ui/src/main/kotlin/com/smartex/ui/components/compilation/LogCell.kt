@@ -25,6 +25,18 @@ class LogCell(
         body.styleClass += "log-body"
         footer.styleClass += "log-footer"
         card.styleClass += "log-card"
+
+        listOf(title, message, footer).forEach {
+            it.apply {
+                isWrapText = true
+                maxWidth = Double.MAX_VALUE
+            }
+        }
+
+        // force width constraint
+        widthProperty().addListener { _, _, newWidth ->
+            card.prefWidth = newWidth.toDouble() - 20
+        }
     }
 
     override fun updateItem(entry: LogEntry?, empty: Boolean) {
