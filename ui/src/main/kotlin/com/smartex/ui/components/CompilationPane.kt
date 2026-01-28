@@ -20,8 +20,7 @@ class CompilationPane : BorderPane() {
 
     private val toolbar = CompileToolbar(
         onCompile = { compile() },
-        onToggleView = { toggleView() },
-        onSavePdf = { savePdf() }
+        onToggleView = { toggleView()}
     )
 
     private lateinit var compiler: LatexCompiler
@@ -60,10 +59,5 @@ class CompilationPane : BorderPane() {
             return
         }
         center = if (isShowingLog) pdfLoader.viewer else logView
-    }
-
-    private fun savePdf() {
-        logView.onOut("Copy PDF to other directory\n")
-        // TODO: add file chooser & actual save
     }
 }

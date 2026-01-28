@@ -5,8 +5,7 @@ import javafx.scene.control.ToolBar
 
 class CompileToolbar(
     private val onCompile: () -> Unit,
-    private val onToggleView: () -> Unit,
-    private val onSavePdf: () -> Unit
+    private val onToggleView: () -> Unit
 ) : ToolBar() {
 
     init {
@@ -18,10 +17,6 @@ class CompileToolbar(
             setOnAction { onToggleView() }
         }
 
-        val savePDFButton = Button("Save File").apply {
-            setOnAction { onSavePdf() }
-        }
-
-        items.addAll(compileButton, toggleButton, savePDFButton)
+        items.addAll(compileButton, toggleButton)
     }
 }
