@@ -1,5 +1,6 @@
 package com.smartex.ui.components.tabs
 
+import com.smartex.ui.components.tabs.latex.LatexEditorTab
 import java.io.File
 
 object FileTabFactory {

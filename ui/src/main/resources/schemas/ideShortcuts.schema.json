@@ -1,0 +1,17 @@
+{
+  "saveFile": {
+    "type": "string",
+    "label": "Save File",
+    "default": "Ctrl+S"
+  },
+  "latex.bold":{
+    "type": "string",
+    "label": "Bold text",
+    "default": "Ctrl+B"
+  },
+  "latex.italic":{
+    "type": "string",
+    "label": "Italic text",
+    "default": "Ctrl+I"
+  }
+}

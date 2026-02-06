@@ -1,7 +1,0 @@
-{
-  "saveFile": {
-    "type": "string",
-    "label": "Save File",
-    "default": "Ctrl+S"
-  }
-}

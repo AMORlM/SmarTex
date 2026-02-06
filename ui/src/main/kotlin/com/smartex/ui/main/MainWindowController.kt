@@ -5,7 +5,10 @@ import com.smartex.ui.components.CompilationPane
 import com.smartex.ui.components.FileTabPane
 import com.smartex.ui.components.ProjectTree
 import com.smartex.ui.newproject.NewProjectWindow
+import com.smartex.ui.settings.EditorAction
 import com.smartex.ui.settings.SettingsWindow
+import com.smartex.ui.settings.ShortcutService
+import com.smartex.ui.settings.ShortcutSettings
 import javafx.fxml.FXML
 import javafx.stage.DirectoryChooser
 import javafx.stage.Stage
@@ -26,7 +29,7 @@ class MainWindowController {
         this.stage = stage
 
         // Set shortcut scene
-        shortcutService = ShortcutService(stage.scene)
+        shortcutService = ShortcutService(stage.scene, ShortcutSettings)
 
         // Set project tree callbacks
         projectTree.setCallbacks({
@@ -93,8 +96,8 @@ class MainWindowController {
     }
 
     private fun setShortcutActions() {
-        shortcutService.removeShortcuts()
-        shortcutService.setSave { onSave() }
+        shortcutService.clear()
+        shortcutService.bind(EditorAction.SAVE) { onSave() }
     }
 }
 

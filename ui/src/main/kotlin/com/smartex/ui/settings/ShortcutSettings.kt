@@ -1,9 +1,9 @@
-package com.smartex.ui.main
+package com.smartex.ui.settings
 
 import com.smartex.settings.ModuleSettings
 import com.smartex.settings.SettingsManager
 
-class ShortcutSettings: ModuleSettings {
+object ShortcutSettings: ModuleSettings {
     override val moduleName = "shortcuts"
     override val schemaResource = "schemas/ideShortcuts.schema.json"
     override val projectSettingsFileName = "shortcuts.json"
@@ -18,6 +18,5 @@ class ShortcutSettings: ModuleSettings {
         shortcuts = data as Map<String, String?>    // suppress warning
     }
 
-    val save: String
-        get() = shortcuts["saveFile"] ?: "Ctrl+S"
+    fun getShortcut(action: EditorAction): String? = shortcuts[action.id]
 }

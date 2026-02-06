@@ -1,16 +1,22 @@
-package com.smartex.ui.components.tabs
+package com.smartex.ui.components.tabs.latex
 
 import com.smartex.syntaxhighlighter.LatexHighlighter
+import com.smartex.ui.components.tabs.TextFileTab
+import com.smartex.ui.settings.EditorAction
+import com.smartex.ui.settings.ShortcutService
+import com.smartex.ui.settings.ShortcutSettings
 import javafx.application.Platform
 import java.io.File
 import java.time.Duration
 
 class LatexEditorTab(file: File) : TextFileTab(file) {
     private val highlighter = LatexHighlighter()
-    private val toolbar = LatexEditorToolbar(codeArea)
+    private  val actions = LatexActions(codeArea)
+    private val toolbar = LatexEditorToolbar(actions)
 
     init {
         top = toolbar
+        setupShortcuts()
         setupHighlighting()
     }
 
@@ -36,4 +42,19 @@ class LatexEditorTab(file: File) : TextFileTab(file) {
             codeArea.setStyleSpans(0, spans)
         }
     }
+
+    private fun setupShortcuts() {
+        sceneProperty().addListener { _, _, scene ->
+            if (scene != null) {
+                println("I'm here")
+                val shortcuts = ShortcutService(scene, ShortcutSettings)
+
+                shortcuts.makeShortcut(EditorAction.BOLD)
+                shortcuts.makeShortcut(EditorAction.ITALIC)
+            }
+        }
+    }
+
+    private fun ShortcutService.makeShortcut(action: EditorAction) =
+        bind(action) {actions.execute(action)}
 }

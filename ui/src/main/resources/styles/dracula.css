@@ -534,3 +534,28 @@
     -fx-border-width: 1 0 0 0;
     -fx-background-radius: 0 0 4 4;
 }
+
+
+/* ==========================================================================
+   Latex Toolbar
+   ========================================================================== */
+
+.latex-toolbar {
+    -fx-background-color: -color-bg-alt;
+}
+
+.latex-toolbar-button {
+    -fx-font-size: 14px;
+    -fx-padding: 4 8 4 8;
+    -fx-background-radius: 4;
+}
+
+.latex-toolbar-button:hover {
+    -fx-background-color: -color-highlight;
+}
+
+.latex-toolbar .separator .line {
+    -fx-background-color: transparent;
+    -fx-border-color: -color-fg-muted;
+    -fx-border-width: 0 2 0 0;
+}
