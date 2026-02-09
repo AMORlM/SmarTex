@@ -58,6 +58,10 @@ class LatexCompiler(
     private fun runLatexPass(passName: String): Int {
         log.onOut("====== Running ${settings.compiler}: $passName pass ======\n")
         val output = settings.outputFile.replace(".pdf", "")
+        if (settings.mainFile == null) {
+            log.onError("Main file not found. Please define a main file in the compiler settings.")
+            return -1
+        }
         return runCommand(
             listOf(settings.compiler, "--shell-escape", "--job-name=$output", settings.mainFile!!),
             buildDir
