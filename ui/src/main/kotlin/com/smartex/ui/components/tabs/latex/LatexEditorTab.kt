@@ -46,7 +46,6 @@ class LatexEditorTab(file: File) : TextFileTab(file) {
     private fun setupShortcuts() {
         sceneProperty().addListener { _, _, scene ->
             if (scene != null) {
-                println("I'm here")
                 val shortcuts = ShortcutService(scene, ShortcutSettings)
 
                 shortcuts.makeShortcut(EditorAction.BOLD)

@@ -55,6 +55,44 @@ class LatexCompiler(
         log.flush()
     }
 
+    fun runPDFToTex(page: Int, x: Int, y: Int): InvertedSearch {
+        val process = ProcessBuilder(listOf("synctex", "edit", "-o", "$page:$x:$y:${settings.outputFile}"))
+            .directory(buildDir)
+            .redirectErrorStream(true)
+            .start()
+
+        var line = 0
+        var col = 0
+        var input = ""
+
+        process.inputStream.bufferedReader().useLines {
+            it.forEach { entry ->
+                val parts = entry.split(':')
+                when (parts[0]) {
+                    "Line" -> line = parts[1].toInt()
+                    "Column" -> col = parts[1].toInt()
+                    "Input" -> input = "\"${parts.slice(1..<parts.size).joinToString(":")}\""
+                }
+            }
+        }
+
+        return InvertedSearch(line, col, input)
+    }
+
+    fun runTexToPDF(file: String, line: Int, col: Int) {
+        val process = ProcessBuilder(
+            listOf(
+                "synctex", "view",
+                "-i", "$line:$col:\"$file\"",
+                "-o", settings.outputFile)
+        )
+            .directory(buildDir)
+            .redirectErrorStream(true)
+            .start()
+
+        process.inputStream.toString()
+    }
+
     private fun runLatexPass(passName: String): Int {
         log.onOut("====== Running ${settings.compiler}: $passName pass ======\n")
         val output = settings.outputFile.replace(".pdf", "")
@@ -63,7 +101,14 @@ class LatexCompiler(
             return -1
         }
         return runCommand(
-            listOf(settings.compiler, "--shell-escape", "--job-name=$output", settings.mainFile!!),
+            listOf(
+                settings.compiler,          // selected latex compiler
+                "--synctex=1",              // needed to make wiring from .tex <-> pdf
+                "--enable-installer",       // automatically install missing packages
+                "--shell-escape",           // enables system commands (needed for some lua script code)
+                "--job-name=$output",       // defines pdf name
+                settings.mainFile!!         // definned main file
+            ),
             buildDir
         )
     }

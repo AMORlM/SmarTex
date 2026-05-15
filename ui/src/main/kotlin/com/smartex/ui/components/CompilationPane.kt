@@ -33,6 +33,7 @@ class CompilationPane : BorderPane() {
 
     fun setProjectRoot(projectRoot: File) {
         compiler = LatexCompiler(projectRoot, compilerSettings, logView)
+        pdfLoader.onInvertedCallback = compiler::runPDFToTex
         this.projectRoot = projectRoot
     }
 

@@ -11,7 +11,6 @@ class ShortcutService(
 
     fun bind(action: EditorAction, handler: () -> Unit) {
         val comboText = shortcutSettings.getShortcut(action) ?: return
-        println(comboText)
         val combo = KeyCombination.keyCombination(comboText)
 
         scene.accelerators[combo] = Runnable {
