@@ -67,22 +67,25 @@ class LatexCompiler(
 
         process.inputStream.bufferedReader().useLines {
             it.forEach { entry ->
-                val parts = entry.split(':')
-                when (parts[0]) {
-                    "Line" -> line = parts[1].toInt()
-                    "Column" -> col = parts[1].toInt()
-                    "Input" -> input = "\"${parts.slice(1..<parts.size).joinToString(":")}\""
+                val index = entry.indexOf(':')
+
+                if (index < 0)
+                    return@forEach
+
+                val key = entry.substring(0, index)
+                val value = entry.substring(index+1)
+                when (key) {
+                    "Line" -> line = value.toInt()
+                    "Column" -> col = value.toInt()
+                    "Input" -> input = value.substring(value.indexOf('.') + 1)
                 }
             }
         }
-
         return InvertedSearch(line, col, input)
     }
 
-    fun runTexToPDF(file: String, line: Int, col: Int) {
-        val process = ProcessBuilder(
-            listOf(
-                "synctex", "view",
+    fun runTexToPDF(file: String, line: Int, col: Int): Int {
+        val process = ProcessBuilder(listOf("synctex", "view",
                 "-i", "$line:$col:\"$file\"",
                 "-o", settings.outputFile)
         )
@@ -91,6 +94,7 @@ class LatexCompiler(
             .start()
 
         process.inputStream.toString()
+        return 1
     }
 
     private fun runLatexPass(passName: String): Int {

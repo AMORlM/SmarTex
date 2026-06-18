@@ -4,6 +4,7 @@ import com.smartex.settings.SettingsManager
 import com.smartex.ui.components.CompilationPane
 import com.smartex.ui.components.FileTabPane
 import com.smartex.ui.components.ProjectTree
+import com.smartex.ui.components.compilation.NavigationController
 import com.smartex.ui.newproject.NewProjectWindow
 import com.smartex.ui.settings.EditorAction
 import com.smartex.ui.settings.SettingsWindow
@@ -19,6 +20,7 @@ class MainWindowController {
     @FXML lateinit var fileTabPane: FileTabPane
     @FXML lateinit var projectTree: ProjectTree
 
+    private lateinit var navigationController: NavigationController
     private lateinit var shortcutService: ShortcutService
     private lateinit var rootProject: File
     private lateinit var stage: Stage
@@ -43,10 +45,6 @@ class MainWindowController {
             { file -> fileTabPane.closeFile(file) },
             { file -> fileTabPane.openFile(file) }
         )
-
-        compilationPane.setOpenFile { file, line ->
-            fileTabPane.openFile(File(rootProject, file), line)
-        }
 
         openProject(rootProject)
     }
@@ -84,8 +82,7 @@ class MainWindowController {
         // Set project tree
         projectTree.populateFromDirectory(root)
 
-        // Set PDF preview
-        compilationPane.setProjectRoot(root)
+        setCompilationAndNavigation(root)
 
         // Load settings
         SettingsManager.init(root, root)
@@ -93,6 +90,18 @@ class MainWindowController {
 
         // Bind actions to shortcuts
         setShortcutActions()
+    }
+
+    private fun setCompilationAndNavigation(root: File) {
+        // Set PDF preview
+        compilationPane.setProjectRoot(root)
+
+        // Set navigation
+        navigationController = NavigationController(compilationPane.compiler) { file, line, col ->
+            fileTabPane.openFile(File(root, file), line, col)
+        }
+
+        compilationPane.setNavigationController(navigationController)
     }
 
     private fun setShortcutActions() {

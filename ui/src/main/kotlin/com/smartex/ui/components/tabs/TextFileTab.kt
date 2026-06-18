@@ -36,10 +36,11 @@ open class TextFileTab(file: File) : FileTab(file) {
 
     protected fun getText(): String = codeArea.text
 
-    fun moveCursor(line: Int) {
+    fun moveCursor(line: Int, col: Int = 0) {
         val paragraphIndex = (line - 1).coerceIn(0, codeArea.paragraphs.size - 1)
+        val colIndex = col.coerceIn(0, codeArea.paragraphs[paragraphIndex].text.length)
 
-        codeArea.moveTo(paragraphIndex, 0)
+        codeArea.moveTo(paragraphIndex, colIndex)
         codeArea.showParagraphAtTop(paragraphIndex)
         codeArea.requestFocus()
     }

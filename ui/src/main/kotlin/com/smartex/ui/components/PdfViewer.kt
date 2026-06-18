@@ -11,7 +11,8 @@ import org.apache.pdfbox.pdmodel.PDDocument
 import org.apache.pdfbox.rendering.PDFRenderer
 import java.io.File
 
-class PdfViewer(file: File, val onInvertedCallback: (Int, Int, Int) -> Unit) : BorderPane() {
+//                                              page, line, col -> do action - no return
+class PdfViewer(file: File, val pdfClickHandler: (Int, Int, Int) -> Unit) : BorderPane() {
     data class PdfPageView(
         val pageIndex: Int,
         val imageView: ImageView,
@@ -20,9 +21,10 @@ class PdfViewer(file: File, val onInvertedCallback: (Int, Int, Int) -> Unit) : B
         val dpi: Float
     )
 
+    val scrollPane = ScrollPane()
+    val contentBox = VBox(10.0)
+
     init {
-        val scrollPane = ScrollPane()
-        val contentBox = VBox(10.0)
         scrollPane.content = contentBox
         scrollPane.isFitToWidth = true
 
@@ -92,19 +94,39 @@ class PdfViewer(file: File, val onInvertedCallback: (Int, Int, Int) -> Unit) : B
         val renderedWidthPx = bounds.width
         val renderedHeightPx = bounds.height
 
-        // Scale from ImageView pixels → PDF points
+        // Scale from ImageView pixels -> PDF points
         val scaleX = page.pageWidthPts / renderedWidthPx
         val scaleY = page.pageHeightPts / renderedHeightPx
 
         val pdfX = (imageX * scaleX).toInt()
 
-        // Flip Y axis (JavaFX top-left → PDF bottom-left)
+        // Flip Y axis (JavaFX top-left -> PDF bottom-left)
         val pdfY = ((renderedHeightPx - imageY) * scaleY).toInt()
 
         val pageNumber = page.pageIndex + 1 // SyncTeX is 1-based
 
-        println("PDF click → page=$pageNumber x=${pdfX} y=${pdfY}")
-        onInvertedCallback(pageNumber, pdfX, pdfY)
+        pdfClickHandler(pageNumber, pdfX, pdfY)
+    }
+
+    fun goToPage(pageNumber: Int) {
+        val pageIndex = pageNumber - 1
+
+        if (pageIndex !in contentBox.children.indices) return
+
+        Platform.runLater {
+            contentBox.applyCss()
+            contentBox.layout()
+
+            val node = contentBox.children[pageIndex]
+
+            val maxScroll =
+                contentBox.height - scrollPane.viewportBounds.height
+
+            if (maxScroll > 0) {
+                scrollPane.vvalue =
+                    node.boundsInParent.minY / maxScroll
+            }
+        }
     }
 
 }

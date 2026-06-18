@@ -4,7 +4,8 @@ import com.smartex.latexcompiler.LatexCompiler
 import com.smartex.latexcompiler.LatexCompilerSettings
 import com.smartex.ui.components.compilation.CompilationWorker
 import com.smartex.ui.components.compilation.CompileToolbar
-import com.smartex.ui.components.compilation.LatexLog
+import com.smartex.ui.components.compilation.NavigationController
+import com.smartex.ui.components.compilation.log.LatexLog
 import com.smartex.ui.components.compilation.PdfViewLoader
 import javafx.application.Platform
 import javafx.scene.layout.BorderPane
@@ -12,7 +13,7 @@ import java.io.File
 
 class CompilationPane : BorderPane() {
     private val compilerSettings = LatexCompilerSettings()
-    private val pdfLoader = PdfViewLoader()
+    val pdfLoader = PdfViewLoader()
     private val logView = LatexLog()
 
     private val isShowingLog: Boolean
@@ -23,7 +24,8 @@ class CompilationPane : BorderPane() {
         onToggleView = { toggleView()}
     )
 
-    private lateinit var compiler: LatexCompiler
+    private lateinit var navigationController: NavigationController
+    lateinit var compiler: LatexCompiler
     private lateinit var projectRoot: File
 
     init {
@@ -33,12 +35,17 @@ class CompilationPane : BorderPane() {
 
     fun setProjectRoot(projectRoot: File) {
         compiler = LatexCompiler(projectRoot, compilerSettings, logView)
-        pdfLoader.onInvertedCallback = compiler::runPDFToTex
         this.projectRoot = projectRoot
     }
 
-    fun setOpenFile(onOpenFile: (String, Int?) -> Unit) {
-        logView.setCallback(onOpenFile)
+    fun setNavigationController(navigationController: NavigationController) {
+        this.navigationController = navigationController
+
+        logView.setCallback {
+            file, line -> navigationController.openFile(file, line, 0)
+        }
+
+        pdfLoader.setNavigationController(navigationController)
     }
 
     private fun compile() {

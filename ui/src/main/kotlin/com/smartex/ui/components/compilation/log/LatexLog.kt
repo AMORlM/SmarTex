@@ -1,4 +1,4 @@
-package com.smartex.ui.components.compilation
+package com.smartex.ui.components.compilation.log
 
 import com.smartex.latexcompiler.CompilerLog
 import com.smartex.logging.LogLevel

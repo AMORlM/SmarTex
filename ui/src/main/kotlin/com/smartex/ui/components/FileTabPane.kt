@@ -34,13 +34,13 @@ class FileTabPane : TabPane() {
         return tab
     }
 
-    fun openFile(file: File, line: Int?) {
+    fun openFile(file: File, line: Int?, col: Int = 0) {
         val tab = openFile(file)
 
         if (line == null) return
 
         Platform.runLater {
-            (tab.content as? TextFileTab)?.moveCursor(line)
+            (tab.content as? TextFileTab)?.moveCursor(line, col)
         }
     }
 
