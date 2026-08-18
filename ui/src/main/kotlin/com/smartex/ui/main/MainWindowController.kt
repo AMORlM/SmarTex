@@ -6,11 +6,14 @@ import com.smartex.ui.components.FileTabPane
 import com.smartex.ui.components.ProjectTree
 import com.smartex.ui.components.compilation.NavigationController
 import com.smartex.ui.newproject.NewProjectWindow
+import com.smartex.ui.project.RecentProjectsService.getRecent
 import com.smartex.ui.settings.EditorAction
 import com.smartex.ui.settings.SettingsWindow
 import com.smartex.ui.settings.ShortcutService
 import com.smartex.ui.settings.ShortcutSettings
 import javafx.fxml.FXML
+import javafx.scene.control.Menu
+import javafx.scene.control.MenuItem
 import javafx.stage.DirectoryChooser
 import javafx.stage.Stage
 import java.io.File
@@ -19,11 +22,17 @@ class MainWindowController {
     @FXML lateinit var compilationPane: CompilationPane
     @FXML lateinit var fileTabPane: FileTabPane
     @FXML lateinit var projectTree: ProjectTree
+    @FXML lateinit var recentProjectsMenu: Menu
 
     private lateinit var navigationController: NavigationController
     private lateinit var shortcutService: ShortcutService
     private lateinit var rootProject: File
     private lateinit var stage: Stage
+
+    @FXML
+    fun initialize() {
+        refreshRecentProjects()
+    }
 
     @FXML
     fun setter(stage: Stage, rootProject: File) {
@@ -62,6 +71,31 @@ class MainWindowController {
             initialDirectory = File(System.getProperty("user.home"))
         }.showDialog(stage)
         selectedDirectory?.let { openProject(it) }
+    }
+
+    private fun refreshRecentProjects() {
+        recentProjectsMenu.items.clear()
+
+        val recentProjects = getRecent()
+
+        if (recentProjects.isEmpty()) {
+            val emptyItem = MenuItem("No Recent Projects").apply {
+                isDisable = true
+            }
+
+            recentProjectsMenu.items.add(emptyItem)
+            return
+        }
+
+        recentProjects.forEach { project ->
+            val item = MenuItem(project.name)
+
+            item.setOnAction {
+                openProject(project)
+            }
+
+            recentProjectsMenu.items.add(item)
+        }
     }
 
     @FXML

@@ -10,12 +10,56 @@
             fx:controller="com.smartex.ui.main.MainWindowController">
 
     <top>
-        <ToolBar>
-            <Button onAction="#onNewProject" text="New Project"/>
-            <Button onAction="#onOpenProject" text="Open Project"/>
-            <Button onAction="#onSave" text="Save File"/>
-            <Button onAction="#onSettings" text="Settings"/>
-        </ToolBar>
+        <MenuBar>
+            <Menu text="File">
+                <MenuItem text="New Project" onAction="#onNewProject"/>
+                <MenuItem text="Open Project..." onAction="#onOpenProject"/>
+
+                <SeparatorMenuItem/>
+
+                <!-- We populate this from getRecent() -->
+                <Menu fx:id="recentProjectsMenu"
+                      text="Recent Projects"/>
+
+                <SeparatorMenuItem/>
+
+                <MenuItem text="Save" onAction="#onSave"/>
+
+                <SeparatorMenuItem/>
+
+                <MenuItem text="Settings..." onAction="#onSettings"/>
+
+                <SeparatorMenuItem/>
+
+                <MenuItem text="Exit"/>
+            </Menu>
+
+            <Menu text="Edit">
+                <MenuItem text="Undo"/>
+                <MenuItem text="Redo"/>
+
+                <SeparatorMenuItem/>
+
+                <MenuItem text="Cut"/>
+                <MenuItem text="Copy"/>
+                <MenuItem text="Paste"/>
+            </Menu>
+
+            <Menu text="View">
+                <MenuItem text="Toggle Compilation"/>
+                <MenuItem text="Project Explorer"/>
+                <MenuItem text="Logs"/>
+            </Menu>
+
+            <Menu text="Navigate">
+                <MenuItem text="Go to File..."/>
+                <MenuItem text="Go to Line..."/>
+            </Menu>
+
+            <Menu text="Help">
+                <MenuItem text="About"/>
+            </Menu>
+        </MenuBar>
     </top>
 
     <center>
