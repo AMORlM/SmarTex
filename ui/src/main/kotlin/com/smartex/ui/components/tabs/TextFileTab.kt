@@ -55,4 +55,24 @@ open class TextFileTab(file: File) : FileTab(file) {
         dirty = false
         onDirtyChanged?.invoke(false)
     }
+
+    override fun undo() {
+        codeArea.undo()
+    }
+
+    override fun redo() {
+        codeArea.redo()
+    }
+
+    override fun copy() {
+        codeArea.copy()
+    }
+
+    override fun paste() {
+        codeArea.paste()
+    }
+
+    override fun cut() {
+        codeArea.cut()
+    }
 }

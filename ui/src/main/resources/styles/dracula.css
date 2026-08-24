@@ -106,7 +106,8 @@
     -fx-background-radius: 5;
 }
 
-.menu: hover {
+.menu-bar .menu: hover,
+.menu-bar .menu: showing {
     -fx-background-color: -color-highlight;
 }
 

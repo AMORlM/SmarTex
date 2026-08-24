@@ -109,6 +109,31 @@ class MainWindowController {
         setShortcutActions()
     }
 
+    @FXML
+    fun onUndo() {
+        fileTabPane.undo()
+    }
+
+    @FXML
+    fun onRedo() {
+        fileTabPane.redo()
+    }
+
+    @FXML
+    fun onCopy() {
+        fileTabPane.copy()
+    }
+
+    @FXML
+    fun onPaste() {
+        fileTabPane.paste()
+    }
+
+    @FXML
+    fun onCut() {
+        fileTabPane.cut()
+    }
+
     private fun openProject(root: File) {
         // Set project root
         rootProject = root

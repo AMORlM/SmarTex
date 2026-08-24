@@ -35,14 +35,14 @@
             </Menu>
 
             <Menu text="Edit">
-                <MenuItem text="Undo"/>
-                <MenuItem text="Redo"/>
+                <MenuItem text="Undo" onAction="#onUndo"/>
+                <MenuItem text="Redo" onAction="#onRedo"/>
 
                 <SeparatorMenuItem/>
 
-                <MenuItem text="Cut"/>
-                <MenuItem text="Copy"/>
-                <MenuItem text="Paste"/>
+                <MenuItem text="Cut" onAction="#onCut"/>
+                <MenuItem text="Copy" onAction="#onCopy"/>
+                <MenuItem text="Paste" onAction="#onPaste"/>
             </Menu>
 
             <Menu text="View">

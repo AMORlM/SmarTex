@@ -44,8 +44,6 @@ class FileTabPane : TabPane() {
         }
     }
 
-
-
     fun closeFile(file: File) {
         tabs.remove(openFiles[file])
         openFiles.remove(file)
@@ -65,5 +63,25 @@ class FileTabPane : TabPane() {
 
         // Notify the current editor about the resize
         getCurrentEditor()?.resize(p0, p1)
+    }
+
+    fun undo() {
+        getCurrentEditor()?.undo()
+    }
+
+    fun redo() {
+        getCurrentEditor()?.redo()
+    }
+
+    fun copy() {
+        getCurrentEditor()?.copy()
+    }
+
+    fun paste() {
+        getCurrentEditor()?.paste()
+    }
+
+    fun cut() {
+        getCurrentEditor()?.cut()
     }
 }
