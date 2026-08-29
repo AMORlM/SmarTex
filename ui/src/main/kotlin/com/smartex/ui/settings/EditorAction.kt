@@ -1,7 +1,12 @@
 package com.smartex.ui.settings
 
 enum class EditorAction(val id: String) {
+    // IDE
     SAVE("saveFile"),
+    FIND("find"),
+    REPLACE("replace"),
+
+    // Latex
     BOLD("latex.bold"),
     ITALIC("latex.italic"),
     UNDERLINE("latex.underline"),
@@ -15,5 +20,5 @@ enum class EditorAction(val id: String) {
     CITE("latex.cite"),
     REFERENCE("latex.ref"),
     HREF("latex.href"),
-    FIGURE("latex.figure")
+    FIGURE("latex.figure"),
 }

@@ -176,6 +176,7 @@ class MainWindowController {
     private fun setShortcutActions() {
         shortcutService.clear()
         shortcutService.bind(EditorAction.SAVE) { onSave() }
+        shortcutService.bind(EditorAction.FIND) { onFind() }
+        shortcutService.bind(EditorAction.REPLACE) { onReplace() }
     }
 }
-

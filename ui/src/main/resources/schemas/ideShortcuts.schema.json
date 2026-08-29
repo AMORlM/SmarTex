@@ -4,6 +4,18 @@
     "label": "Save File",
     "default": "Ctrl+S"
   },
+
+  "find": {
+    "type": "string",
+    "label": "Find",
+    "default": "Ctrl+F"
+  },
+  "replace": {
+    "type": "string",
+    "label": "Replace",
+    "default": "Ctrl+R"
+  },
+
   "latex.bold":{
     "type": "string",
     "label": "Bold text",
