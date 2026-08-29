@@ -14,6 +14,11 @@ open class TextFileTab(file: File) : FileTab(file) {
 
     private var dirty = false
 
+    protected val findBar = FindBar(codeArea).apply {
+        isVisible = false
+        isManaged = false
+    }
+
     init {
         codeArea.textProperty().addListener { _, _, new ->
             // Detect modification
@@ -23,9 +28,9 @@ open class TextFileTab(file: File) : FileTab(file) {
                 onDirtyChanged?.invoke(dirty)
             }
         }
-    }
 
-    init {
+        top = findBar
+
         // Add line numbers
         codeArea.paragraphGraphicFactory = LineNumberFactory.get(codeArea)
 
@@ -43,6 +48,14 @@ open class TextFileTab(file: File) : FileTab(file) {
         codeArea.moveTo(paragraphIndex, colIndex)
         codeArea.showParagraphAtTop(paragraphIndex)
         codeArea.requestFocus()
+    }
+
+    override fun find() {
+        findBar.open()
+    }
+
+    override fun replace() {
+        findBar.openReplace()
     }
 
 

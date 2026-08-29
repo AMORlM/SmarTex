@@ -84,4 +84,12 @@ class FileTabPane : TabPane() {
     fun cut() {
         getCurrentEditor()?.cut()
     }
+
+    fun find() {
+        getCurrentEditor()?.find()
+    }
+
+    fun replace() {
+        getCurrentEditor()?.replace()
+    }
 }

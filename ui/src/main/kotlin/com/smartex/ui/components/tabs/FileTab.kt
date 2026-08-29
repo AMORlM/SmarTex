@@ -15,4 +15,7 @@ abstract class FileTab(internal val file: File) : BorderPane(){
     open fun copy(){}
     open fun paste(){}
     open fun cut(){}
+
+    open fun find() {}
+    open fun replace() {}
 }

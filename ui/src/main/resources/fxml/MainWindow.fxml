@@ -43,6 +43,11 @@
                 <MenuItem text="Cut" onAction="#onCut"/>
                 <MenuItem text="Copy" onAction="#onCopy"/>
                 <MenuItem text="Paste" onAction="#onPaste"/>
+
+                <SeparatorMenuItem/>
+
+                <MenuItem text="Find" onAction="#onFind"/>
+                <MenuItem text="Replace" onAction="#onReplace"/>
             </Menu>
 
             <Menu text="View">
@@ -52,7 +57,7 @@
             </Menu>
 
             <Menu text="Navigate">
-                <MenuItem text="Go to File..."/>
+                <MenuItem text="Find..." onAction="#onFind"/>
                 <MenuItem text="Go to Line..."/>
             </Menu>
 

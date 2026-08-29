@@ -1,11 +1,13 @@
 package com.smartex.ui.components.tabs.latex
 
 import com.smartex.syntaxhighlighter.LatexHighlighter
+import com.smartex.ui.components.tabs.FindBar
 import com.smartex.ui.components.tabs.TextFileTab
 import com.smartex.ui.settings.EditorAction
 import com.smartex.ui.settings.ShortcutService
 import com.smartex.ui.settings.ShortcutSettings
 import javafx.application.Platform
+import javafx.scene.layout.VBox
 import java.io.File
 import java.time.Duration
 
@@ -14,8 +16,13 @@ class LatexEditorTab(file: File) : TextFileTab(file) {
     private  val actions = LatexActions(codeArea)
     private val toolbar = LatexEditorToolbar(actions)
 
+    private val topBar = VBox(
+        toolbar,
+        findBar
+    )
+
     init {
-        top = toolbar
+        top = topBar
         setupShortcuts()
         setupHighlighting()
     }

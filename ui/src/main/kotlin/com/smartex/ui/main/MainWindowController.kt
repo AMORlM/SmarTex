@@ -134,6 +134,16 @@ class MainWindowController {
         fileTabPane.cut()
     }
 
+    @FXML
+    fun onFind() {
+        fileTabPane.find()
+    }
+
+    @FXML
+    fun onReplace() {
+        fileTabPane.replace()
+    }
+
     private fun openProject(root: File) {
         // Set project root
         rootProject = root
