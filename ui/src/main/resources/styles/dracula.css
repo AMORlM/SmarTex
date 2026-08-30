@@ -579,3 +579,226 @@
     -fx-border-color: -color-fg-muted;
     -fx-border-width: 0 2 0 0;
 }
+
+
+/* =========================================================
+   Find Bar
+   ========================================================= */
+
+.find-bar {
+    -fx-background-color: #2b2d30;
+    -fx-border-color: #1f2023;
+    -fx-border-width: 0 0 1 0;
+    -fx-padding: 6px 8px 6px 8px;
+    -fx-spacing: 6px;
+}
+
+
+/* =========================================================
+   Search / Replace rows
+   ========================================================= */
+
+.find-row,
+.replace-row {
+    -fx-spacing: 4px;
+    -fx-alignment: CENTER_LEFT;
+}
+
+
+/* =========================================================
+   Search fields
+   ========================================================= */
+
+.find-field,
+.replace-field {
+    -fx-background-color: #1f2023;
+    -fx-background-insets: 0;
+    -fx-background-radius: 4px;
+
+    -fx-border-color: #4b4d50;
+    -fx-border-width: 1px;
+    -fx-border-radius: 4px;
+
+    -fx-text-fill: #d6d7d9;
+    -fx-prompt-text-fill: #777a80;
+
+    -fx-padding: 5px 8px;
+
+    -fx-font-size: 13px;
+}
+
+.find-field:focused,
+.replace-field:focused {
+    -fx-border-color: #4c8dff;
+}
+
+
+/* =========================================================
+   Match counter
+   ========================================================= */
+
+.find-count {
+    -fx-text-fill: #9da0a6;
+    -fx-font-size: 12px;
+
+    -fx-padding: 0 5px 0 5px;
+
+    -fx-min-width: 65px;
+    -fx-alignment: CENTER;
+}
+
+
+/* =========================================================
+   Navigation / action buttons
+   ========================================================= */
+
+.find-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 4px;
+
+    -fx-border-color: transparent;
+    -fx-border-radius: 4px;
+
+    -fx-text-fill: #c9cacc;
+
+    -fx-padding: 4px 7px;
+
+    -fx-font-size: 13px;
+
+    -fx-cursor: hand;
+}
+
+.find-button:hover {
+    -fx-background-color: #3a3d41;
+}
+
+.find-button:pressed {
+    -fx-background-color: #45484d;
+}
+
+.find-button:focused {
+    -fx-border-color: #4c8dff;
+}
+
+
+/* =========================================================
+   Replace / Replace All
+   ========================================================= */
+
+.replace-button {
+    -fx-background-color: #3a3d41;
+
+    -fx-background-radius: 4px;
+
+    -fx-border-color: #505257;
+    -fx-border-width: 1px;
+    -fx-border-radius: 4px;
+
+    -fx-text-fill: #d6d7d9;
+
+    -fx-padding: 5px 10px;
+
+    -fx-font-size: 12px;
+
+    -fx-cursor: hand;
+}
+
+.replace-button:hover {
+    -fx-background-color: #45484d;
+}
+
+.replace-button:pressed {
+    -fx-background-color: #50535a;
+}
+
+.replace-button:focused {
+    -fx-border-color: #4c8dff;
+}
+
+
+/* =========================================================
+   Expand / Collapse button
+   ========================================================= */
+
+.find-expand-button {
+    -fx-background-color: transparent;
+
+    -fx-background-radius: 4px;
+
+    -fx-border-color: transparent;
+    -fx-border-radius: 4px;
+
+    -fx-text-fill: #bfc1c5;
+
+    -fx-padding: 4px 7px;
+
+    -fx-font-size: 12px;
+
+    -fx-cursor: hand;
+}
+
+.find-expand-button:hover {
+    -fx-background-color: #3a3d41;
+}
+
+.find-expand-button:pressed {
+    -fx-background-color: #45484d;
+}
+
+
+/* =========================================================
+   Close button
+   ========================================================= */
+
+.find-close-button {
+    -fx-background-color: transparent;
+
+    -fx-background-radius: 4px;
+
+    -fx-border-color: transparent;
+    -fx-border-radius: 4px;
+
+    -fx-text-fill: #aeb0b4;
+
+    -fx-padding: 4px 7px;
+
+    -fx-font-size: 14px;
+
+    -fx-cursor: hand;
+}
+
+.find-close-button:hover {
+    -fx-background-color: #4a3030;
+    -fx-text-fill: #e06c75;
+}
+
+.find-close-button:pressed {
+    -fx-background-color: #5a3535;
+}
+
+
+/* =========================================================
+   Separator
+   ========================================================= */
+
+.find-separator {
+    -fx-padding: 0 4px;
+}
+
+.find-separator .line {
+    -fx-border-color: #46484c;
+    -fx-border-width: 1px 0 0 0;
+}
+
+
+/* =========================================================
+   "No results" state
+   ========================================================= */
+
+.find-no-results {
+    -fx-text-fill: #e06c75;
+}
+
+.find-has-results {
+    -fx-text-fill: #9da0a6;
+}
