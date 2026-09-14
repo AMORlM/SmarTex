@@ -34,19 +34,6 @@ class ImageTab(file: File) : FileTab(file) {
     }
 
     override fun copy() {
-        copyPath(file)
-    }
-
-    fun copyRelativePath(projectRoot: File) {
-        val relativePath = projectRoot.toPath()
-            .relativize(file.toPath())
-            .toString()
-            .replace(File.separatorChar, '/')
-
-        copyToClipboard(relativePath)
-    }
-
-    private fun copyPath(file: File) {
         copyToClipboard(file.path)
     }
 
