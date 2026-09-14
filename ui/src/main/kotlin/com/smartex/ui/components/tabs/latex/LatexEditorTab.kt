@@ -1,7 +1,6 @@
 package com.smartex.ui.components.tabs.latex
 
 import com.smartex.syntaxhighlighter.LatexHighlighter
-import com.smartex.ui.components.tabs.FindBar
 import com.smartex.ui.components.tabs.TextFileTab
 import com.smartex.ui.settings.EditorAction
 import com.smartex.ui.settings.ShortcutService

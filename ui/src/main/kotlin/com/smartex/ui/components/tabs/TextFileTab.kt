@@ -1,5 +1,6 @@
 package com.smartex.ui.components.tabs
 
+import com.smartex.ui.components.tabs.functionality.FindBar
 import org.fxmisc.flowless.VirtualizedScrollPane
 import org.fxmisc.richtext.CodeArea
 import org.fxmisc.richtext.LineNumberFactory

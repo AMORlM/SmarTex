@@ -1,9 +1,10 @@
 package com.smartex.ui.components.tabs
 
-
 import javafx.scene.control.Label
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
+import javafx.scene.input.Clipboard
+import javafx.scene.input.ClipboardContent
 import java.io.File
 
 class ImageTab(file: File) : FileTab(file) {
@@ -18,7 +19,6 @@ class ImageTab(file: File) : FileTab(file) {
             imageView.isPreserveRatio = true
             imageView.isSmooth = true
 
-            // Bind size of image to the parent Pane
             imageView.fitWidthProperty().bind(widthProperty())
             imageView.fitHeightProperty().bind(heightProperty())
 
@@ -30,6 +30,31 @@ class ImageTab(file: File) : FileTab(file) {
     }
 
     override fun save() {
-        // No saving functionality for images
+        // Images are not edited/saved by SmarTex
+    }
+
+    override fun copy() {
+        copyPath(file)
+    }
+
+    fun copyRelativePath(projectRoot: File) {
+        val relativePath = projectRoot.toPath()
+            .relativize(file.toPath())
+            .toString()
+            .replace(File.separatorChar, '/')
+
+        copyToClipboard(relativePath)
+    }
+
+    private fun copyPath(file: File) {
+        copyToClipboard(file.path)
+    }
+
+    private fun copyToClipboard(text: String) {
+        val content = ClipboardContent().apply {
+            putString(text)
+        }
+
+        Clipboard.getSystemClipboard().setContent(content)
     }
 }
