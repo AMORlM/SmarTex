@@ -1,4 +1,4 @@
-package com.smartex.ui.components.tabs
+package com.smartex.ui.components.tabs.functionality
 
 import javafx.geometry.Pos
 import javafx.scene.control.Button
