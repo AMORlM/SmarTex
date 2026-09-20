@@ -1,5 +1,6 @@
 package com.smartex.ui.components.tabs
 
+import com.smartex.ui.components.tabs.functionality.ClipboardEditable
 import javafx.scene.control.Label
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
@@ -7,7 +8,8 @@ import javafx.scene.input.Clipboard
 import javafx.scene.input.ClipboardContent
 import java.io.File
 
-class ImageTab(file: File) : FileTab(file) {
+class ImageTab(file: File) : FileTab(file),
+    ClipboardEditable {
 
     private val imageView = ImageView()
 
@@ -33,9 +35,9 @@ class ImageTab(file: File) : FileTab(file) {
         // Images are not edited/saved by SmarTex
     }
 
-    override fun copy() {
-        copyToClipboard(file.path)
-    }
+    override fun cut() = copy()
+    override fun copy() = copyToClipboard(file.path)
+    override fun paste() {}
 
     private fun copyToClipboard(text: String) {
         val content = ClipboardContent().apply {

@@ -136,12 +136,12 @@ class MainWindowController {
 
     @FXML
     fun onFind() {
-        fileTabPane.find()
+        fileTabPane.openFind()
     }
 
     @FXML
     fun onReplace() {
-        fileTabPane.replace()
+        fileTabPane.openReplace()
     }
 
     private fun openProject(root: File) {

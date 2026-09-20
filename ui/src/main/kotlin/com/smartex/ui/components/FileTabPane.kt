@@ -3,6 +3,9 @@ package com.smartex.ui.components
 import com.smartex.ui.components.tabs.FileTab
 import com.smartex.ui.components.tabs.FileTabFactory
 import com.smartex.ui.components.tabs.TextFileTab
+import com.smartex.ui.components.tabs.functionality.ClipboardEditable
+import com.smartex.ui.components.tabs.functionality.SearchableSupport
+import com.smartex.ui.components.tabs.functionality.Undoable
 import javafx.application.Platform
 import javafx.scene.control.Tab
 import javafx.scene.control.TabPane
@@ -65,31 +68,13 @@ class FileTabPane : TabPane() {
         getCurrentEditor()?.resize(p0, p1)
     }
 
-    fun undo() {
-        getCurrentEditor()?.undo()
-    }
+    fun undo() = (getCurrentEditor() as? Undoable)?.undo()
+    fun redo() = (getCurrentEditor() as? Undoable)?.redo()
 
-    fun redo() {
-        getCurrentEditor()?.redo()
-    }
+    fun cut() = (getCurrentEditor() as? ClipboardEditable)?.cut()
+    fun copy() = (getCurrentEditor() as? ClipboardEditable)?.copy()
+    fun paste() = (getCurrentEditor() as? ClipboardEditable)?.paste()
 
-    fun copy() {
-        getCurrentEditor()?.copy()
-    }
-
-    fun paste() {
-        getCurrentEditor()?.paste()
-    }
-
-    fun cut() {
-        getCurrentEditor()?.cut()
-    }
-
-    fun find() {
-        getCurrentEditor()?.find()
-    }
-
-    fun replace() {
-        getCurrentEditor()?.replace()
-    }
+    fun openFind() = (getCurrentEditor() as? SearchableSupport)?.openFind()
+    fun openReplace() = (getCurrentEditor() as? SearchableSupport)?.openReplace()
 }

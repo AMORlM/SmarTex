@@ -8,14 +8,4 @@ abstract class FileTab(internal val file: File) : BorderPane(){
     abstract fun save()
 
     var onDirtyChanged: ((Boolean) -> Unit)? = null
-
-    open fun undo(){}
-    open fun redo(){}
-
-    open fun copy(){}
-    open fun paste(){}
-    open fun cut(){}
-
-    open fun find() {}
-    open fun replace() {}
 }

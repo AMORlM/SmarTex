@@ -1,13 +1,19 @@
 package com.smartex.ui.components.tabs
 
+import com.smartex.ui.components.tabs.functionality.ClipboardEditable
 import com.smartex.ui.components.tabs.functionality.FindBar
+import com.smartex.ui.components.tabs.functionality.SearchableSupport
+import com.smartex.ui.components.tabs.functionality.Undoable
 import org.fxmisc.flowless.VirtualizedScrollPane
 import org.fxmisc.richtext.CodeArea
 import org.fxmisc.richtext.LineNumberFactory
 import java.io.File
 import java.nio.charset.StandardCharsets
 
-open class TextFileTab(file: File) : FileTab(file) {
+open class TextFileTab(file: File) : FileTab(file),
+    Undoable,
+    ClipboardEditable,
+    SearchableSupport {
     private var savedFileContent = file.readText()
     protected val codeArea = CodeArea(savedFileContent).apply {
         isWrapText = true
@@ -51,15 +57,6 @@ open class TextFileTab(file: File) : FileTab(file) {
         codeArea.requestFocus()
     }
 
-    override fun find() {
-        findBar.open()
-    }
-
-    override fun replace() {
-        findBar.openReplace()
-    }
-
-
     override fun save() {
         file.writer(StandardCharsets.UTF_8).use {
             val newText = getText()
@@ -88,5 +85,13 @@ open class TextFileTab(file: File) : FileTab(file) {
 
     override fun cut() {
         codeArea.cut()
+    }
+
+    override fun openFind() {
+        findBar.open()
+    }
+
+    override fun openReplace() {
+        findBar.openReplace()
     }
 }
