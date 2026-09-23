@@ -1,4 +1,4 @@
-package com.smartex.ui.project
+package com.smartex.service
 
 import java.io.File
 
@@ -10,11 +10,9 @@ class ProjectPathResolver(
     fun relative(file: File): String {
         return projectRoot.toPath()
             .toAbsolutePath()
-            .normalize()
             .relativize(
                 file.toPath()
                     .toAbsolutePath()
-                    .normalize()
             )
             .toString()
             .replace(File.separatorChar, '/')

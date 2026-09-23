@@ -31,7 +31,7 @@
 
                 <SeparatorMenuItem/>
 
-                <MenuItem text="Exit"/>
+                <MenuItem text="Exit" onAction="#onExit"/>
             </Menu>
 
             <Menu text="Edit">
@@ -58,7 +58,7 @@
 
             <Menu text="Navigate">
                 <MenuItem text="Find..." onAction="#onFind"/>
-                <MenuItem text="Go to Line..."/>
+                <MenuItem text="Go to Line..." onAction="#toLine"/>
             </Menu>
 
             <Menu text="Help">

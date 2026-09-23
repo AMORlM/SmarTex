@@ -5,6 +5,22 @@
     "default": "Ctrl+S"
   },
 
+  "cut": {
+    "type": "string",
+    "label": "Cut",
+    "default": "Ctrl+X"
+  },
+  "copy": {
+    "type": "string",
+    "label": "Copy",
+    "default": "Ctrl+C"
+  },
+  "paste": {
+    "type": "string",
+    "label": "Paste",
+    "default": "Ctrl+V"
+  },
+
   "find": {
     "type": "string",
     "label": "Find",

@@ -1,5 +1,6 @@
 package com.smartex.ui.main
 
+import com.smartex.service.ProjectPathResolver
 import com.smartex.settings.SettingsManager
 import com.smartex.ui.components.CompilationPane
 import com.smartex.ui.components.FileTabPane
@@ -17,6 +18,7 @@ import javafx.scene.control.MenuItem
 import javafx.stage.DirectoryChooser
 import javafx.stage.Stage
 import java.io.File
+import kotlin.system.exitProcess
 
 class MainWindowController {
     @FXML lateinit var compilationPane: CompilationPane
@@ -41,6 +43,9 @@ class MainWindowController {
 
         // Set shortcut scene
         shortcutService = ShortcutService(stage.scene, ShortcutSettings)
+
+        // Set path resolver
+        fileTabPane.setPathResolver(ProjectPathResolver(rootProject))
 
         // Set project tree callbacks
         projectTree.setCallbacks({
@@ -99,6 +104,11 @@ class MainWindowController {
     }
 
     @FXML
+    fun onExit() {
+        exitProcess(0)
+    }
+
+    @FXML
     fun onSave() {
         fileTabPane.saveCurrentFile()
     }
@@ -144,6 +154,11 @@ class MainWindowController {
         fileTabPane.openReplace()
     }
 
+    @FXML
+    fun toLine() {
+        fileTabPane.openToLine()
+    }
+
     private fun openProject(root: File) {
         // Set project root
         rootProject = root
@@ -176,6 +191,11 @@ class MainWindowController {
     private fun setShortcutActions() {
         shortcutService.clear()
         shortcutService.bind(EditorAction.SAVE) { onSave() }
+
+        shortcutService.bind(EditorAction.CUT) { onCut() }
+        shortcutService.bind(EditorAction.COPY) { onCopy() }
+        shortcutService.bind(EditorAction.PASTE) { onPaste() }
+
         shortcutService.bind(EditorAction.FIND) { onFind() }
         shortcutService.bind(EditorAction.REPLACE) { onReplace() }
     }

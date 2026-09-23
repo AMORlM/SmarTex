@@ -5,6 +5,9 @@ enum class EditorAction(val id: String) {
     SAVE("saveFile"),
     FIND("find"),
     REPLACE("replace"),
+    CUT("cut"),
+    COPY("copy"),
+    PASTE("paste"),
 
     // Latex
     BOLD("latex.bold"),

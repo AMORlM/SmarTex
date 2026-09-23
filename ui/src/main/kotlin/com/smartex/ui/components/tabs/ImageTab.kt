@@ -1,5 +1,6 @@
 package com.smartex.ui.components.tabs
 
+import com.smartex.service.ProjectPathResolver
 import com.smartex.ui.components.tabs.functionality.ClipboardEditable
 import javafx.scene.control.Label
 import javafx.scene.image.Image
@@ -8,7 +9,7 @@ import javafx.scene.input.Clipboard
 import javafx.scene.input.ClipboardContent
 import java.io.File
 
-class ImageTab(file: File) : FileTab(file),
+class ImageTab(file: File, val pathResolver: ProjectPathResolver) : FileTab(file),
     ClipboardEditable {
 
     private val imageView = ImageView()
@@ -36,7 +37,7 @@ class ImageTab(file: File) : FileTab(file),
     }
 
     override fun cut() = copy()
-    override fun copy() = copyToClipboard(file.path)
+    override fun copy() = copyToClipboard(pathResolver.relative(file))
     override fun paste() {}
 
     private fun copyToClipboard(text: String) {

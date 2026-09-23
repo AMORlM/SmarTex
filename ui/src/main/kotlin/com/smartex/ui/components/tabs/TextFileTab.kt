@@ -94,4 +94,8 @@ open class TextFileTab(file: File) : FileTab(file),
     override fun openReplace() {
         findBar.openReplace()
     }
+
+    override fun openToLine() {
+        TODO("Not yet implemented")
+    }
 }

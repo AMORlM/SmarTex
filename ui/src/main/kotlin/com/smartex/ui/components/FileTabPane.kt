@@ -1,5 +1,6 @@
 package com.smartex.ui.components
 
+import com.smartex.service.ProjectPathResolver
 import com.smartex.ui.components.tabs.FileTab
 import com.smartex.ui.components.tabs.FileTabFactory
 import com.smartex.ui.components.tabs.TextFileTab
@@ -13,15 +14,24 @@ import java.io.File
 
 class FileTabPane : TabPane() {
 
+    val currentTab
+        get() = selectionModel.selectedItem?.content as? FileTab
+
     private val openFiles = mutableMapOf<File, Tab>()
 
+    private lateinit var pathResolver: ProjectPathResolver
+
+    fun setPathResolver(pathResolver: ProjectPathResolver) {
+        this.pathResolver = pathResolver
+    }
+    
     fun openFile(file: File): Tab {
         openFiles[file]?.let {
             selectionModel.select(it)
             return it
         }
 
-        val editorTab = FileTabFactory.createFileTab(file)
+        val editorTab = FileTabFactory.createFileTab(file, pathResolver)
         val tab = Tab(editorTab?.getFileName(), editorTab).apply {
             isClosable = true
             setOnClosed { openFiles.remove(file) }
@@ -53,28 +63,17 @@ class FileTabPane : TabPane() {
     }
 
     fun fileIsOpen(file: File) = openFiles.containsKey(file)
+    
+    fun saveCurrentFile() = currentTab?.save()
 
-    fun saveCurrentFile() = getCurrentEditor()?.save()
+    fun undo() = (currentTab as? Undoable)?.undo()
+    fun redo() = (currentTab as? Undoable)?.redo()
 
-    private fun getCurrentEditor(): FileTab? {
-        val selectedTab = selectionModel.selectedItem ?: return null
-        return selectedTab.content as? FileTab
-    }
+    fun cut() = (currentTab as? ClipboardEditable)?.cut()
+    fun copy() = (currentTab as? ClipboardEditable)?.copy()
+    fun paste() = (currentTab as? ClipboardEditable)?.paste()
 
-    override fun resize(p0: Double, p1: Double) {
-        super.resize(p0, p1)
-
-        // Notify the current editor about the resize
-        getCurrentEditor()?.resize(p0, p1)
-    }
-
-    fun undo() = (getCurrentEditor() as? Undoable)?.undo()
-    fun redo() = (getCurrentEditor() as? Undoable)?.redo()
-
-    fun cut() = (getCurrentEditor() as? ClipboardEditable)?.cut()
-    fun copy() = (getCurrentEditor() as? ClipboardEditable)?.copy()
-    fun paste() = (getCurrentEditor() as? ClipboardEditable)?.paste()
-
-    fun openFind() = (getCurrentEditor() as? SearchableSupport)?.openFind()
-    fun openReplace() = (getCurrentEditor() as? SearchableSupport)?.openReplace()
+    fun openFind() = (currentTab as? SearchableSupport)?.openFind()
+    fun openReplace() = (currentTab as? SearchableSupport)?.openReplace()
+    fun openToLine() = (currentTab as? SearchableSupport)?.openToLine()
 }
