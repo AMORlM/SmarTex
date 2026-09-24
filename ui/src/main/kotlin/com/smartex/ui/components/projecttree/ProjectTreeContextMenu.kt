@@ -1,5 +1,6 @@
 package com.smartex.ui.components.projecttree
 
+import com.smartex.ui.components.utils.InlineTextPopup
 import javafx.scene.control.ContextMenu
 import javafx.scene.control.MenuItem
 import javafx.scene.control.TreeItem

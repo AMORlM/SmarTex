@@ -2,6 +2,7 @@ package com.smartex.ui.components.tabs
 
 import com.smartex.ui.components.tabs.functionality.ClipboardEditable
 import com.smartex.ui.components.tabs.functionality.FindBar
+import com.smartex.ui.components.tabs.functionality.LineBar
 import com.smartex.ui.components.tabs.functionality.SearchableSupport
 import com.smartex.ui.components.tabs.functionality.Undoable
 import org.fxmisc.flowless.VirtualizedScrollPane
@@ -25,6 +26,8 @@ open class TextFileTab(file: File) : FileTab(file),
         isVisible = false
         isManaged = false
     }
+
+    protected val goTo = LineBar(codeArea, ::moveCursor)
 
     init {
         codeArea.textProperty().addListener { _, _, new ->
@@ -96,6 +99,6 @@ open class TextFileTab(file: File) : FileTab(file),
     }
 
     override fun openToLine() {
-        TODO("Not yet implemented")
+        goTo.openToLine()
     }
 }

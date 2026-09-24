@@ -1,4 +1,4 @@
-package com.smartex.ui.components.projecttree
+package com.smartex.ui.components.utils
 
 import javafx.geometry.Point2D
 import javafx.scene.control.Label
