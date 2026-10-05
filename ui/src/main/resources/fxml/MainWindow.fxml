@@ -13,7 +13,7 @@
         <MenuBar>
             <Menu text="File">
                 <MenuItem text="New Project" onAction="#onNewProject"/>
-                <MenuItem text="Open Project..." onAction="#onOpenProject"/>
+                <MenuItem text="Open Project" onAction="#onOpenProject"/>
 
                 <SeparatorMenuItem/>
 
@@ -27,7 +27,7 @@
 
                 <SeparatorMenuItem/>
 
-                <MenuItem text="Settings..." onAction="#onSettings"/>
+                <MenuItem text="Settings" onAction="#onSettings"/>
 
                 <SeparatorMenuItem/>
 
@@ -51,14 +51,13 @@
             </Menu>
 
             <Menu text="View">
-                <MenuItem text="Toggle Compilation"/>
-                <MenuItem text="Project Explorer"/>
-                <MenuItem text="Logs"/>
+                <MenuItem text="Toggle Project Explorer" onAction="#toggleProjectExplorer"/>
+                <MenuItem text="Toggle Compilation Panel" onAction="#toggleCompilationPanel"/>
             </Menu>
 
             <Menu text="Navigate">
-                <MenuItem text="Find..." onAction="#onFind"/>
-                <MenuItem text="Go to Line..." onAction="#toLine"/>
+                <MenuItem text="Find" onAction="#onFind"/>
+                <MenuItem text="Go to Line" onAction="#toLine"/>
             </Menu>
 
             <Menu text="Help">
@@ -68,7 +67,7 @@
     </top>
 
     <center>
-        <SplitPane dividerPositions="0.15,0.65">
+        <SplitPane fx:id="mainSplitPane" dividerPositions="0.15,0.65">
             <ProjectTree fx:id="projectTree"/>
             <FileTabPane fx:id="fileTabPane"/>
             <CompilationPane fx:id="compilationPane"/>

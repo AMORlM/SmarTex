@@ -15,6 +15,7 @@ import com.smartex.ui.settings.ShortcutSettings
 import javafx.fxml.FXML
 import javafx.scene.control.Menu
 import javafx.scene.control.MenuItem
+import javafx.scene.control.SplitPane
 import javafx.stage.DirectoryChooser
 import javafx.stage.Stage
 import java.io.File
@@ -25,11 +26,15 @@ class MainWindowController {
     @FXML lateinit var fileTabPane: FileTabPane
     @FXML lateinit var projectTree: ProjectTree
     @FXML lateinit var recentProjectsMenu: Menu
+    @FXML lateinit var mainSplitPane: SplitPane
 
     private lateinit var navigationController: NavigationController
     private lateinit var shortcutService: ShortcutService
     private lateinit var rootProject: File
     private lateinit var stage: Stage
+
+    private var projectTreeScale: Double = 0.15
+    private var compilationPaneScale: Double = 0.35
 
     @FXML
     fun initialize() {
@@ -157,6 +162,36 @@ class MainWindowController {
     @FXML
     fun toLine() {
         fileTabPane.openToLine()
+    }
+
+    @FXML
+    fun toggleProjectExplorer() {
+        mainSplitPane.let {
+            if(it.items.contains(projectTree)) {
+                val pos = it.dividerPositions
+                projectTreeScale = pos.first()
+                it.items.removeFirst()
+                it.setDividerPositions(*pos.slice(1 ..< pos.size).toDoubleArray())
+            } else {
+                val dPos = it.dividerPositions
+                it.items.addFirst(projectTree)
+                it.setDividerPositions(projectTreeScale, *dPos)
+            }
+        }
+    }
+
+    @FXML
+    fun toggleCompilationPanel() {
+        mainSplitPane.let {
+            if(it.items.contains(compilationPane)) {
+                compilationPaneScale = it.dividers.last().position
+                it.items.removeLast()
+            } else {
+                val dPos = it.dividerPositions
+                it.items.addLast(compilationPane)
+                it.setDividerPositions(*dPos, compilationPaneScale)
+            }
+        }
     }
 
     private fun openProject(root: File) {
