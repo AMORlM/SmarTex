@@ -6,13 +6,16 @@ import com.smartex.ui.components.CompilationPane
 import com.smartex.ui.components.FileTabPane
 import com.smartex.ui.components.ProjectTree
 import com.smartex.ui.components.compilation.NavigationController
+import com.smartex.ui.components.tabs.functionality.TextEditorStatusSupport
 import com.smartex.ui.newproject.NewProjectWindow
 import com.smartex.ui.project.RecentProjectsService.getRecent
 import com.smartex.ui.settings.EditorAction
 import com.smartex.ui.settings.SettingsWindow
 import com.smartex.ui.settings.ShortcutService
 import com.smartex.ui.settings.ShortcutSettings
+import javafx.beans.binding.Bindings
 import javafx.fxml.FXML
+import javafx.scene.control.Label
 import javafx.scene.control.Menu
 import javafx.scene.control.MenuItem
 import javafx.scene.control.SplitPane
@@ -22,11 +25,20 @@ import java.io.File
 import kotlin.system.exitProcess
 
 class MainWindowController {
+    // header
+    @FXML lateinit var recentProjectsMenu: Menu
+
+    // main components
+    @FXML lateinit var projectTree: ProjectTree
     @FXML lateinit var compilationPane: CompilationPane
     @FXML lateinit var fileTabPane: FileTabPane
-    @FXML lateinit var projectTree: ProjectTree
-    @FXML lateinit var recentProjectsMenu: Menu
     @FXML lateinit var mainSplitPane: SplitPane
+
+    // footer
+    @FXML lateinit var filePathLabel: Label
+    @FXML lateinit var posLabel: Label
+    @FXML lateinit var lineEndingMenu: Label
+    @FXML lateinit var encodingMenu: Label
 
     private lateinit var navigationController: NavigationController
     private lateinit var shortcutService: ShortcutService
@@ -52,6 +64,11 @@ class MainWindowController {
         // Set path resolver
         fileTabPane.setPathResolver(ProjectPathResolver(rootProject))
 
+        // Sync status bar
+        fileTabPane.selectionModel.selectedItemProperty().addListener {
+            syncStatusBar(fileTabPane)
+        }
+
         // Set project tree callbacks
         projectTree.setCallbacks({
             old, new ->
@@ -66,6 +83,48 @@ class MainWindowController {
         )
 
         openProject(rootProject)
+    }
+
+    private fun syncStatusBar(fileTabPane: FileTabPane) {
+        filePathLabel.textProperty().unbind()
+        encodingMenu.textProperty().unbind()
+        lineEndingMenu.textProperty().unbind()
+
+        if (fileTabPane.currentTab != null)
+            filePathLabel.text = fileTabPane.currentTab!!.file.relativeTo(rootProject).path
+        else
+            filePathLabel.text = "No file selected"
+
+        val tab = fileTabPane.currentTab as? TextEditorStatusSupport
+
+        if (tab != null) {
+            posLabel.textProperty().bind(
+                Bindings.createStringBinding({
+                        val pos = tab.getObsLineCol().value
+                        return@createStringBinding "${pos.paragraph}, ${pos.column}"
+                    },
+                    tab.getObsLineCol()
+                )
+            )
+
+            encodingMenu.textProperty().bind(
+                Bindings.createStringBinding(
+                    { tab.getObsEncoder().value.name() },
+                    tab.getObsEncoder()
+                )
+            )
+
+            lineEndingMenu.textProperty().bind(
+                Bindings.createStringBinding(
+                    { tab.getObsLineBreak().value.name },
+                    tab.getObsLineBreak()
+                )
+            )
+        } else {
+            encodingMenu.text = ""
+            lineEndingMenu.text = ""
+
+        }
     }
 
     @FXML

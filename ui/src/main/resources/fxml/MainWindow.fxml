@@ -5,6 +5,8 @@
 <?import com.smartex.ui.components.ProjectTree?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <BorderPane xmlns:fx="http://javafx.com/fxml/1"
             stylesheets="@../styles/dracula.css"
             fx:controller="com.smartex.ui.main.MainWindowController">
@@ -73,4 +75,26 @@
             <CompilationPane fx:id="compilationPane"/>
         </SplitPane>
     </center>
+
+    <bottom>
+        <HBox alignment="CENTER_LEFT"
+              spacing="4"
+              styleClass="editor-status-bar">
+
+            <Label fx:id="filePathLabel"
+                   text="No file selected"
+                   styleClass="status-path" />
+
+            <Region HBox.hgrow="ALWAYS" />
+
+            <Label fx:id="posLabel"
+                   styleClass="status-menu" />
+
+            <Label fx:id="encodingMenu"
+                   styleClass="status-menu" />
+
+            <Label fx:id="lineEndingMenu"
+                   styleClass="status-menu" />
+        </HBox>
+    </bottom>
 </BorderPane>
