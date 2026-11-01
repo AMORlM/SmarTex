@@ -111,6 +111,18 @@
     -fx-background-color: -color-highlight;
 }
 
+/* ==========================================================================
+   FOOTER
+   ========================================================================== */
+.footer-button {
+    -fx-text-fill: -color-fg;
+    -fx-background-color: transparent;
+    -fx-background-radius: 5;
+}
+
+.footer-button:hover {
+    -fx-background-color: -color-highlight;
+}
 
 /* ==========================================================================
    SPLIT PANE
@@ -372,7 +384,7 @@
    ========================================================================== */
 /* root container */
 .popup-root {
-    -fx-background-color: -fg-background;
+    -fx-background-color: -color-bg;
     -fx-text-inner-color: white;
     -fx-border-color: -color-fg-muted;
     -fx-border-radius: 4;
@@ -384,7 +396,7 @@
 
 /* textfield inside the popup */
 .popup-input {
-    -fx-background-color: -fg-background;
+    -fx-background-color: -color-bg;
     -fx-text-inner-color: white;
     -fx-border-color: -color-fg-muted;
     -fx-border-radius: 4;
