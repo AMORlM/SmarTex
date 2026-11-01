@@ -87,6 +87,7 @@ class MainWindowController {
 
     private fun syncStatusBar(fileTabPane: FileTabPane) {
         filePathLabel.textProperty().unbind()
+        posLabel.textProperty().unbind()
         encodingMenu.textProperty().unbind()
         lineEndingMenu.textProperty().unbind()
 
@@ -121,9 +122,9 @@ class MainWindowController {
                 )
             )
         } else {
+            posLabel.text = ""
             encodingMenu.text = ""
             lineEndingMenu.text = ""
-
         }
     }
 
