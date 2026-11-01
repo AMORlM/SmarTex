@@ -15,8 +15,10 @@ import com.smartex.ui.settings.ShortcutService
 import com.smartex.ui.settings.ShortcutSettings
 import javafx.beans.binding.Bindings
 import javafx.fxml.FXML
+import javafx.scene.control.Button
 import javafx.scene.control.Label
 import javafx.scene.control.Menu
+import javafx.scene.control.MenuButton
 import javafx.scene.control.MenuItem
 import javafx.scene.control.SplitPane
 import javafx.stage.DirectoryChooser
@@ -36,9 +38,9 @@ class MainWindowController {
 
     // footer
     @FXML lateinit var filePathLabel: Label
-    @FXML lateinit var posLabel: Label
-    @FXML lateinit var lineEndingMenu: Label
-    @FXML lateinit var encodingMenu: Label
+    @FXML lateinit var posLabel: Button
+    @FXML lateinit var lineEndingMenu: MenuButton
+    @FXML lateinit var encodingMenu: MenuButton
 
     private lateinit var navigationController: NavigationController
     private lateinit var shortcutService: ShortcutService

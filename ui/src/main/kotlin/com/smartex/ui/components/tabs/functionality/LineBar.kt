@@ -10,7 +10,7 @@ class LineBar(
     fun openToLine() {
         InlineTextPopup.show(codeArea.scene.window, "Go to line:", "Line[:col]") {
             text ->
-                val parts = text.trim().split(":")
+                val parts = text.trim().split(':',',', ';')
                 val line = parts.getOrNull(0)?.toIntOrNull() ?: return@show
 
                 val col = parts.getOrNull(1)?.toIntOrNull() ?: 0

@@ -78,23 +78,23 @@
 
     <bottom>
         <HBox alignment="CENTER_LEFT"
-              spacing="4"
-              styleClass="editor-status-bar">
+              spacing="4">
 
             <Label fx:id="filePathLabel"
                    text="No file selected"
-                   styleClass="status-path" />
+                   styleClass="footer" />
 
             <Region HBox.hgrow="ALWAYS" />
 
-            <Label fx:id="posLabel"
-                   styleClass="status-menu" />
+            <Button fx:id="posLabel"
+                        onAction="#toLine"
+                   styleClass="footer-button" />
 
-            <Label fx:id="encodingMenu"
-                   styleClass="status-menu" />
+            <MenuButton fx:id="encodingMenu"
+                   styleClass="footer-button" />
 
-            <Label fx:id="lineEndingMenu"
-                   styleClass="status-menu" />
+            <MenuButton fx:id="lineEndingMenu"
+                   styleClass="footer-button" />
         </HBox>
     </bottom>
 </BorderPane>
