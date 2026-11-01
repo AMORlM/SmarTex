@@ -37,7 +37,7 @@ object InlineTextPopup {
 
         textField.setOnKeyPressed {
             when (it.code) {
-                KeyCode.ENTER -> { onAction(textField.text); popup.hide() }
+                KeyCode.ENTER -> { onAction(textField.text); popup.hide(); it.consume() }
                 KeyCode.ESCAPE -> popup.hide()
                 else -> {}
             }
