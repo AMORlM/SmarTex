@@ -13,14 +13,10 @@ import com.smartex.ui.settings.EditorAction
 import com.smartex.ui.settings.SettingsWindow
 import com.smartex.ui.settings.ShortcutService
 import com.smartex.ui.settings.ShortcutSettings
+import javafx.beans.Observable
 import javafx.beans.binding.Bindings
 import javafx.fxml.FXML
-import javafx.scene.control.Button
-import javafx.scene.control.Label
-import javafx.scene.control.Menu
-import javafx.scene.control.MenuButton
-import javafx.scene.control.MenuItem
-import javafx.scene.control.SplitPane
+import javafx.scene.control.*
 import javafx.stage.DirectoryChooser
 import javafx.stage.Stage
 import java.io.File
@@ -95,38 +91,44 @@ class MainWindowController {
 
         if (fileTabPane.currentTab != null)
             filePathLabel.text = fileTabPane.currentTab!!.file.relativeTo(rootProject).path
-        else
+        else {
             filePathLabel.text = "No file selected"
+        }
 
         val tab = fileTabPane.currentTab as? TextEditorStatusSupport
 
         if (tab != null) {
-            posLabel.textProperty().bind(
-                Bindings.createStringBinding({
-                        val pos = tab.getObsLineCol().value
-                        return@createStringBinding "${pos.paragraph}, ${pos.column}"
-                    },
-                    tab.getObsLineCol()
+            fun Labeled.bind(func: () -> String, vararg dependencies: Observable) {
+                textProperty().bind(
+                    Bindings.createStringBinding( func, *dependencies)
                 )
+            }
+
+            posLabel.bind({
+                    val pos = tab.getObsLineCol().value
+                    return@bind "${pos.paragraph}, ${pos.column}"
+                },
+                tab.getObsLineCol()
             )
 
-            encodingMenu.textProperty().bind(
-                Bindings.createStringBinding(
-                    { tab.getObsEncoder().value.name() },
-                    tab.getObsEncoder()
-                )
+            encodingMenu.bind(
+                { tab.getObsEncoder().value.name() },
+                tab.getObsEncoder()
             )
 
-            lineEndingMenu.textProperty().bind(
-                Bindings.createStringBinding(
-                    { tab.getObsLineBreak().value.name },
-                    tab.getObsLineBreak()
-                )
+            lineEndingMenu.bind(
+                { tab.getObsLineBreak().value.name },
+                tab.getObsLineBreak()
             )
         } else {
-            posLabel.text = ""
-            encodingMenu.text = ""
-            lineEndingMenu.text = ""
+            fun Labeled.disable() {
+                text = ""
+                isDisable = true
+            }
+
+            posLabel.disable()
+            encodingMenu.disable()
+            lineEndingMenu.disable()
         }
     }
 
