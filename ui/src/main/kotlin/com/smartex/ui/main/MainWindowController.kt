@@ -6,6 +6,7 @@ import com.smartex.ui.components.CompilationPane
 import com.smartex.ui.components.FileTabPane
 import com.smartex.ui.components.ProjectTree
 import com.smartex.ui.components.compilation.NavigationController
+import com.smartex.ui.components.tabs.functionality.LineBreak
 import com.smartex.ui.components.tabs.functionality.TextEditorStatusSupport
 import com.smartex.ui.newproject.NewProjectWindow
 import com.smartex.ui.project.RecentProjectsService.getRecent
@@ -15,14 +16,17 @@ import com.smartex.ui.settings.ShortcutService
 import com.smartex.ui.settings.ShortcutSettings
 import javafx.beans.Observable
 import javafx.beans.binding.Bindings
+import javafx.beans.property.SimpleObjectProperty
 import javafx.fxml.FXML
 import javafx.scene.control.*
 import javafx.stage.DirectoryChooser
 import javafx.stage.Stage
 import java.io.File
+import java.nio.charset.Charset
 import kotlin.system.exitProcess
 
 class MainWindowController {
+    val CHARSETS = Charset.availableCharsets().values.toList()
     // header
     @FXML lateinit var recentProjectsMenu: Menu
 
@@ -102,6 +106,7 @@ class MainWindowController {
                 textProperty().bind(
                     Bindings.createStringBinding( func, *dependencies)
                 )
+                isDisable = false
             }
 
             posLabel.bind({
@@ -120,6 +125,24 @@ class MainWindowController {
                 { tab.getObsLineBreak().value.name },
                 tab.getObsLineBreak()
             )
+
+            fun <T>MenuButton.listOptions(options: List<T>, property: SimpleObjectProperty<T>, getName: (T) -> String) {
+                fun updateOptions() {
+                    items.setAll(
+                        options.toMutableList().filter { it != property.value }
+                            .map { option ->
+                                MenuItem(getName(option)).apply {
+                                    setOnAction { property.value = option}
+                                }
+                            }
+                    )
+                }
+                property.addListener { updateOptions() }
+                updateOptions()
+            }
+
+            encodingMenu.listOptions(CHARSETS, tab.getObsEncoder()) { it.name() }
+            lineEndingMenu.listOptions(LineBreak.entries, tab.getObsLineBreak()) { it.name }
         } else {
             fun Labeled.disable() {
                 text = ""

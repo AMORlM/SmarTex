@@ -114,11 +114,11 @@ open class TextFileTab(file: File) : FileTab(file),
         goTo.openToLine()
     }
 
-    override fun getObsEncoder(): ObservableValue<Charset> {
+    override fun getObsEncoder(): SimpleObjectProperty<Charset> {
         return obsEncoding
     }
 
-    override fun getObsLineBreak(): ObservableValue<LineBreak> {
+    override fun getObsLineBreak(): SimpleObjectProperty<LineBreak> {
         return obsLineBreak
     }
 
