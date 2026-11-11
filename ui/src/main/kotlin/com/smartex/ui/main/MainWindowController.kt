@@ -178,6 +178,7 @@ class MainWindowController {
                 more.items.updateOptions(expandableOptions, property, getName)
                 items.updateOptions(options, property, getName)
                 items.add(more)
+                hide()
             }
             property.addListener { update() }
             update()
