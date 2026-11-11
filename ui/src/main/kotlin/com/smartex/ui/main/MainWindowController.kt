@@ -17,6 +17,7 @@ import com.smartex.ui.settings.ShortcutSettings
 import javafx.beans.Observable
 import javafx.beans.binding.Bindings
 import javafx.beans.property.SimpleObjectProperty
+import javafx.collections.ObservableList
 import javafx.fxml.FXML
 import javafx.scene.control.*
 import javafx.stage.DirectoryChooser
@@ -27,6 +28,12 @@ import kotlin.system.exitProcess
 
 class MainWindowController {
     val CHARSETS = Charset.availableCharsets().values.toList()
+    val COMMON_CHARSETS = listOf(
+        Charsets.UTF_8,
+        Charsets.UTF_16,
+        Charsets.US_ASCII,
+        Charsets.ISO_8859_1
+    )
     // header
     @FXML lateinit var recentProjectsMenu: Menu
 
@@ -102,47 +109,8 @@ class MainWindowController {
         val tab = fileTabPane.currentTab as? TextEditorStatusSupport
 
         if (tab != null) {
-            fun Labeled.bind(func: () -> String, vararg dependencies: Observable) {
-                textProperty().bind(
-                    Bindings.createStringBinding( func, *dependencies)
-                )
-                isDisable = false
-            }
-
-            posLabel.bind({
-                    val pos = tab.getObsLineCol().value
-                    return@bind "${pos.paragraph}, ${pos.column}"
-                },
-                tab.getObsLineCol()
-            )
-
-            encodingMenu.bind(
-                { tab.getObsEncoder().value.name() },
-                tab.getObsEncoder()
-            )
-
-            lineEndingMenu.bind(
-                { tab.getObsLineBreak().value.name },
-                tab.getObsLineBreak()
-            )
-
-            fun <T>MenuButton.listOptions(options: List<T>, property: SimpleObjectProperty<T>, getName: (T) -> String) {
-                fun updateOptions() {
-                    items.setAll(
-                        options.toMutableList().filter { it != property.value }
-                            .map { option ->
-                                MenuItem(getName(option)).apply {
-                                    setOnAction { property.value = option}
-                                }
-                            }
-                    )
-                }
-                property.addListener { updateOptions() }
-                updateOptions()
-            }
-
-            encodingMenu.listOptions(CHARSETS, tab.getObsEncoder()) { it.name() }
-            lineEndingMenu.listOptions(LineBreak.entries, tab.getObsLineBreak()) { it.name }
+            configureStatusBarLabels(tab)
+            configureStatusBarButtons(tab)
         } else {
             fun Labeled.disable() {
                 text = ""
@@ -153,6 +121,72 @@ class MainWindowController {
             encodingMenu.disable()
             lineEndingMenu.disable()
         }
+    }
+
+    private fun configureStatusBarLabels(tab: TextEditorStatusSupport) {
+        fun Labeled.bind(func: () -> String, vararg dependencies: Observable) {
+            textProperty().bind(
+                Bindings.createStringBinding(func, *dependencies)
+            )
+            isDisable = false
+        }
+
+        posLabel.bind(
+            {
+                val pos = tab.getObsLineCol().value
+                return@bind "${pos.paragraph}, ${pos.column}"
+            },
+            tab.getObsLineCol()
+        )
+
+        encodingMenu.bind(
+            { tab.getObsEncoder().value.name() },
+            tab.getObsEncoder()
+        )
+
+        lineEndingMenu.bind(
+            { tab.getObsLineBreak().value.name },
+            tab.getObsLineBreak()
+        )
+    }
+
+    private fun configureStatusBarButtons(tab: TextEditorStatusSupport) {
+        fun <T> ObservableList<MenuItem>.updateOptions(
+            options: List<T>, property: SimpleObjectProperty<T>, getName: (T) -> String
+        ) {
+            setAll(
+                options.toMutableList().filter { it != property.value }
+                    .map { option ->
+                        MenuItem(getName(option)).apply {
+                            setOnAction { property.value = option }
+                        }
+                    }
+            )
+        }
+
+        fun <T> MenuButton.listOptions(options: List<T>, property: SimpleObjectProperty<T>, getName: (T) -> String) {
+            property.addListener { items.updateOptions(options, property, getName) }
+            items.updateOptions(options, property, getName)
+        }
+
+        fun <T> MenuButton.listOptionsWithExpandable(
+            options: List<T>, expandableOptions: List<T>,
+            property: SimpleObjectProperty<T>, getName: (T) -> String
+        ) {
+            val more = Menu("More options")
+            fun update() {
+                more.items.updateOptions(expandableOptions, property, getName)
+                items.updateOptions(options, property, getName)
+                items.add(more)
+            }
+            property.addListener { update() }
+            update()
+        }
+
+        lineEndingMenu.listOptions(LineBreak.entries, tab.getObsLineBreak()) { it.name }
+        encodingMenu.listOptionsWithExpandable(
+            COMMON_CHARSETS, CHARSETS, tab.getObsEncoder()
+        ) { it.name() }
     }
 
     @FXML
